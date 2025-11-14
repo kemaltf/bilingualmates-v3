@@ -7,11 +7,16 @@ const meta: Meta<typeof Button> = {
   component: Button,
   args: {
     children: "Button",
-    variant: "default",
+    variant: "primary",
     size: "default",
+    label: "Button",
+    loading: false,
+    pressed: false,
   },
   parameters: {
-    controls: { include: ["variant", "size", "disabled"] },
+    controls: {
+      include: ["variant", "size", "disabled", "label", "loading", "pressed"],
+    },
   },
 };
 
@@ -20,25 +25,7 @@ type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {};
 
-export const Secondary: Story = {
-  args: { variant: "secondary" },
-};
-
-export const Outline: Story = {
-  args: { variant: "outline" },
-};
-
-export const Ghost: Story = {
-  args: { variant: "ghost" },
-};
-
-export const Link: Story = {
-  args: { variant: "link" },
-};
-
-export const Destructive: Story = {
-  args: { variant: "destructive" },
-};
+// legacy variants removed
 
 export const Small: Story = {
   args: { size: "sm" },
@@ -46,6 +33,10 @@ export const Small: Story = {
 
 export const Large: Story = {
   args: { size: "lg" },
+};
+
+export const Medium: Story = {
+  args: { size: "md" },
 };
 
 export const WithIcon: Story = {
@@ -65,4 +56,20 @@ export const IconOnly: Story = {
     children: <Plus className="size-4" />,
     "aria-label": "Add",
   },
+};
+
+export const DuoPrimary: Story = {
+  args: { variant: "primary", size: "md" },
+};
+
+export const DuoBlue: Story = {
+  args: { variant: "blue", size: "md" },
+};
+
+export const DuoGreen: Story = {
+  args: { variant: "green", size: "md" },
+};
+
+export const DuoRed: Story = {
+  args: { variant: "red", size: "md" },
 };
