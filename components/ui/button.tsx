@@ -79,24 +79,19 @@ function Button({
       data-slot="button"
       className={cn(
         buttonVariants({ variant, size: mappedSize as VariantProps<typeof buttonVariants>["size"], className }),
-        pressed && "translate-y-1 shadow-none",
-        loading && "pl-8"
+        pressed && "translate-y-1 shadow-none"
       )}
       aria-busy={loading}
       aria-pressed={pressed}
       {...props}
     >
       {loading && (
-        <svg className="absolute left-3 h-4 w-4 animate-spin" viewBox="0 0 24 24" aria-hidden="true">
+        <svg className="h-4 w-4 animate-spin shrink-0" viewBox="0 0 24 24" aria-hidden="true">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="white" strokeWidth="4" fill="none" />
           <path className="opacity-75" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" d="M22 12a10 10 0 00-10-10" />
         </svg>
       )}
-      {props.children ? (
-        <div className={cn(loading && "opacity-90")}>{props.children}</div>
-      ) : (
-        <span className={cn(loading && "opacity-90")}>{label}</span>
-      )}
+      {props.children ? props.children : <span className={cn(loading && "opacity-90")}>{label}</span>}
     </Comp>
   );
 }
