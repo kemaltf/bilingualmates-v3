@@ -26,3 +26,15 @@ export interface MCQuestion {
 }
 
 export type { MCOption as MultipleChoiceOption, MCQuestion as MultipleChoiceQuestion }
+
+export interface STQuestion {
+  id: string
+  prompt: MediaContent
+  textPrompt?: string
+  correctAnswers?: string[]
+  placeholder?: string
+  explanation?: string
+  praiseKey?: string
+}
+
+export type { STQuestion as ShortTextQuestion }
