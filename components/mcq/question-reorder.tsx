@@ -1,6 +1,7 @@
 "use client"
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { OptionButton } from "@/components/ui/option-button"
 
 export interface QuestionReorderProps {
   tokens: string[]
@@ -13,21 +14,6 @@ export interface QuestionReorderProps {
   bankClassName?: string
   feedbackStatus?: "idle" | "correct" | "incorrect"
   incorrectFromIndex?: number
-}
-
-function TokenButton({ label, onClick, disabled, variant = "bank", state = "idle", className = "" }: { label: string; onClick?: () => void; disabled?: boolean; variant?: "bank" | "answer"; state?: "idle" | "correct" | "incorrect"; className?: string }) {
-  const base = "inline-flex items-center justify-center rounded-xl px-3 py-2 text-base font-medium transition-all select-none border-[3px]"
-  const bank = "bg-white border-neutral-300 text-neutral-800 shadow-md hover:-translate-y-0.5 hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-500"
-  const answerIdle = "bg-sky-100 border-sky-300 text-sky-800 shadow-[0_1px_0_0_#7dd3fc] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-500"
-  const answerCorrect = "bg-emerald-100 border-emerald-400 text-emerald-900 shadow-none focus-visible:ring-emerald-500"
-  const answerIncorrect = "bg-rose-100 border-rose-400 text-rose-900 shadow-none focus-visible:ring-rose-500"
-  const disabledCls = "disabled:pointer-events-none disabled:opacity-60"
-  const answer = state === "correct" ? answerCorrect : state === "incorrect" ? answerIncorrect : answerIdle
-  return (
-    <button type="button" disabled={disabled} onClick={onClick} className={cn(base, variant === "bank" ? bank : answer, disabledCls, className)}>
-      {label}
-    </button>
-  )
 }
 
 function computeBank(tokens: string[], value: string[]) {
@@ -69,16 +55,38 @@ export default function QuestionReorder({ tokens, value, onChange, prompt, disab
 
       <div className={cn("min-h-[56px] p-3 rounded-2xl border-[3px] shadow-[0_3px_0_0_#a3a3a3]", containerStateCls, "flex flex-wrap gap-2", answerClassName)}>
         {value.map((t, i) => {
-          const state = feedbackStatus === "correct" ? "correct" : feedbackStatus === "incorrect" ? (typeof incorrectFromIndex === "number" ? (i >= incorrectFromIndex ? "incorrect" : "idle") : "incorrect") : "idle"
+          const variant = feedbackStatus === "correct"
+            ? "option-correct"
+            : feedbackStatus === "incorrect"
+            ? (typeof incorrectFromIndex === "number" ? (i >= incorrectFromIndex ? "option-incorrect" : "option-selected") : "option-incorrect")
+            : "option-selected"
           return (
-            <TokenButton key={`${t}-${i}`} label={t} variant="answer" state={state} disabled={disabled} onClick={() => removeTokenAt(i)} />
+            <OptionButton
+              key={`${t}-${i}`}
+              variant={variant}
+              disabled={disabled}
+              onClick={() => removeTokenAt(i)}
+              showLabel={false}
+              className={cn("w-auto inline-flex px-3 py-2 rounded-xl")}
+            >
+              {t}
+            </OptionButton>
           )
         })}
       </div>
 
       <div className={cn("flex flex-wrap gap-2", bankClassName)}>
         {bank.map((t, idx) => (
-          <TokenButton key={`${t}-bank-${idx}`} label={t} disabled={disabled} onClick={() => addToken(t)} />
+          <OptionButton
+            key={`${t}-bank-${idx}`}
+            variant="option-default"
+            disabled={disabled}
+            onClick={() => addToken(t)}
+            showLabel={false}
+            className={cn("w-auto inline-flex px-3 py-2 rounded-xl")}
+          >
+            {t}
+          </OptionButton>
         ))}
       </div>
     </div>
