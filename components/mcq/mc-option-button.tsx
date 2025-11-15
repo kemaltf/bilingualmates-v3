@@ -28,9 +28,21 @@ export function MCOptionButton({
   const variant = isSelected ? "option-selected" : "option-default";
   const isAudio = option.content.kind === "audio";
   const [playTrigger, setPlayTrigger] = useState(0);
+  const playSound = (url?: string) => {
+    if (!url) return;
+    try {
+      const a = new Audio(url);
+      a.play();
+    } catch {}
+  };
 
   const handleClick = () => {
     onSelect();
+    const soundUrl = option.clickSoundUrl ?? option.content.pronunciationUrl;
+    if (soundUrl) {
+      playSound(soundUrl);
+      return;
+    }
     if (isAudio) setPlayTrigger((n) => n + 1);
   };
 

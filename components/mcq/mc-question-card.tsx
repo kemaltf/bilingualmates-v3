@@ -1,4 +1,5 @@
 "use client";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { MCQuestion } from "@/lib/quiz/types";
 import { MediaRenderer } from "@/components/mcq/media-renderer";
@@ -11,6 +12,7 @@ export interface MCQuestionCardProps {
   className?: string;
   showOptionLabel?: boolean;
   questionClassName?: string;
+  containerOptionClassName?: string;
 }
 
 export function MCQuestionCard({
@@ -20,13 +22,18 @@ export function MCQuestionCard({
   className,
   showOptionLabel = true,
   questionClassName,
+  containerOptionClassName = "md:grid-cols-2",
 }: MCQuestionCardProps) {
+  usePronunciationOnCorrect(question, selectedOptionId);
   return (
     <div className={cn("flex flex-col gap-6", className)}>
       <div className={cn("w-full", questionClassName)}>
         <MediaRenderer content={question.prompt} role="question" />
+        {question.textPrompt && (
+          <p className="mt-2 text-base">{question.textPrompt}</p>
+        )}
       </div>
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className={cn("grid gap-3", containerOptionClassName)}>
         {question.options.map((opt) => (
           <MCOptionButton
             key={opt.id}
@@ -40,4 +47,16 @@ export function MCQuestionCard({
       </div>
     </div>
   );
+}
+
+export function usePronunciationOnCorrect(question: MCQuestion, selectedOptionId: string | null) {
+  React.useEffect(() => {
+    if (!selectedOptionId || selectedOptionId !== question.correctOptionId) return;
+    const url = question.prompt.pronunciationUrl;
+    if (!url) return;
+    try {
+      const a = new Audio(url);
+      a.play();
+    } catch {}
+  }, [question, selectedOptionId]);
 }
