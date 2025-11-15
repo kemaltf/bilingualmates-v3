@@ -332,3 +332,31 @@ export const TextOptionsWithPronunciation: Story = {
     },
   },
 };
+
+export const TwoByTwoGrid: Story = {
+  args: {
+    containerOptionClassName: "grid-cols-2 grid-rows-2",
+  },
+};
+
+export const ThreeRowsOneColumn: Story = {
+  args: {
+    question: {
+      id: "q-3rows",
+      prompt: { kind: "text", text: "Select the animal" },
+      options: [
+        { id: "a", content: { kind: "text", text: "Cat" } },
+        { id: "b", content: { kind: "text", text: "Dog" } },
+        { id: "c", content: { kind: "text", text: "Bird" } },
+      ],
+      correctOptionId: "b",
+    },
+    containerOptionClassName: "grid-cols-1 grid-rows-3",
+  },
+};
+
+export const FillByColumns: Story = {
+  args: {
+    containerOptionClassName: "grid-flow-col grid-cols-2 grid-rows-2",
+  },
+};
