@@ -2,8 +2,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { MediaContent } from "@/lib/quiz/types";
-import { MediaRenderer } from "@/components/mcq/media-renderer";
 import { OptionButton } from "@/components/ui/option-button";
+import { MediaRenderer } from "../media-renderer";
 
 export interface ClozeBlankSpec {
   id: string;
@@ -101,11 +101,19 @@ export default function ClozeQuestionCard({
     onChange?.(next);
   };
 
-  function isBlankSeg(seg: ClozeQuestionProps["segments"][number]): seg is { kind: "blank"; blank: ClozeBlankSpec } {
-    return seg.kind === "blank"
+  function isBlankSeg(
+    seg: ClozeQuestionProps["segments"][number]
+  ): seg is { kind: "blank"; blank: ClozeBlankSpec } {
+    return seg.kind === "blank";
   }
-  const blankIds = React.useMemo(() => segments.filter(isBlankSeg).map((s) => s.blank.id), [segments]);
-  const allOptions = React.useMemo(() => segments.filter(isBlankSeg).flatMap((s) => s.blank.options ?? []), [segments]);
+  const blankIds = React.useMemo(
+    () => segments.filter(isBlankSeg).map((s) => s.blank.id),
+    [segments]
+  );
+  const allOptions = React.useMemo(
+    () => segments.filter(isBlankSeg).flatMap((s) => s.blank.options ?? []),
+    [segments]
+  );
 
   function countMap(list: string[]) {
     const m = new Map<string, number>();

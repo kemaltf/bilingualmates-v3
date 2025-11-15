@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { FeedbackCard } from "@/components/mcq/feedback-card"
+import type { Meta, StoryObj } from "@storybook/react";
+import { FeedbackCard } from "@/components/shared/feedback-card";
 
 const meta: Meta<typeof FeedbackCard> = {
   title: "Quiz/FeedbackCard",
@@ -9,7 +9,8 @@ const meta: Meta<typeof FeedbackCard> = {
     docs: {
       source: { state: "open" },
       description: {
-        component: "Card untuk menampilkan feedback jawaban (benar/salah/info) dengan opsi media.",
+        component:
+          "Card untuk menampilkan feedback jawaban (benar/salah/info) dengan opsi media.",
       },
     },
     controls: { expanded: true },
@@ -27,30 +28,32 @@ const meta: Meta<typeof FeedbackCard> = {
     message: { control: "text" },
     explanation: { control: "text" },
   },
-}
+};
 
-export default meta
-type Story = StoryObj<typeof FeedbackCard>
+export default meta;
+type Story = StoryObj<typeof FeedbackCard>;
 
-export const Info: Story = {}
+export const Info: Story = {};
 
 export const Correct: Story = {
   args: {
     status: "correct",
     title: "Jawaban benar",
     message: "Good job!",
-    explanation: "'Halo' adalah terjemahan yang tepat untuk 'Hello' dalam konteks ini.",
+    explanation:
+      "'Halo' adalah terjemahan yang tepat untuk 'Hello' dalam konteks ini.",
   },
-}
+};
 
 export const Incorrect: Story = {
   args: {
     status: "incorrect",
     title: "Jawaban kurang tepat",
     message: "Coba lagi",
-    explanation: "'Goodbye' bukan terjemahan dari 'Hello'. Jawaban yang benar adalah 'Halo'.",
+    explanation:
+      "'Goodbye' bukan terjemahan dari 'Hello'. Jawaban yang benar adalah 'Halo'.",
   },
-}
+};
 
 export const WithAudioMedia: Story = {
   args: {
@@ -59,4 +62,4 @@ export const WithAudioMedia: Story = {
     message: "Dengarkan pengucapan kata",
     media: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" },
   },
-}
+};

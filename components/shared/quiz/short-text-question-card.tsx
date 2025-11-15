@@ -1,20 +1,20 @@
-"use client"
-import * as React from "react"
-import { cn } from "@/lib/utils"
-import type { STQuestion } from "@/lib/quiz/types"
-import { MediaRenderer } from "@/components/mcq/media-renderer"
-import { Input } from "@/components/ui/input"
+"use client";
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import type { STQuestion } from "@/lib/quiz/types";
+import { Input } from "@/components/ui/input";
+import { MediaRenderer } from "../media-renderer";
 
 export interface ShortTextQuestionCardProps {
-  question: STQuestion
-  value: string
-  onChange: (value: string) => void
-  onSubmit?: () => void
-  className?: string
-  questionClassName?: string
-  inputClassName?: string
-  placeholder?: string
-  status?: "idle" | "correct" | "incorrect"
+  question: STQuestion;
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit?: () => void;
+  className?: string;
+  questionClassName?: string;
+  inputClassName?: string;
+  placeholder?: string;
+  status?: "idle" | "correct" | "incorrect";
 }
 
 export function ShortTextQuestionCard({
@@ -47,5 +47,5 @@ export function ShortTextQuestionCard({
         />
       </div>
     </div>
-  )
+  );
 }

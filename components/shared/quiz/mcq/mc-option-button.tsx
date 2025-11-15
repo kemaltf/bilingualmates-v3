@@ -1,9 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
 import type { MCOption } from "@/lib/quiz/types";
-import { MediaRenderer } from "@/components/mcq/media-renderer";
 import { OptionButton } from "@/components/ui/option-button";
 import { useState } from "react";
+import { MediaRenderer } from "../../media-renderer";
 
 export interface MCOptionButtonProps {
   option: MCOption;

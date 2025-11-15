@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { ShortTextQuestionCard } from "@/components/mcq/short-text-question-card";
+import { ShortTextQuestionCard } from "@/components/shared/quiz/short-text-question-card";
 
 const meta: Meta<typeof ShortTextQuestionCard> = {
   title: "Quiz/ShortTextQuestionCard",
@@ -47,14 +47,12 @@ const meta: Meta<typeof ShortTextQuestionCard> = {
 export default meta;
 type Story = StoryObj<typeof ShortTextQuestionCard>;
 
-function ControlledShortText(args: React.ComponentProps<typeof ShortTextQuestionCard>) {
+function ControlledShortText(
+  args: React.ComponentProps<typeof ShortTextQuestionCard>
+) {
   const [val, setVal] = React.useState(args.value ?? "");
   return (
-    <ShortTextQuestionCard
-      {...args}
-      value={val}
-      onChange={(v) => setVal(v)}
-    />
+    <ShortTextQuestionCard {...args} value={val} onChange={(v) => setVal(v)} />
   );
 }
 

@@ -2,8 +2,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { MCQuestion } from "@/lib/quiz/types";
-import { MediaRenderer } from "@/components/mcq/media-renderer";
-import { MCOptionButton } from "@/components/mcq/mc-option-button";
+import { MediaRenderer } from "../../media-renderer";
+import { MCOptionButton } from "./mc-option-button";
 
 export interface MCQuestionCardProps {
   question: MCQuestion;
@@ -49,9 +49,13 @@ export function MCQuestionCard({
   );
 }
 
-export function usePronunciationOnCorrect(question: MCQuestion, selectedOptionId: string | null) {
+export function usePronunciationOnCorrect(
+  question: MCQuestion,
+  selectedOptionId: string | null
+) {
   React.useEffect(() => {
-    if (!selectedOptionId || selectedOptionId !== question.correctOptionId) return;
+    if (!selectedOptionId || selectedOptionId !== question.correctOptionId)
+      return;
     const url = question.prompt.pronunciationUrl;
     if (!url) return;
     try {
