@@ -1,5 +1,5 @@
+import { MCQuestionCard } from "@/components/shared/quiz/mcq/mc-question-card";
 import type { Meta, StoryObj } from "@storybook/react";
-import { MCQuestionCard } from "@/components/mcq/mc-question-card";
 
 const meta: Meta<typeof MCQuestionCard> = {
   title: "Quiz/MCQuestionCard",

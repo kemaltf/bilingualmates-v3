@@ -1,18 +1,42 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { MCQuestionCard } from "@/components/mcq/mc-question-card"
-import type { MCQuestion } from "@/lib/quiz/types"
+import type { Meta, StoryObj } from "@storybook/react";
+import type { MCQuestion } from "@/lib/quiz/types";
+import { MCQuestionCard } from "@/components/shared/quiz/mcq/mc-question-card";
 
-function QuestionAudio({ showOptionLabel = true, questionClassName = "max-w-[420px] mx-auto" }: { showOptionLabel?: boolean; questionClassName?: string }) {
+function QuestionAudio({
+  showOptionLabel = true,
+  questionClassName = "max-w-[420px] mx-auto",
+}: {
+  showOptionLabel?: boolean;
+  questionClassName?: string;
+}) {
   const question: MCQuestion = {
     id: "q-audio-all",
     prompt: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" },
     options: [
-      { id: "a", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
-      { id: "b", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
-      { id: "c", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
+      {
+        id: "a",
+        content: {
+          kind: "audio",
+          url: "https://www.w3schools.com/html/horse.mp3",
+        },
+      },
+      {
+        id: "b",
+        content: {
+          kind: "audio",
+          url: "https://www.w3schools.com/html/horse.mp3",
+        },
+      },
+      {
+        id: "c",
+        content: {
+          kind: "audio",
+          url: "https://www.w3schools.com/html/horse.mp3",
+        },
+      },
     ],
     correctOptionId: "a",
-  }
+  };
 
   return (
     <MCQuestionCard
@@ -22,7 +46,7 @@ function QuestionAudio({ showOptionLabel = true, questionClassName = "max-w-[420
       showOptionLabel={showOptionLabel}
       questionClassName={questionClassName}
     />
-  )
+  );
 }
 
 const meta: Meta<typeof QuestionAudio> = {
@@ -46,9 +70,9 @@ const meta: Meta<typeof QuestionAudio> = {
     showOptionLabel: { control: "boolean" },
     questionClassName: { control: "text" },
   },
-}
+};
 
-export default meta
-type Story = StoryObj<typeof QuestionAudio>
+export default meta;
+type Story = StoryObj<typeof QuestionAudio>;
 
-export const Primary: Story = {}
+export const Primary: Story = {};
