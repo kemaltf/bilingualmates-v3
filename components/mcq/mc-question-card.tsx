@@ -10,6 +10,7 @@ export interface MCQuestionCardProps {
   onSelectOption: (id: string) => void;
   className?: string;
   showOptionLabel?: boolean;
+  questionClassName?: string;
 }
 
 export function MCQuestionCard({
@@ -18,10 +19,13 @@ export function MCQuestionCard({
   onSelectOption,
   className,
   showOptionLabel = true,
+  questionClassName,
 }: MCQuestionCardProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)}>
-      <MediaRenderer content={question.prompt} role="question" />
+      <div className={cn("w-full", questionClassName)}>
+        <MediaRenderer content={question.prompt} role="question" />
+      </div>
       <div className="grid gap-3 md:grid-cols-2">
         {question.options.map((opt) => (
           <MCOptionButton

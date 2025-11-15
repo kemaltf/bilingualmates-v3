@@ -29,7 +29,11 @@ export function MediaRenderer({ content, role = "question", className, autoPlayT
         </div>
       )
     case "audio":
-      return <AudioPlayer url={content.url} className={className} autoPlayTrigger={autoPlayTrigger} />
+      return (
+        <div className={cn(isQuestion ? "w-full flex justify-center" : "", className)}>
+          <AudioPlayer url={content.url} autoPlayTrigger={autoPlayTrigger} />
+        </div>
+      )
     case "video":
       return (
         <div className={cn("rounded-xl overflow-hidden", className)}>

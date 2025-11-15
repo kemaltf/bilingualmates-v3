@@ -3,9 +3,9 @@ import { useState } from "react";
 import { MCQuestionCard } from "@/components/mcq/mc-question-card";
 import type { MCQuestion } from "@/lib/quiz/types";
 
-type Args = { showOptionLabel: boolean };
+type Args = { showOptionLabel: boolean; questionClassName?: string };
 
-function QuestionDemo({ showOptionLabel }: Args) {
+function QuestionDemo({ showOptionLabel, questionClassName }: Args) {
   const [selected, setSelected] = useState<string | null>(null);
   const question: MCQuestion = {
     id: "q1",
@@ -29,6 +29,7 @@ function QuestionDemo({ showOptionLabel }: Args) {
         selectedOptionId={selected}
         onSelectOption={setSelected}
         showOptionLabel={showOptionLabel}
+        questionClassName={questionClassName}
       />
       <p className="text-xs text-muted-foreground mt-2">
         Selected: {selected ?? "none"}
@@ -46,9 +47,11 @@ const meta: Meta<typeof QuestionDemo> = {
   },
   args: {
     showOptionLabel: true,
+    questionClassName: "max-w-[720px]",
   },
   argTypes: {
     showOptionLabel: { control: "boolean" },
+    questionClassName: { control: "text" },
   },
 };
 
@@ -57,7 +60,10 @@ type Story = StoryObj<typeof QuestionDemo>;
 
 export const Basic: Story = {};
 
-function AudioQuestionTextOptionsDemo({ showOptionLabel = true }: Partial<Args>) {
+function AudioQuestionTextOptionsDemo({
+  showOptionLabel = true,
+  questionClassName = "max-w-[420px] mx-auto",
+}: Partial<Args>) {
   const [selected, setSelected] = useState<string | null>(null);
   const question: MCQuestion = {
     id: "q-audio",
@@ -75,17 +81,24 @@ function AudioQuestionTextOptionsDemo({ showOptionLabel = true }: Partial<Args>)
         selectedOptionId={selected}
         onSelectOption={setSelected}
         showOptionLabel={showOptionLabel}
+        questionClassName={questionClassName}
       />
     </div>
   );
 }
 
-export const AudioQuestionTextOptions: StoryObj<typeof AudioQuestionTextOptionsDemo> = {
+export const AudioQuestionTextOptions: StoryObj<
+  typeof AudioQuestionTextOptionsDemo
+> = {
   render: (args) => <AudioQuestionTextOptionsDemo {...args} />,
+  args: { questionClassName: "max-w-[420px]" },
   parameters: { docs: { source: { state: "open" } } },
 };
 
-function TextQuestionImageOptionsDemo({ showOptionLabel = true }: Partial<Args>) {
+function TextQuestionImageOptionsDemo({
+  showOptionLabel = true,
+  questionClassName,
+}: Partial<Args>) {
   const [selected, setSelected] = useState<string | null>(null);
   const question: MCQuestion = {
     id: "q-image",
@@ -117,17 +130,23 @@ function TextQuestionImageOptionsDemo({ showOptionLabel = true }: Partial<Args>)
         selectedOptionId={selected}
         onSelectOption={setSelected}
         showOptionLabel={showOptionLabel}
+        questionClassName={questionClassName}
       />
     </div>
   );
 }
 
-export const TextQuestionImageOptions: StoryObj<typeof TextQuestionImageOptionsDemo> = {
+export const TextQuestionImageOptions: StoryObj<
+  typeof TextQuestionImageOptionsDemo
+> = {
   render: (args) => <TextQuestionImageOptionsDemo {...args} />,
   parameters: { docs: { source: { state: "open" } } },
 };
 
-function VideoQuestionTextOptionsDemo({ showOptionLabel = true }: Partial<Args>) {
+function VideoQuestionTextOptionsDemo({
+  showOptionLabel = true,
+  questionClassName,
+}: Partial<Args>) {
   const [selected, setSelected] = useState<string | null>(null);
   const question: MCQuestion = {
     id: "q-video",
@@ -148,12 +167,15 @@ function VideoQuestionTextOptionsDemo({ showOptionLabel = true }: Partial<Args>)
         selectedOptionId={selected}
         onSelectOption={setSelected}
         showOptionLabel={showOptionLabel}
+        questionClassName={questionClassName}
       />
     </div>
   );
 }
 
-export const VideoQuestionTextOptions: StoryObj<typeof VideoQuestionTextOptionsDemo> = {
+export const VideoQuestionTextOptions: StoryObj<
+  typeof VideoQuestionTextOptionsDemo
+> = {
   render: (args) => <VideoQuestionTextOptionsDemo {...args} />,
   parameters: { docs: { source: { state: "open" } } },
 };
