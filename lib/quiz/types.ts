@@ -56,4 +56,32 @@ export interface MatchQuestion {
   praiseKey?: string
 }
 
+export interface ClozeBlankSpec {
+  id: string
+  options?: string[]
+  placeholder?: string
+  maxLength?: number
+}
+
+export type ClozeSegment =
+  | { kind: "text"; text: string }
+  | { kind: "blank"; blank: ClozeBlankSpec }
+
+export interface ClozeQuestion {
+  id: string
+  prompt: MediaContent
+  segments: ClozeSegment[]
+  explanation?: string
+  praiseKey?: string
+}
+
+export interface ReorderQuestion {
+  id: string
+  prompt: MediaContent
+  tokens: string[]
+  correctOrder?: string[]
+  explanation?: string
+  praiseKey?: string
+}
+
 export type { MatchQuestion as PairMatchQuestion }

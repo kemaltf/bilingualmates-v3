@@ -1,16 +1,9 @@
 "use client";
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import type { MediaContent } from "@/lib/quiz/types";
+import type { MediaContent, ClozeBlankSpec } from "@/lib/quiz/types";
 import { OptionButton } from "@/components/ui/option-button";
 import { MediaRenderer } from "../media-renderer";
-
-export interface ClozeBlankSpec {
-  id: string;
-  options?: string[];
-  placeholder?: string;
-  maxLength?: number;
-}
 
 export interface ClozeQuestionProps {
   prompt: MediaContent;
