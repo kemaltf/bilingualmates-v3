@@ -38,3 +38,22 @@ export interface STQuestion {
 }
 
 export type { STQuestion as ShortTextQuestion }
+
+export interface MatchItem {
+  id: string
+  content: MediaContent
+  clickSoundUrl?: string
+}
+
+export interface MatchQuestion {
+  id: string
+  prompt: MediaContent
+  textPrompt?: string
+  leftItems: MatchItem[]
+  rightItems: MatchItem[]
+  correctPairs?: { leftId: string; rightId: string }[]
+  explanation?: string
+  praiseKey?: string
+}
+
+export type { MatchQuestion as PairMatchQuestion }
