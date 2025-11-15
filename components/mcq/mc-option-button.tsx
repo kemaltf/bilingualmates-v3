@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import type { MCOption } from "@/lib/quiz/types";
 import { MediaRenderer } from "@/components/mcq/media-renderer";
 import { OptionButton } from "@/components/ui/option-button";
+import { useState } from "react";
 
 export interface MCOptionButtonProps {
   option: MCOption;
@@ -25,12 +26,19 @@ export function MCOptionButton({
   showLabel = true,
 }: MCOptionButtonProps) {
   const variant = isSelected ? "option-selected" : "option-default";
+  const isAudio = option.content.kind === "audio";
+  const [playTrigger, setPlayTrigger] = useState(0);
+
+  const handleClick = () => {
+    onSelect();
+    if (isAudio) setPlayTrigger((n) => n + 1);
+  };
 
   return (
     <OptionButton
       variant={variant}
       disabled={disabled}
-      onClick={onSelect}
+      onClick={handleClick}
       label={label}
       showLabel={showLabel}
       className={cn(
@@ -39,7 +47,11 @@ export function MCOptionButton({
       )}
     >
       <div className="flex items-center gap-3 w-full">
-        <MediaRenderer content={option.content} role="option" />
+        <MediaRenderer
+          content={option.content}
+          role="option"
+          autoPlayTrigger={playTrigger}
+        />
       </div>
     </OptionButton>
   );
