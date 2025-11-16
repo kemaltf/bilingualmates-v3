@@ -146,16 +146,7 @@ export function VerticalPathTrack({
                   </div>
                 ))}
                 {(() => {
-                  const total = u.nodes.length;
-                  const completed = u.nodes.filter(
-                    (n) => n.status === "completed"
-                  ).length;
-                  const badgeStatus =
-                    completed === total
-                      ? "completed"
-                      : completed > 0
-                      ? "in_progress"
-                      : "locked";
+                  const badgeStatus = u.badge?.status ?? "locked";
                   return (
                     <Button
                       variant="disabled"
@@ -163,7 +154,7 @@ export function VerticalPathTrack({
                       className={cn(
                         "w-full max-w-[320px] rounded-full p-4",
                         "flex items-center gap-2",
-                        total % 2 === 0 ? "self-start" : "self-end"
+                        u.nodes.length % 2 === 0 ? "self-start" : "self-end"
                       )}
                       aria-label="Unit Badge"
                     >
@@ -177,7 +168,7 @@ export function VerticalPathTrack({
                             : "text-emerald-600"
                         )}
                       />
-                      <div className="text-sm font-bold">Unit Badge</div>
+                      <div className="text-sm font-bold">{u.badge?.title ?? "Unit Badge"}</div>
                     </Button>
                   );
                 })()}

@@ -9,11 +9,18 @@ export interface LessonNode {
   durationSec: number
 }
 
+export interface UnitBadge {
+  status: NodeStatus
+  title?: string
+  xpReward?: number
+}
+
 export interface Unit {
   id: string
   title: string
   sequence: number
   nodes: LessonNode[]
+  badge?: UnitBadge
 }
 
 export interface CurriculumPath {

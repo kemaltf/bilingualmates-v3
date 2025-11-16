@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "next/link";
 import {
   SidebarProvider,
   Sidebar,
@@ -10,23 +10,37 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, BookOpen, User2, Settings, LogOut } from "lucide-react"
-import { Nunito, Inter } from "next/font/google"
+} from "@/components/ui/dropdown-menu";
+import {
+  MoreHorizontal,
+  BookOpen,
+  User2,
+  Settings,
+  LogOut,
+} from "lucide-react";
+import { Nunito, Inter } from "next/font/google";
 
-const nunito = Nunito({ subsets: ["latin"], weight: ["700", "800"], variable: "--font-nunito" })
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-nunito",
+});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-export default function LearnLayout({ children }: { children: React.ReactNode }) {
+export default function LearnLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SidebarProvider>
-      <div className={`${nunito.variable} ${inter.variable} flex min-h-screen`}>
+      <div className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] font-sans flex min-h-screen`}>
         <Sidebar className="border-r">
           <SidebarContent>
             <SidebarGroup>
@@ -61,7 +75,10 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="min-w-56">
                         <DropdownMenuItem asChild>
-                          <Link href="/settings" className="flex items-center gap-2">
+                          <Link
+                            href="/settings"
+                            className="flex items-center gap-2"
+                          >
                             <Settings className="size-4" />
                             <span>Settings</span>
                           </Link>
@@ -82,5 +99,5 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
         <main className="flex-1">{children}</main>
       </div>
     </SidebarProvider>
-  )
+  );
 }
