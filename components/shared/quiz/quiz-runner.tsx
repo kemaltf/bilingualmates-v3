@@ -13,7 +13,7 @@ export interface QuizRunnerProps {
   className?: string
 }
 
-function feedbackToCardStatus(fb: "idle" | "correct" | "incorrect") {
+function feedbackToCardStatus(fb: "idle" | "correct" | "incorrect"): "correct" | "incorrect" | "info" {
   if (fb === "correct") return "correct"
   if (fb === "incorrect") return "incorrect"
   return "info"
@@ -63,9 +63,9 @@ export function QuizRunner({ questions, onComplete, className }: QuizRunnerProps
 
       {controller.feedback !== "idle" && (
         <FeedbackCard
-          status={feedbackToCardStatus(controller.feedback) as any}
+          status={feedbackToCardStatus(controller.feedback)}
           title={controller.feedback === "correct" ? praise(controller.feedback) : "Try again"}
-          explanation={(q as any).explanation}
+          explanation={q.explanation}
         />
       )}
 
