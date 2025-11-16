@@ -2,11 +2,20 @@
 import * as React from "react";
 import { VerticalPathTrack } from "./VerticalPathTrack";
 import { paths } from "@/lib/learn/mock";
-import { BookOpen, User2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import {
+  brandColorToBg,
+  brandColorToButtonVariant,
+  getBrandColorByIndex,
+} from "@/lib/ui/design-tokens";
 
 export function LearnHubPage() {
   const [selected] = React.useState<string>(paths[0]?.id ?? null);
@@ -14,70 +23,145 @@ export function LearnHubPage() {
     () => paths.find((p) => p.id === selected) ?? null,
     [selected]
   );
-  const [currentUnitTitle, setCurrentUnitTitle] = React.useState<string | null>(null)
-  const [unitEls, setUnitEls] = React.useState<{ id: string; title: string; el: HTMLElement }[]>([])
-  const [currentUnitIndex, setCurrentUnitIndex] = React.useState(0)
+  const [currentUnitTitle, setCurrentUnitTitle] = React.useState<string | null>(
+    null
+  );
+  const [unitEls, setUnitEls] = React.useState<
+    { id: string; title: string; el: HTMLElement }[]
+  >([]);
+  const [currentUnitIndex, setCurrentUnitIndex] = React.useState(0);
+  // const [ioDebug, setIoDebug] = React.useState<
+  //   { id: string; title: string; top: number; isVisible: boolean }[]
+  // >([]);
+  // const [anchorY, setAnchorY] = React.useState(0);
   React.useEffect(() => {
-    if (unitEls.length === 0) return
+    if (unitEls.length === 0) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
-        if (visible) {
-          const item = unitEls.find((i) => i.el === visible.target)
-          if (item) setCurrentUnitTitle(item.title)
-          if (item) setCurrentUnitIndex(unitEls.findIndex((i) => i.el === item.el))
+        const allVisible = entries.filter((e) => e.isIntersecting);
+        if (allVisible.length === 0) return;
+        const anchorY = Math.round(window.innerHeight * 0.35);
+        const aboveAnchor = allVisible
+          .filter((e) => e.boundingClientRect.top <= anchorY)
+          .sort(
+            (a, b) => b.boundingClientRect.top - a.boundingClientRect.top
+          )[0];
+        const nearest =
+          aboveAnchor ??
+          allVisible.sort(
+            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+          )[0];
+        if (nearest) {
+          const item = unitEls.find((i) => i.el === nearest.target);
+          if (!item) return;
+          setCurrentUnitTitle(item.title);
+          setCurrentUnitIndex(unitEls.findIndex((i) => i.el === item.el));
         }
+        // const snapshot = unitEls.map((i) => {
+        //   const r = i.el.getBoundingClientRect();
+        //   return {
+        //     id: i.id,
+        //     title: i.title,
+        //     top: Math.round(r.top),
+        //     isVisible: r.top < window.innerHeight && r.bottom > 0,
+        //   };
+        // }).sort((a, b) => a.top - b.top);
+        // setIoDebug(snapshot);
+        // setAnchorY(anchorY);
       },
-      { root: null, rootMargin: "-40% 0px -50% 0px", threshold: 0.1 }
-    )
-    unitEls.forEach((i) => observer.observe(i.el))
-    return () => observer.disconnect()
-  }, [unitEls])
-  const colorClasses = ["bg-emerald-500", "bg-sky-500", "bg-violet-500", "bg-amber-500", "bg-rose-500", "bg-indigo-500"]
-  const headerColor = colorClasses[currentUnitIndex % colorClasses.length]
+      {
+        root: null,
+        rootMargin: "0px 0px 0px 0px",
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      }
+    );
+    unitEls.forEach((i) => observer.observe(i.el));
+    return () => observer.disconnect();
+  }, [unitEls]);
+  const brandColor = getBrandColorByIndex(currentUnitIndex);
+  const headerColor = brandColorToBg[brandColor];
+  const chooseVariant = brandColorToButtonVariant[brandColor];
 
   return (
     <div className={`bg-slate-100 min-h-screen`}>
-      <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-[80px_1fr] gap-4 px-4 py-6">
-        <aside className="md:block hidden">
-          <div className="flex flex-col items-center gap-4">
-            <Link href="/path">
-              <Button variant="blue" size="icon" aria-label="Choose Path">
-                <BookOpen className="size-5" />
-              </Button>
-            </Link>
-            <Button variant="blue" size="icon" aria-label="Profile">
-              <User2 className="size-5" />
-            </Button>
-          </div>
-        </aside>
+      <div className="max-w-[1280px] mx-auto grid grid-cols-1 gap-4 px-4 py-3">
         <main>
-          <section className={cn("sticky top-0 z-20 rounded-b-2xl p-3 md:p-4 shadow", headerColor)}>
+          {/*
+          <div
+            className="fixed left-0 right-0 z-[150] pointer-events-none"
+            style={{ top: anchorY }}
+          >
+            <div className="border-t-2 border-red-500 border-dashed" />
+          </div>
+          <div className="fixed top-2 right-2 z-[200] rounded-lg bg-black/70 text-white p-2 text-xs min-w-[220px]">
+            <div className="font-bold">IO Debug</div>
+            <div className="mt-1 space-y-1">
+              {ioDebug.map((d) => (
+                <div key={d.id} className={cn("flex justify-between", d.isVisible ? "text-emerald-300" : "text-slate-300")}> 
+                  <span className="truncate max-w-[140px]">{d.title}</span>
+                  <span>{d.top}px</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          */}
+          <section
+            className={cn(
+              "sticky top-3 z-20 rounded-2xl p-3 md:p-4 shadow",
+              headerColor
+            )}
+          >
             <div className="grid grid-cols-1 md:grid-cols-3 items-center">
               <div className="md:col-span-2">
-                <h1 className={`font-extrabold text-white text-2xl md:text-3xl`}>
+                <h1
+                  className={`font-extrabold text-white text-2xl md:text-3xl`}
+                >
                   {currentUnitTitle ?? (path ? path.units[0]?.title : "Unit")}
                 </h1>
-                <p className="text-white/90 mt-1">Start your nodes and earn the unit badge.</p>
+                <p className="text-white/90 mt-1">
+                  Start your nodes and earn the unit badge.
+                </p>
               </div>
-              <div className="flex justify-center md:justify-end">
-                <Image
-                  src="https://picsum.photos/seed/book/80/80"
-                  alt="Learn"
-                  width={80}
-                  height={80}
-                  className="rounded-xl bg-white"
-                  unoptimized
-                />
+              <div className="flex justify-end">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href="/path" title="Choose Path">
+                      <Button
+                        variant={chooseVariant}
+                        size="icon-sm"
+                        aria-label="Choose Path"
+                      >
+                        <BookOpen className="size-4" />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="left">Choose Path</TooltipContent>
+                </Tooltip>
               </div>
             </div>
           </section>
 
+          <Link
+            href="/path"
+            className="fixed bottom-6 right-6 z-[100]"
+            title="Choose Path"
+          >
+            <Button
+              variant={chooseVariant}
+              size="icon-sm"
+              aria-label="Choose Path"
+            >
+              <BookOpen className="size-4" />
+            </Button>
+          </Link>
+
           {path && (
             <section className="mt-6">
-              <VerticalPathTrack path={path} onUnitRefs={setUnitEls} />
+              <VerticalPathTrack
+                path={path}
+                onUnitRefs={setUnitEls}
+                brandColor={brandColor}
+              />
             </section>
           )}
         </main>

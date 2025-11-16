@@ -15,7 +15,7 @@ const meta: Meta<typeof Button> = {
   },
   parameters: {
     controls: {
-      include: ["variant", "size", "disabled", "label", "loading", "pressed"],
+      include: ["variant", "size", "disabled", "label", "loading", "pressed", "onFocus"],
     },
   },
 };
@@ -76,4 +76,16 @@ export const DuoRed: Story = {
 
 export const DuoText: Story = {
   args: { variant: "text", size: "md", children: "Learn more" },
+};
+
+export const OnFocus: Story = {
+  args: {
+    size: "md",
+    label: "Focus Me",
+    onFocus: () => {}
+  },
+};
+
+export const DuoDisabled: Story = {
+  args: { variant: "disabled", size: "md", label: "Disabled" },
 };

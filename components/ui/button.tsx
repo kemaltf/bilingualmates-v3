@@ -46,6 +46,18 @@ const buttonVariants = cva(
           "transition-transform active:translate-y-1 active:shadow-none",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500 focus-visible:border-amber-500",
         ].join(" "),
+        indigo: [
+          "relative select-none rounded-full uppercase font-semibold tracking-wide",
+          "bg-indigo-500 text-white border-[3px] border-indigo-600 shadow-[0_4px_0_0_#3730a3]",
+          "transition-transform active:translate-y-1 active:shadow-none",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:border-indigo-500",
+        ].join(" "),
+        disabled: [
+          "relative select-none rounded-full uppercase font-semibold tracking-wide",
+          "bg-slate-200 text-slate-600 border-[3px] border-slate-300 shadow-[0_4px_0_0_#9ca3af]",
+          "transition-transform active:translate-y-1 active:shadow-none",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400 focus-visible:border-slate-400",
+        ].join(" "),
         text: [
           "bg-transparent text-sky-600 border-0 shadow-none",
           "!px-0 !py-0 !h-auto",
@@ -76,6 +88,7 @@ type ButtonOwnProps = {
   loading?: boolean;
   pressed?: boolean;
   size?: VariantProps<typeof buttonVariants>["size"] | "md";
+  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
 };
 
 function Button({
@@ -86,6 +99,7 @@ function Button({
   label,
   loading = false,
   pressed = false,
+  onFocus,
   ...props
 }: React.ComponentProps<"button"> &
   Omit<VariantProps<typeof buttonVariants>, "size"> &
@@ -97,11 +111,13 @@ function Button({
     <Comp
       data-slot="button"
       className={cn(
-        buttonVariants({ variant, size: mappedSize as VariantProps<typeof buttonVariants>["size"], className }),
+        buttonVariants({ variant, size: mappedSize as VariantProps<typeof buttonVariants>["size"] }),
+        className,
         pressed && "translate-y-1 shadow-none"
       )}
       aria-busy={loading}
       aria-pressed={pressed}
+      onFocus={onFocus}
       {...props}
     >
       {loading && (
