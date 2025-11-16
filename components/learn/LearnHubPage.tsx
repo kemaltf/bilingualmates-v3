@@ -138,20 +138,6 @@ export function LearnHubPage() {
           </div>
         </section>
 
-        <Link
-          href="/path"
-          className="fixed bottom-6 right-6 z-[100]"
-          title="Choose Path"
-        >
-          <Button
-            variant={chooseVariant}
-            size="icon-sm"
-            aria-label="Choose Path"
-          >
-            <BookOpen className="size-4" />
-          </Button>
-        </Link>
-
         {path && (
           <section className="mt-6">
             <VerticalPathTrack

@@ -1,3 +1,5 @@
+"use client";
+import * as React from "react";
 import Link from "next/link";
 import {
   SidebarProvider,
@@ -24,6 +26,13 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 export default function LearnLayout({
   children,
@@ -32,6 +41,7 @@ export default function LearnLayout({
   children: React.ReactNode;
   right: React.ReactNode;
 }) {
+  const [openMore, setOpenMore] = React.useState(false);
   return (
     <SidebarProvider>
       <Sidebar className="border-r  ">
@@ -90,10 +100,58 @@ export default function LearnLayout({
         <SidebarFooter />
       </Sidebar>
       <main className="flex-1">
-        <div className="max-w-[1280px]  mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 px-4 py-3">
-          <div className="min-w-0 ">{children}</div>
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 px-4 pt-3 pb-20 md:pb-3">
+          <div className="min-w-0">{children}</div>
           <div className="lg:w-[360px]">{right}</div>
         </div>
+        <div className="fixed bottom-0 inset-x-0 z-100 md:hidden">
+          <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
+            <div className="max-w-[640px] mx-auto px-6 py-2 flex items-center justify-between">
+              <Link href="/learn" className="flex items-center justify-center">
+                <Button variant="blue" size="icon" aria-label="Learn">
+                  <BookOpen className="size-5" />
+                </Button>
+              </Link>
+              <Link
+                href="/profile"
+                className="flex items-center justify-center"
+              >
+                <Button variant="blue" size="icon" aria-label="Profile">
+                  <User2 className="size-5" />
+                </Button>
+              </Link>
+              <button
+                onClick={() => setOpenMore(true)}
+                aria-label="More"
+                className="rounded-full"
+              >
+                <Button variant="blue" size="icon">
+                  <MoreHorizontal className="size-5" />
+                </Button>
+              </button>
+            </div>
+          </div>
+        </div>
+        <Sheet open={openMore} onOpenChange={setOpenMore}>
+          <SheetContent side="bottom" className="pb-15">
+            <SheetHeader>
+              <SheetTitle>More</SheetTitle>
+            </SheetHeader>
+            <div className="mt-2 space-y-2">
+              <Link
+                href="/settings"
+                className="flex items-center gap-3 rounded-xl border p-3"
+              >
+                <Settings className="size-5" />
+                <div className="text-sm font-bold">Settings</div>
+              </Link>
+              <button className="flex items-center gap-3 rounded-xl border p-3 w-full">
+                <LogOut className="size-5" />
+                <div className="text-sm font-bold">Log out</div>
+              </button>
+            </div>
+          </SheetContent>
+        </Sheet>
       </main>
     </SidebarProvider>
   );
