@@ -73,3 +73,7 @@ export const DuoGreen: Story = {
 export const DuoRed: Story = {
   args: { variant: "red", size: "md" },
 };
+
+export const DuoText: Story = {
+  args: { variant: "text", size: "md", children: "Learn more" },
+};

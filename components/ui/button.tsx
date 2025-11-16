@@ -34,6 +34,13 @@ const buttonVariants = cva(
           "transition-transform active:translate-y-1 active:shadow-none",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-rose-500 focus-visible:border-rose-500",
         ].join(" "),
+        text: [
+          "bg-transparent text-sky-600 border-0 shadow-none",
+          "!px-0 !py-0 !h-auto",
+          "hover:underline",
+          "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+          "disabled:text-neutral-400",
+        ].join(" "),
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
