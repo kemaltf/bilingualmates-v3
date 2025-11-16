@@ -6,6 +6,7 @@ export const paths: CurriculumPath[] = [
     name: "General English",
     emoji: "📘",
     color: "emerald",
+    imageUrl: "/images/path-general.svg",
     units: [
       {
         id: "u1",
@@ -47,6 +48,7 @@ export const paths: CurriculumPath[] = [
     name: "Business English",
     emoji: "💼",
     color: "sky",
+    imageUrl: "/images/path-business.svg",
     units: [
       {
         id: "bu1",
@@ -68,6 +70,46 @@ export const paths: CurriculumPath[] = [
           { id: "bn4", title: "Agenda", description: "Setting meeting goals", status: "locked", xpReward: 10, durationSec: 95 },
           { id: "bn5", title: "Decision", description: "Recording decisions", status: "locked", xpReward: 10, durationSec: 88 },
           { id: "bn6", title: "Follow-up", description: "Next steps and action items", status: "locked", xpReward: 10, durationSec: 92 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "kids",
+    name: "Kids English",
+    emoji: "🧸",
+    color: "amber",
+    imageUrl: "/images/path-kids.svg",
+    units: [
+      {
+        id: "k1",
+        title: "Unit 1: Fun Basics",
+        sequence: 1,
+        badge: { status: "locked", title: "Unit Badge" },
+        nodes: [
+          { id: "kn1", title: "Colors", description: "Learn basic colors", status: "locked", xpReward: 10, durationSec: 60 },
+          { id: "kn2", title: "Animals", description: "Common animals", status: "locked", xpReward: 10, durationSec: 70 },
+          { id: "kn3", title: "Fruits", description: "Favorite fruits", status: "locked", xpReward: 10, durationSec: 65 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "travel2",
+    name: "Travel English",
+    emoji: "✈️",
+    color: "indigo",
+    imageUrl: "/images/path-travel.svg",
+    units: [
+      {
+        id: "t1",
+        title: "Unit 1: Basics",
+        sequence: 1,
+        badge: { status: "in_progress", title: "Unit Badge" },
+        nodes: [
+          { id: "tn1", title: "Tickets", description: "Buying tickets", status: "in_progress", xpReward: 10, durationSec: 80 },
+          { id: "tn2", title: "Boarding", description: "Boarding steps", status: "locked", xpReward: 10, durationSec: 90 },
+          { id: "tn3", title: "Customs", description: "Customs questions", status: "locked", xpReward: 10, durationSec: 85 },
         ],
       },
     ],

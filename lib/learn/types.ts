@@ -28,5 +28,6 @@ export interface CurriculumPath {
   name: string
   emoji?: string
   color?: string
+  imageUrl?: string
   units: Unit[]
 }
