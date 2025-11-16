@@ -11,6 +11,7 @@ import { Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BrandColor } from "@/lib/ui/design-tokens";
 import { brandColorToButtonVariant } from "@/lib/ui/design-tokens";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface VerticalPathTrackProps {
   path: CurriculumPath;
@@ -31,6 +32,7 @@ export function VerticalPathTrack({
   brandColor,
 }: VerticalPathTrackProps) {
   const unitRefs = React.useRef<Record<string, HTMLElement | null>>({});
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     if (!onUnitRefs) return;
     const items = path.units
@@ -110,7 +112,7 @@ export function VerticalPathTrack({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent
-                        side={idx % 2 === 0 ? "right" : "left"}
+                        side={isMobile ? "bottom" : idx % 2 === 0 ? "right" : "left"}
                         className="min-w-[240px]"
                       >
                         <div className="text-sm font-bold">{n.title}</div>
