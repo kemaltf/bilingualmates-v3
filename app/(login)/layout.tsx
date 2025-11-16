@@ -17,12 +17,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, Video, User2, Settings, LogOut } from "lucide-react"
+import { MoreHorizontal, BookOpen, User2, Settings, LogOut } from "lucide-react"
+import { Nunito, Inter } from "next/font/google"
+
+const nunito = Nunito({ subsets: ["latin"], weight: ["700", "800"], variable: "--font-nunito" })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
 export default function LearnLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className={`${nunito.variable} ${inter.variable} flex min-h-screen`}>
         <Sidebar className="border-r">
           <SidebarContent>
             <SidebarGroup>
@@ -31,9 +35,9 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href="/videos" className="flex items-center gap-2">
-                        <Video className="size-4" />
-                        <span>Videos</span>
+                      <Link href="/learn" className="flex items-center gap-2">
+                        <BookOpen className="size-4" />
+                        <span>Learn</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

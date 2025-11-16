@@ -34,6 +34,18 @@ const buttonVariants = cva(
           "transition-transform active:translate-y-1 active:shadow-none",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-rose-500 focus-visible:border-rose-500",
         ].join(" "),
+        purple: [
+          "relative select-none rounded-full uppercase font-semibold tracking-wide",
+          "bg-violet-500 text-white border-[3px] border-violet-600 shadow-[0_4px_0_0_#6d28d9]",
+          "transition-transform active:translate-y-1 active:shadow-none",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500 focus-visible:border-violet-500",
+        ].join(" "),
+        amber: [
+          "relative select-none rounded-full uppercase font-semibold tracking-wide",
+          "bg-amber-500 text-white border-[3px] border-amber-600 shadow-[0_4px_0_0_#b45309]",
+          "transition-transform active:translate-y-1 active:shadow-none",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500 focus-visible:border-amber-500",
+        ].join(" "),
         text: [
           "bg-transparent text-sky-600 border-0 shadow-none",
           "!px-0 !py-0 !h-auto",
