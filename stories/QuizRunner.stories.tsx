@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { QuizRunner } from "@/components/shared/quiz/quiz-runner"
-import type { QuizQuestion } from "@/lib/quiz/types"
+import type { QuizQuestion, SubmitAttemptPayload } from "@/lib/quiz/types"
+import * as React from "react"
+import { Button } from "@/components/ui/button"
 
 const sampleQuestions: QuizQuestion[] = [
   {
@@ -152,14 +154,64 @@ const meta: Meta<typeof QuizRunner> = {
   tags: ["autodocs"],
   args: {
     questions: sampleQuestions,
+    attemptId: "attempt-story-1",
+    lessonId: "lesson-story",
   },
   argTypes: {
     questions: { description: "Array of union-typed QuizQuestion" },
-    onComplete: { action: "completed", description: "Called with final score when finishing last question" },
+    onComplete: { action: "completed", description: "Called with final payload when finishing last question" },
+    onSubmitAnswer: { action: "answer_submitted", description: "Called on each Check with per-answer payload" },
+    attemptId: { control: "text" },
+    lessonId: { control: "text" },
+    userId: { control: "text" },
   },
 }
 
 export default meta
 type Story = StoryObj<typeof QuizRunner>
 
-export const Primary: Story = {}
+export const Primary: Story = {
+  args: {},
+}
+
+export const WithSubmitLogger: Story = {
+  args: {
+    onSubmitAnswer: (payload) => {
+      alert("Per-Answer\n" + JSON.stringify(payload, null, 2))
+    },
+    onComplete: (payload: SubmitAttemptPayload) => {
+      alert("Attempt\n" + JSON.stringify(payload, null, 2))
+    },
+  },
+}
+
+function FinishPreview(args: React.ComponentProps<typeof QuizRunner>) {
+  const [attempt, setAttempt] = React.useState<SubmitAttemptPayload | null>(null)
+  if (attempt) {
+    return (
+      <div className="w-full max-w-[840px] mx-auto space-y-4">
+        <div className="rounded-2xl border-[3px] border-neutral-300 shadow-[0_3px_0_0_#a3a3a3] p-4">
+          <div className="text-lg font-semibold mb-2">Final JSON</div>
+          <pre className="bg-neutral-50 rounded-xl p-3 overflow-auto text-sm">
+            {JSON.stringify(attempt, null, 2)}
+          </pre>
+        </div>
+        <div className="flex justify-end">
+          <Button variant="blue" size="md" onClick={() => setAttempt(null)} label="Restart" />
+        </div>
+      </div>
+    )
+  }
+  return (
+    <QuizRunner
+      {...args}
+      onComplete={(payload) => {
+        setAttempt(payload)
+      }}
+    />
+  )
+}
+
+export const FinishShowsJSON: Story = {
+  render: (args) => <FinishPreview {...args} />,
+}

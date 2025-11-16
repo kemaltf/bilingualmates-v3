@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import type { QuizQuestion } from "@/lib/quiz/types"
+import type { QuizQuestion, SubmitAttemptPayload } from "@/lib/quiz/types"
 import { useQuizController } from "@/hooks/use-quiz-controller"
 import { QuestionRenderer } from "./question-renderer"
 import { FeedbackCard } from "@/components/shared/feedback-card"
@@ -9,7 +9,11 @@ import { cn } from "@/lib/utils"
 
 export interface QuizRunnerProps {
   questions: QuizQuestion[]
-  onComplete?: (score: { correct: number; total: number; percentage: number }) => void
+  onComplete?: (payload: SubmitAttemptPayload) => void
+  onSubmitAnswer?: (payload: SubmitAttemptPayload["answers"][number]) => void
+  attemptId?: string
+  lessonId?: string
+  userId?: string
   className?: string
 }
 
@@ -25,8 +29,13 @@ function praise(fb: "idle" | "correct" | "incorrect") {
   return variants[Math.floor(Math.random() * variants.length)]
 }
 
-export function QuizRunner({ questions, onComplete, className }: QuizRunnerProps) {
-  const controller = useQuizController(questions, onComplete)
+export function QuizRunner({ questions, onComplete, onSubmitAnswer, attemptId, lessonId, userId, className }: QuizRunnerProps) {
+  const controller = useQuizController(
+    questions,
+    onComplete,
+    { attemptId: attemptId ?? "attempt-" + Math.random().toString(36).slice(2), lessonId: lessonId ?? "lesson-demo", userId },
+    onSubmitAnswer
+  )
   const q = controller.question
   const value = controller.answers[q.id]
 

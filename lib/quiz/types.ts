@@ -95,4 +95,22 @@ export type QuizQuestion =
   | ({ kind: "reorder" } & ReorderQuestion)
   | ({ kind: "cloze" } & ClozeQuestion)
 
+export interface SubmitAnswerPayload {
+  attemptId: string
+  questionId: string
+  questionType: "mcq" | "short_text" | "reorder" | "cloze" | "match"
+  rawAnswer: unknown
+  clientTimeMs?: number
+}
+
+export interface SubmitAttemptPayload {
+  attemptId: string
+  userId?: string
+  lessonId: string
+  startedAt: string
+  completedAt: string
+  clientTotalTimeMs?: number
+  answers: SubmitAnswerPayload[]
+}
+
 export type { MatchQuestion as PairMatchQuestion }

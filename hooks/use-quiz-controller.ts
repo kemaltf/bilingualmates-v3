@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import type { QuizQuestion } from "@/lib/quiz/types"
+import type { QuizQuestion, SubmitAnswerPayload, SubmitAttemptPayload } from "@/lib/quiz/types"
 
 type FeedbackState = "idle" | "correct" | "incorrect"
 
@@ -76,13 +76,21 @@ function evaluate(q: QuizQuestion, val: unknown): boolean {
   return false
 }
 
-export function useQuizController(questions: QuizQuestion[], onComplete?: (score: QuizControllerResult["score"]) => void): QuizControllerResult {
+export function useQuizController(
+  questions: QuizQuestion[],
+  onComplete?: (payload: SubmitAttemptPayload) => void,
+  meta?: { attemptId: string; lessonId: string; userId?: string },
+  onSubmitAnswer?: (payload: SubmitAnswerPayload) => void
+): QuizControllerResult {
   const [index, setIndex] = React.useState(0)
   const [feedback, setFeedback] = React.useState<FeedbackState>("idle")
   const [isLocked, setLocked] = React.useState(false)
   const [answers, setAnswers] = React.useState<Record<string, unknown>>({})
   const [correctCount, setCorrectCount] = React.useState(0)
   const [checkedIds, setCheckedIds] = React.useState<Set<string>>(new Set())
+  const [submitted, setSubmitted] = React.useState<SubmitAnswerPayload[]>([])
+  const attemptStartRef = React.useRef<number>(Date.now())
+  const questionStartRef = React.useRef<number>(Date.now())
 
   const question = questions[index]
   const currentValue = answers[question.id]
@@ -109,17 +117,41 @@ export function useQuizController(questions: QuizQuestion[], onComplete?: (score
     setLocked(true)
     setCheckedIds((s) => new Set(s).add(question.id))
     if (ok) setCorrectCount((c) => c + 1)
+
+    const elapsed = Date.now() - questionStartRef.current
+    const payload: SubmitAnswerPayload = {
+      attemptId: meta?.attemptId ?? "attempt-" + Math.random().toString(36).slice(2),
+      questionId: question.id,
+      questionType: question.kind,
+      rawAnswer: currentValue,
+      clientTimeMs: elapsed,
+    }
+    setSubmitted((prev) => [...prev, payload])
+    if (onSubmitAnswer) onSubmitAnswer(payload)
   }
 
   const nextQuestion = () => {
     if (!canNext) return
     if (isLast) {
-      if (onComplete) onComplete(score)
+      if (onComplete) {
+        const completedAt = Date.now()
+        const payload: SubmitAttemptPayload = {
+          attemptId: meta?.attemptId ?? "attempt-" + Math.random().toString(36).slice(2),
+          userId: meta?.userId,
+          lessonId: meta?.lessonId ?? "lesson-unknown",
+          startedAt: new Date(attemptStartRef.current).toISOString(),
+          completedAt: new Date(completedAt).toISOString(),
+          clientTotalTimeMs: completedAt - attemptStartRef.current,
+          answers: submitted,
+        }
+        onComplete(payload)
+      }
       return
     }
     setIndex((i) => i + 1)
     setFeedback("idle")
     setLocked(false)
+    questionStartRef.current = Date.now()
   }
 
   const resetFeedback = () => {
