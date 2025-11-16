@@ -15,6 +15,7 @@ export interface ShortTextQuestionCardProps {
   inputClassName?: string;
   placeholder?: string;
   status?: "idle" | "correct" | "incorrect";
+  locked?: boolean;
 }
 
 export function ShortTextQuestionCard({
@@ -27,6 +28,7 @@ export function ShortTextQuestionCard({
   inputClassName,
   placeholder,
   status = "idle",
+  locked,
 }: ShortTextQuestionCardProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)}>
@@ -44,6 +46,7 @@ export function ShortTextQuestionCard({
           status={status}
           className={cn("w-full", inputClassName)}
           onEnter={onSubmit}
+          disabled={!!locked}
         />
       </div>
     </div>

@@ -15,6 +15,7 @@ export interface MatchQuestionCardProps {
   showLabels?: boolean;
   leftTitle?: string;
   rightTitle?: string;
+  locked?: boolean;
 }
 
 function playSound(url?: string) {
@@ -79,6 +80,7 @@ export function MatchQuestionCard({
   showLabels = true,
   leftTitle,
   rightTitle,
+  locked,
 }: MatchQuestionCardProps) {
   const [selectedLeft, setSelectedLeft] = React.useState<string | null>(null);
   const leftItems = question.leftItems;
@@ -130,7 +132,7 @@ export function MatchQuestionCard({
                     : undefined
                 }
                 onClick={() => {
-                  if (matched) return;
+                  if (matched || locked) return;
                   setSelectedLeft(item.id);
                 }}
                 showLabel={showLabels}
@@ -174,7 +176,7 @@ export function MatchQuestionCard({
                     : undefined
                 }
                 onClick={() => {
-                  if (matched) return;
+                  if (matched || locked) return;
                   if (!selectedLeft) return;
                   onCreateMatch(selectedLeft, item.id);
                   setSelectedLeft(null);

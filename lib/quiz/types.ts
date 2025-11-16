@@ -71,6 +71,7 @@ export interface ClozeQuestion {
   id: string
   prompt: MediaContent
   segments: ClozeSegment[]
+  correctAnswers?: Record<string, string>
   explanation?: string
   praiseKey?: string
 }
@@ -79,9 +80,19 @@ export interface ReorderQuestion {
   id: string
   prompt: MediaContent
   tokens: string[]
+  correctSentence?: string
   correctOrder?: string[]
   explanation?: string
   praiseKey?: string
 }
+
+export type QuestionKind = "mcq" | "short_text" | "match" | "reorder" | "cloze"
+
+export type QuizQuestion =
+  | ({ kind: "mcq" } & MCQuestion)
+  | ({ kind: "short_text" } & STQuestion)
+  | ({ kind: "match" } & MatchQuestion)
+  | ({ kind: "reorder" } & ReorderQuestion)
+  | ({ kind: "cloze" } & ClozeQuestion)
 
 export type { MatchQuestion as PairMatchQuestion }

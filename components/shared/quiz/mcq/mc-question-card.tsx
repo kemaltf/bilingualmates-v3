@@ -13,6 +13,7 @@ export interface MCQuestionCardProps {
   showOptionLabel?: boolean;
   questionClassName?: string;
   containerOptionClassName?: string;
+  locked?: boolean;
 }
 
 export function MCQuestionCard({
@@ -23,6 +24,7 @@ export function MCQuestionCard({
   showOptionLabel = true,
   questionClassName,
   containerOptionClassName = "md:grid-cols-2",
+  locked,
 }: MCQuestionCardProps) {
   usePronunciationOnCorrect(question, selectedOptionId);
   return (
@@ -39,6 +41,7 @@ export function MCQuestionCard({
             key={opt.id}
             option={opt}
             isSelected={selectedOptionId === opt.id}
+            disabled={!!locked}
             onSelect={() => onSelectOption(opt.id)}
             label={String.fromCharCode(65 + question.options.indexOf(opt))}
             showLabel={showOptionLabel}
