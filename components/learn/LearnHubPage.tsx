@@ -85,7 +85,7 @@ export function LearnHubPage() {
   return (
     <div>
       <main>
-          {/*
+        {/*
           <div
             className="fixed left-0 right-0 z-[150] pointer-events-none"
             style={{ top: anchorY }}
@@ -104,66 +104,64 @@ export function LearnHubPage() {
             </div>
           </div>
           */}
-          <section
-            className={cn(
-              "sticky top-3 z-20 rounded-2xl p-3 md:p-4 shadow",
-              headerColor
-            )}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 items-center">
-              <div className="md:col-span-2">
-                <h1
-                  className={`font-extrabold text-white text-2xl md:text-3xl`}
-                >
-                  {currentUnitTitle ?? (path ? path.units[0]?.title : "Unit")}
-                </h1>
-                <p className="text-white/90 mt-1">
-                  Start your nodes and earn the unit badge.
-                </p>
-              </div>
-              <div className="flex justify-end">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link href="/path" title="Choose Path">
-                      <Button
-                        variant={chooseVariant}
-                        size="icon-sm"
-                        aria-label="Choose Path"
-                      >
-                        <BookOpen className="size-4" />
-                      </Button>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent side="left">Choose Path</TooltipContent>
-                </Tooltip>
-              </div>
-            </div>
-          </section>
-
-          <Link
-            href="/path"
-            className="fixed bottom-6 right-6 z-[100]"
-            title="Choose Path"
-          >
-            <Button
-              variant={chooseVariant}
-              size="icon-sm"
-              aria-label="Choose Path"
-            >
-              <BookOpen className="size-4" />
-            </Button>
-          </Link>
-
-          {path && (
-            <section className="mt-6">
-              <VerticalPathTrack
-                path={path}
-                onUnitRefs={setUnitEls}
-                brandColor={brandColor}
-              />
-            </section>
+        <section
+          className={cn(
+            "sticky top-3 z-20 rounded-2xl p-3 md:p-4 shadow",
+            headerColor
           )}
-        </main>
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center">
+            <div className="md:col-span-2">
+              <h1 className={`font-extrabold text-white text-2xl md:text-3xl`}>
+                {currentUnitTitle ?? (path ? path.units[0]?.title : "Unit")}
+              </h1>
+              <p className="text-white/90 mt-1">
+                Start your nodes and earn the unit badge.
+              </p>
+            </div>
+            <div className="flex justify-end">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link href="/path" title="Choose Path">
+                    <Button
+                      variant={chooseVariant}
+                      size="icon-sm"
+                      aria-label="Choose Path"
+                    >
+                      <BookOpen className="size-4" />
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="left">Choose Path</TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+        </section>
+
+        <Link
+          href="/path"
+          className="fixed bottom-6 right-6 z-[100]"
+          title="Choose Path"
+        >
+          <Button
+            variant={chooseVariant}
+            size="icon-sm"
+            aria-label="Choose Path"
+          >
+            <BookOpen className="size-4" />
+          </Button>
+        </Link>
+
+        {path && (
+          <section className="mt-6">
+            <VerticalPathTrack
+              path={path}
+              onUnitRefs={setUnitEls}
+              brandColor={brandColor}
+            />
+          </section>
+        )}
+      </main>
     </div>
   );
 }
