@@ -3,7 +3,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 function cardBaseClasses() {
-  return "w-full rounded-2xl border-[3px] bg-white border-neutral-300 text-neutral-800 shadow-[0_3px_0_0_#a3a3a3] hover:bg-neutral-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sky-500"
+  return "w-full rounded-2xl border-[3px] bg-white border-neutral-300 text-neutral-800 shadow-[0_3px_0_0_#a3a3a3] hover:bg-neutral-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sky-500 dark:bg-neutral-900 dark:text-neutral-100 dark:border-neutral-700"
 }
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {

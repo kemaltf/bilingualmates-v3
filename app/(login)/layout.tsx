@@ -35,12 +35,14 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export default function LearnLayout({
   children,
+  right,
 }: {
   children: React.ReactNode;
+  right: React.ReactNode;
 }) {
   return (
     <SidebarProvider>
-      <div className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] font-sans flex min-h-screen`}>
+      <div className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] font-sans flex min-h-screen bg-slate-100 dark:bg-neutral-900`}>
         <Sidebar className="border-r">
           <SidebarContent>
             <SidebarGroup>
@@ -96,7 +98,12 @@ export default function LearnLayout({
           </SidebarContent>
           <SidebarFooter />
         </Sidebar>
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 px-4 py-3">
+            <div className="lg:col-span-2">{children}</div>
+            <div>{right}</div>
+          </div>
+        </main>
       </div>
     </SidebarProvider>
   );

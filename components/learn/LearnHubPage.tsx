@@ -83,9 +83,8 @@ export function LearnHubPage() {
   const chooseVariant = brandColorToButtonVariant[brandColor];
 
   return (
-    <div className={`bg-slate-100 min-h-screen`}>
-      <div className="max-w-[1280px] mx-auto grid grid-cols-1 gap-4 px-4 py-3">
-        <main>
+    <div>
+      <main>
           {/*
           <div
             className="fixed left-0 right-0 z-[150] pointer-events-none"
@@ -165,7 +164,6 @@ export function LearnHubPage() {
             </section>
           )}
         </main>
-      </div>
     </div>
   );
 }
