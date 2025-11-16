@@ -24,14 +24,6 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
-import { Nunito, Inter } from "next/font/google";
-
-const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-nunito",
-});
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export default function LearnLayout({
   children,
@@ -42,71 +34,67 @@ export default function LearnLayout({
 }) {
   return (
     <SidebarProvider>
-      <div
-        className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] font-sans flex min-h-screen bg-slate-100 dark:bg-neutral-900`}
-      >
-        <Sidebar className="border-r  ">
-          <SidebarContent>
-            <SidebarGroup>
-              <SidebarGroupLabel>Menu</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link href="/learn" className="flex items-center gap-2">
-                        <BookOpen className="size-4" />
-                        <span>Learn</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link href="/profile" className="flex items-center gap-2">
-                        <User2 className="size-4" />
-                        <span>Profile</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton className="justify-between">
-                          <span className="flex items-center gap-2">
-                            <MoreHorizontal className="size-4" />
-                            <span>More</span>
-                          </span>
-                        </SidebarMenuButton>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="min-w-56">
-                        <DropdownMenuItem asChild>
-                          <Link
-                            href="/settings"
-                            className="flex items-center gap-2"
-                          >
-                            <Settings className="size-4" />
-                            <span>Settings</span>
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <LogOut className="size-4" />
-                          <span>Log out</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
-          <SidebarFooter />
-        </Sidebar>
-        <main className="flex-1">
-          <div className="max-w-[1280px]  mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 px-4 py-3">
-            <div className="min-w-0 ">{children}</div>
-            <div className="lg:w-[360px]">{right}</div>
-          </div>
-        </main>
-      </div>
+      <Sidebar className="border-r  ">
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Menu</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/learn" className="flex items-center gap-2">
+                      <BookOpen className="size-4" />
+                      <span>Learn</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/profile" className="flex items-center gap-2">
+                      <User2 className="size-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <SidebarMenuButton className="justify-between">
+                        <span className="flex items-center gap-2">
+                          <MoreHorizontal className="size-4" />
+                          <span>More</span>
+                        </span>
+                      </SidebarMenuButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="min-w-56">
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/settings"
+                          className="flex items-center gap-2"
+                        >
+                          <Settings className="size-4" />
+                          <span>Settings</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <LogOut className="size-4" />
+                        <span>Log out</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarFooter />
+      </Sidebar>
+      <main className="flex-1">
+        <div className="max-w-[1280px]  mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 px-4 py-3">
+          <div className="min-w-0 ">{children}</div>
+          <div className="lg:w-[360px]">{right}</div>
+        </div>
+      </main>
     </SidebarProvider>
   );
 }

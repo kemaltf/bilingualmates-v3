@@ -26,8 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] [--font-mono:var(--font-inter)] font-sans antialiased `}
+        className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] [--font-mono:var(--font-inter)] font-sans antialiased bg-red-40`}
       >
+        test
         {children}
       </body>
     </html>
