@@ -18,12 +18,12 @@ export default function PathPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <span className="text-xl">{path.emoji}</span>
-                  <span className="font-bold">{path.name}</span>
+                  <span className="font-bold">{path.course}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-800">
-                  <Image src={path.imageUrl ?? "/images/path-general.svg"} alt={path.name} width={640} height={360} className="w-full h-40 object-cover" />
+                  <Image src={path.imageUrl ?? "/images/path-general.svg"} alt={path.course} width={640} height={360} className="w-full h-40 object-cover" />
                 </div>
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-xs font-bold">

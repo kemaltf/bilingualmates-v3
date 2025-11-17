@@ -15,17 +15,20 @@ export interface UnitBadge {
   xpReward?: number
 }
 
+import type { BrandColor } from "@/lib/ui/design-tokens"
+
 export interface Unit {
   id: string
   title: string
   sequence: number
   nodes: LessonNode[]
   badge?: UnitBadge
+  brandColor?: BrandColor
 }
 
 export interface CurriculumPath {
   id: string
-  name: string
+  course: string
   emoji?: string
   color?: string
   imageUrl?: string

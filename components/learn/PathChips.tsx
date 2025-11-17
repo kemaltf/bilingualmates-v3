@@ -28,7 +28,7 @@ export function PathChips({ paths, selectedId, onSelect, className }: PathChipsP
               )}
             >
               <span className="mr-1">{p.emoji}</span>
-              {p.name}
+              {p.course}
             </button>
           )
         })}

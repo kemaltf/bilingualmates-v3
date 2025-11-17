@@ -89,9 +89,7 @@ export function VerticalPathTrack({
                           variant={
                             n.status === "locked"
                               ? "disabled"
-                              : brandColor
-                              ? brandColorToButtonVariant[brandColor]
-                              : "purple"
+                              : brandColorToButtonVariant[u.brandColor ?? brandColor ?? "violet"]
                           }
                           size="md"
                           onClick={() => {
@@ -133,11 +131,7 @@ export function VerticalPathTrack({
                             />
                           ) : (
                             <Button
-                              variant={
-                                brandColor
-                                  ? brandColorToButtonVariant[brandColor]
-                                  : "purple"
-                              }
+                              variant={brandColorToButtonVariant[u.brandColor ?? brandColor ?? "violet"]}
                               size="md"
                               label={`PRACTICE +${n.xpReward} XP`}
                             />

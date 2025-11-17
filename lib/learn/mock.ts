@@ -3,7 +3,7 @@ import type { CurriculumPath } from "./types"
 export const paths: CurriculumPath[] = [
   {
     id: "general",
-    name: "General English",
+    course: "General English",
     emoji: "📘",
     color: "emerald",
     imageUrl: "/images/path-general.svg",
@@ -12,6 +12,7 @@ export const paths: CurriculumPath[] = [
         id: "u1",
         title: "Unit 1: Basics",
         sequence: 1,
+        brandColor: "emerald",
         badge: { status: "in_progress", title: "Unit Badge" },
         nodes: [
           { id: "n1", title: "Greetings", description: "Basic hello/bye phrases", status: "completed", xpReward: 10, durationSec: 80 },
@@ -23,6 +24,7 @@ export const paths: CurriculumPath[] = [
         id: "u2",
         title: "Unit 2: Daily Life",
         sequence: 2,
+        brandColor: "sky",
         badge: { status: "locked", title: "Unit Badge" },
         nodes: [
           { id: "n4", title: "Routine", description: "Describe daily activities", status: "locked", xpReward: 10, durationSec: 95 },
@@ -34,6 +36,7 @@ export const paths: CurriculumPath[] = [
         id: "u3",
         title: "Unit 3: Travel",
         sequence: 3,
+        brandColor: "violet",
         badge: { status: "locked", title: "Unit Badge" },
         nodes: [
           { id: "n7", title: "Airport", description: "Check-in and boarding", status: "locked", xpReward: 10, durationSec: 100 },
@@ -45,7 +48,7 @@ export const paths: CurriculumPath[] = [
   },
   {
     id: "business",
-    name: "Business English",
+    course: "Business English",
     emoji: "💼",
     color: "sky",
     imageUrl: "/images/path-business.svg",
@@ -54,6 +57,7 @@ export const paths: CurriculumPath[] = [
         id: "bu1",
         title: "Unit 1: Emails",
         sequence: 1,
+        brandColor: "indigo",
         badge: { status: "in_progress", title: "Unit Badge" },
         nodes: [
           { id: "bn1", title: "Greetings", description: "Formal vs casual greetings", status: "completed", xpReward: 10, durationSec: 80 },
@@ -65,6 +69,7 @@ export const paths: CurriculumPath[] = [
         id: "bu2",
         title: "Unit 2: Meetings",
         sequence: 2,
+        brandColor: "amber",
         badge: { status: "locked", title: "Unit Badge" },
         nodes: [
           { id: "bn4", title: "Agenda", description: "Setting meeting goals", status: "locked", xpReward: 10, durationSec: 95 },
@@ -76,7 +81,7 @@ export const paths: CurriculumPath[] = [
   },
   {
     id: "kids",
-    name: "Kids English",
+    course: "Kids English",
     emoji: "🧸",
     color: "amber",
     imageUrl: "/images/path-kids.svg",
@@ -85,6 +90,7 @@ export const paths: CurriculumPath[] = [
         id: "k1",
         title: "Unit 1: Fun Basics",
         sequence: 1,
+        brandColor: "rose",
         badge: { status: "locked", title: "Unit Badge" },
         nodes: [
           { id: "kn1", title: "Colors", description: "Learn basic colors", status: "locked", xpReward: 10, durationSec: 60 },
@@ -96,7 +102,7 @@ export const paths: CurriculumPath[] = [
   },
   {
     id: "travel2",
-    name: "Travel English",
+    course: "Travel English",
     emoji: "✈️",
     color: "indigo",
     imageUrl: "/images/path-travel.svg",
@@ -105,6 +111,7 @@ export const paths: CurriculumPath[] = [
         id: "t1",
         title: "Unit 1: Basics",
         sequence: 1,
+        brandColor: "sky",
         badge: { status: "in_progress", title: "Unit Badge" },
         nodes: [
           { id: "tn1", title: "Tickets", description: "Buying tickets", status: "in_progress", xpReward: 10, durationSec: 80 },

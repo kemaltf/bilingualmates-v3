@@ -11,20 +11,13 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import {
-  brandColorToBg,
-  brandColorToButtonVariant,
-  getBrandColorByIndex,
-} from "@/lib/ui/design-tokens";
+import { brandColorToBg, brandColorToButtonVariant } from "@/lib/ui/design-tokens";
 
 export function LearnHubPage() {
   const [selected] = React.useState<string>(paths[0]?.id ?? null);
   const path = React.useMemo(
     () => paths.find((p) => p.id === selected) ?? null,
     [selected]
-  );
-  const [currentUnitTitle, setCurrentUnitTitle] = React.useState<string | null>(
-    null
   );
   const [unitEls, setUnitEls] = React.useState<
     { id: string; title: string; el: HTMLElement }[]
@@ -54,7 +47,6 @@ export function LearnHubPage() {
         if (nearest) {
           const item = unitEls.find((i) => i.el === nearest.target);
           if (!item) return;
-          setCurrentUnitTitle(item.title);
           setCurrentUnitIndex(unitEls.findIndex((i) => i.el === item.el));
         }
         // const snapshot = unitEls.map((i) => {
@@ -78,9 +70,9 @@ export function LearnHubPage() {
     unitEls.forEach((i) => observer.observe(i.el));
     return () => observer.disconnect();
   }, [unitEls]);
-  const brandColor = getBrandColorByIndex(currentUnitIndex);
-  const headerColor = brandColorToBg[brandColor];
-  const chooseVariant = brandColorToButtonVariant[brandColor];
+  const unitBrandColor = path?.units[currentUnitIndex]?.brandColor ?? "sky";
+  const headerColor = brandColorToBg[unitBrandColor];
+  const chooseVariant = brandColorToButtonVariant[unitBrandColor];
 
   return (
     <div>
@@ -113,7 +105,7 @@ export function LearnHubPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 items-center">
             <div className="md:col-span-2">
               <h1 className={`font-extrabold text-white text-2xl md:text-3xl`}>
-                {currentUnitTitle ?? (path ? path.units[0]?.title : "Unit")}
+                {path ? path.course : "Course"}
               </h1>
               <p className="text-white/90 mt-1">
                 Start your nodes and earn the unit badge.
@@ -140,11 +132,7 @@ export function LearnHubPage() {
 
         {path && (
           <section className="mt-6">
-            <VerticalPathTrack
-              path={path}
-              onUnitRefs={setUnitEls}
-              brandColor={brandColor}
-            />
+            <VerticalPathTrack path={path} onUnitRefs={setUnitEls} brandColor={unitBrandColor} />
           </section>
         )}
       </main>
