@@ -25,6 +25,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+  try {
+    var stored = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var final = stored === 'dark' ? 'dark' : (stored === 'light' ? 'light' : (prefersDark ? 'dark' : 'light'));
+    if (final === 'dark') document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+  } catch (e) {}
+})();`,
+          }}
+        />
+      </head>
       <body
         className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] [--font-mono:var(--font-inter)] font-sans antialiased bg-red-40`}
       >
