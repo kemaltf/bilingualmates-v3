@@ -26,7 +26,8 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Sheet,
   SheetContent,
@@ -107,28 +108,29 @@ export default function LearnLayout({
         <div className="fixed bottom-0 inset-x-0 z-100 md:hidden">
           <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
             <div className="max-w-[640px] mx-auto px-6 py-2 flex items-center justify-between">
-              <Link href="/learn" className="flex items-center justify-center">
-                <Button variant="blue" size="icon" aria-label="Learn">
-                  <BookOpen className="size-5" />
-                </Button>
+              <Link
+                href="/learn"
+                aria-label="Learn"
+                className={cn(
+                  buttonVariants({ variant: "blue", size: "icon" }),
+                  "flex items-center justify-center"
+                )}
+              >
+                <BookOpen className="size-5" />
               </Link>
               <Link
                 href="/profile"
-                className="flex items-center justify-center"
+                aria-label="Profile"
+                className={cn(
+                  buttonVariants({ variant: "blue", size: "icon" }),
+                  "flex items-center justify-center"
+                )}
               >
-                <Button variant="blue" size="icon" aria-label="Profile">
-                  <User2 className="size-5" />
-                </Button>
+                <User2 className="size-5" />
               </Link>
-              <button
-                onClick={() => setOpenMore(true)}
-                aria-label="More"
-                className="rounded-full"
-              >
-                <Button variant="blue" size="icon">
-                  <MoreHorizontal className="size-5" />
-                </Button>
-              </button>
+              <Button variant="blue" size="icon" aria-label="More" onClick={() => setOpenMore(true)}>
+                <MoreHorizontal className="size-5" />
+              </Button>
             </div>
           </div>
         </div>
