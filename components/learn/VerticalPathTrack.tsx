@@ -20,6 +20,7 @@ export interface VerticalPathTrackProps {
   onUnitRefs?: (
     items: { id: string; title: string; el: HTMLElement }[]
   ) => void;
+  onDividerRefs?: (items: { index: number; el: HTMLElement }[]) => void;
   className?: string;
   brandColor?: BrandColor;
 }
@@ -28,11 +29,16 @@ export function VerticalPathTrack({
   path,
   onUnitTest,
   onUnitRefs,
+  onDividerRefs,
   className,
   brandColor,
 }: VerticalPathTrackProps) {
   const unitRefs = React.useRef<Record<string, HTMLElement | null>>({});
+  const dividerRefs = React.useRef<Record<number, HTMLElement | null>>({});
   const isMobile = useIsMobile();
+
+  const [openNodeId, setOpenNodeId] = React.useState<string | null>(null);
+
   React.useEffect(() => {
     if (!onUnitRefs) return;
     const items = path.units
@@ -45,7 +51,18 @@ export function VerticalPathTrack({
     onUnitRefs(items);
   }, [path, onUnitRefs]);
 
-  const [openNodeId, setOpenNodeId] = React.useState<string | null>(null);
+  React.useEffect(() => {
+    if (!onDividerRefs) return;
+    const items = Object.keys(dividerRefs.current)
+      .map((k) => {
+        const idx = Number(k);
+        const el = dividerRefs.current[idx];
+        if (!el) return null;
+        return { index: idx, el };
+      })
+      .filter(Boolean) as { index: number; el: HTMLElement }[];
+    onDividerRefs(items);
+  }, [path, onDividerRefs]);
 
   return (
     <div className={cn("relative", className)}>
@@ -54,7 +71,12 @@ export function VerticalPathTrack({
           <React.Fragment key={u.id}>
             {unitIdx > 0 && (
               <div className="my-6">
-                <div className="h-[2px] bg-slate-200" />
+                <div
+                  className="h-[2px] bg-slate-200"
+                  ref={(el) => {
+                    dividerRefs.current[unitIdx] = el;
+                  }}
+                />
               </div>
             )}
             <section
@@ -89,7 +111,9 @@ export function VerticalPathTrack({
                           variant={
                             n.status === "locked"
                               ? "disabled"
-                              : brandColorToButtonVariant[u.brandColor ?? brandColor ?? "violet"]
+                              : brandColorToButtonVariant[
+                                  u.brandColor ?? brandColor ?? "violet"
+                                ]
                           }
                           size="md"
                           onClick={() => {
@@ -110,7 +134,9 @@ export function VerticalPathTrack({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent
-                        side={isMobile ? "bottom" : idx % 2 === 0 ? "right" : "left"}
+                        side={
+                          isMobile ? "bottom" : idx % 2 === 0 ? "right" : "left"
+                        }
                         className="min-w-[240px]"
                       >
                         <div className="text-sm font-bold">{n.title}</div>
@@ -131,7 +157,11 @@ export function VerticalPathTrack({
                             />
                           ) : (
                             <Button
-                              variant={brandColorToButtonVariant[u.brandColor ?? brandColor ?? "violet"]}
+                              variant={
+                                brandColorToButtonVariant[
+                                  u.brandColor ?? brandColor ?? "violet"
+                                ]
+                              }
                               size="md"
                               label={`PRACTICE +${n.xpReward} XP`}
                             />
@@ -164,7 +194,9 @@ export function VerticalPathTrack({
                             : "text-emerald-600"
                         )}
                       />
-                      <div className="text-sm font-bold">{u.badge?.title ?? "Unit Badge"}</div>
+                      <div className="text-sm font-bold">
+                        {u.badge?.title ?? "Unit Badge"}
+                      </div>
                     </Button>
                   );
                 })()}
