@@ -74,6 +74,18 @@ export const DuoRed: Story = {
   args: { variant: "red", size: "md" },
 };
 
+export const DuoPurple: Story = {
+  args: { variant: "purple", size: "md" },
+};
+
+export const DuoAmber: Story = {
+  args: { variant: "amber", size: "md" },
+};
+
+export const DuoIndigo: Story = {
+  args: { variant: "indigo", size: "md" },
+};
+
 export const DuoText: Story = {
   args: { variant: "text", size: "md", children: "Learn more" },
 };
@@ -88,4 +100,28 @@ export const OnFocus: Story = {
 
 export const DuoDisabled: Story = {
   args: { variant: "disabled", size: "md", label: "Disabled" },
+};
+
+export const OutlineBlue: Story = {
+  args: { variant: "outline-blue", size: "md", children: "Outline Blue" },
+};
+
+export const OutlineGreen: Story = {
+  args: { variant: "outline-green", size: "md", children: "Outline Green" },
+};
+
+export const OutlineRed: Story = {
+  args: { variant: "outline-red", size: "md", children: "Outline Red" },
+};
+
+export const OutlinePurple: Story = {
+  args: { variant: "outline-purple", size: "md", children: "Outline Purple" },
+};
+
+export const OutlineAmber: Story = {
+  args: { variant: "outline-amber", size: "md", children: "Outline Amber" },
+};
+
+export const OutlineIndigo: Story = {
+  args: { variant: "outline-indigo", size: "md", children: "Outline Indigo" },
 };

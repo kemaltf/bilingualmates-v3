@@ -56,25 +56,23 @@ export function LearnHubPage() {
   const chooseVariant = brandColorToButtonVariant[unitBrandColor];
 
   return (
-    <div>
-      <main className="pb-[800px]">
-        <LearnHubHeader
-          ref={headerRef}
-          courseTitle={path ? path.course : "Course"}
-          headerColor={headerColor}
-          chooseVariant={chooseVariant}
-        />
+    <main className="max-w-[640px] mx-auto md:px-6">
+      <LearnHubHeader
+        ref={headerRef}
+        courseTitle={path ? path.course : "Course"}
+        headerColor={headerColor}
+        chooseVariant={chooseVariant}
+      />
 
-        {path && (
-          <section className="mt-6">
-            <VerticalPathTrack
-              path={path}
-              onDividerRefs={setDividerEls}
-              brandColor={unitBrandColor}
-            />
-          </section>
-        )}
-      </main>
-    </div>
+      {path && (
+        <section className="mt-6">
+          <VerticalPathTrack
+            path={path}
+            onDividerRefs={setDividerEls}
+            brandColor={unitBrandColor}
+          />
+        </section>
+      )}
+    </main>
   );
 }
