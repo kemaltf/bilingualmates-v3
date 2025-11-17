@@ -55,7 +55,10 @@ export default function LearnLayout({
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname?.startsWith("/path")}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname?.startsWith("/path")}
+                  >
                     <Link href="/path" className="flex items-center gap-2">
                       <Compass className="size-4" />
                       <span>Path</span>
@@ -63,7 +66,9 @@ export default function LearnLayout({
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname?.startsWith("/learn")}
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname?.startsWith("/learn")}
                   >
                     <Link href="/learn" className="flex items-center gap-2">
                       <BookOpen className="size-4" />
@@ -72,7 +77,9 @@ export default function LearnLayout({
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname?.startsWith("/profile")}
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname?.startsWith("/profile")}
                   >
                     <Link href="/profile" className="flex items-center gap-2">
                       <User2 className="size-4" />
@@ -114,7 +121,7 @@ export default function LearnLayout({
         <SidebarFooter />
       </Sidebar>
       <main className="flex-1">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 px-4 lg:pr-8 pt-3 pb-20 md:pb-3">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 lg:gap-3 px-4 lg:pr-40 pt-3 pb-20 md:pb-3">
           <div className="min-w-0">{children}</div>
           <div className="lg:w-[360px]">{right}</div>
         </div>
@@ -141,7 +148,12 @@ export default function LearnLayout({
               >
                 <User2 className="size-5" />
               </Link>
-              <Button variant="blue" size="icon" aria-label="More" onClick={() => setOpenMore(true)}>
+              <Button
+                variant="blue"
+                size="icon"
+                aria-label="More"
+                onClick={() => setOpenMore(true)}
+              >
                 <MoreHorizontal className="size-5" />
               </Button>
             </div>
