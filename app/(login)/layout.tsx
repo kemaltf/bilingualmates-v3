@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   SidebarProvider,
   Sidebar,
@@ -25,6 +26,7 @@ import {
   User2,
   Settings,
   LogOut,
+  Compass,
 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -43,16 +45,26 @@ export default function LearnLayout({
   right: React.ReactNode;
 }) {
   const [openMore, setOpenMore] = React.useState(false);
+  const pathname = usePathname();
   return (
     <SidebarProvider>
       <Sidebar className="border-r  ">
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Menu</SidebarGroupLabel>
+            <SidebarGroupLabel>BILINGUALMATES</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={pathname?.startsWith("/path")}>
+                    <Link href="/path" className="flex items-center gap-2">
+                      <Compass className="size-4" />
+                      <span>Path</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname?.startsWith("/learn")}
+                  >
                     <Link href="/learn" className="flex items-center gap-2">
                       <BookOpen className="size-4" />
                       <span>Learn</span>
@@ -60,7 +72,8 @@ export default function LearnLayout({
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={pathname?.startsWith("/profile")}
+                  >
                     <Link href="/profile" className="flex items-center gap-2">
                       <User2 className="size-4" />
                       <span>Profile</span>
@@ -70,7 +83,7 @@ export default function LearnLayout({
                 <SidebarMenuItem>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <SidebarMenuButton className="justify-between">
+                      <SidebarMenuButton>
                         <span className="flex items-center gap-2">
                           <MoreHorizontal className="size-4" />
                           <span>More</span>
@@ -101,7 +114,7 @@ export default function LearnLayout({
         <SidebarFooter />
       </Sidebar>
       <main className="flex-1">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 px-4 pt-3 pb-20 md:pb-3">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 px-4 lg:pr-8 pt-3 pb-20 md:pb-3">
           <div className="min-w-0">{children}</div>
           <div className="lg:w-[360px]">{right}</div>
         </div>

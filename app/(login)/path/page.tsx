@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function PathPage() {
   return (
-    <div>
+    <main className="max-w-[640px] mx-auto md:px-6">
       <h1 className="text-2xl font-extrabold">Choose Your Path</h1>
       <div className="mt-3 space-y-4">
         {paths.map((path) => {
@@ -57,6 +57,6 @@ export default function PathPage() {
           );
         })}
       </div>
-    </div>
+    </main>
   );
 }
