@@ -121,7 +121,7 @@ export default function LearnLayout({
         <SidebarFooter />
       </Sidebar>
       <main className="flex-1">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 lg:gap-3 px-4 lg:pr-40 pt-3 pb-20 md:pb-3">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-4 px-4 pt-3 pb-20 md:pb-3">
           <div className="min-w-0">{children}</div>
           <div className="lg:w-[360px]">{right}</div>
         </div>
