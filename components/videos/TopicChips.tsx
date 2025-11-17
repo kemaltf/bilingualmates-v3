@@ -25,7 +25,7 @@ export function TopicChips({ topics, selectedId, onSelect, className }: TopicChi
                 "transition-all hover:scale-[1.02]",
                 active
                   ? "bg-emerald-500 text-white border-emerald-600 shadow-[0_4px_0_0_#047857]"
-                  : "bg-white text-neutral-800 border-neutral-300 shadow-[0_3px_0_0_#a3a3a3]"
+                  : "bg-card text-foreground border-border shadow-[0_3px_0_0_hsl(var(--border))]"
               )}
             >
               <span className="mr-1">{t.icon}</span>

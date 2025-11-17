@@ -115,7 +115,7 @@ export const NEUTRAL = {
   slate200: "bg-slate-200",
   slate300: "border-slate-300",
   slate600: "text-slate-600",
-  shadowSlate: "shadow-[0_4px_0_0_#9ca3af]",
+  shadowSlate: "shadow-[0_4px_0_0_var(--shadow-slate)]",
   focusSlate: "focus-visible:ring-slate-400 focus-visible:border-slate-400",
   neutral400: "disabled:text-neutral-400",
 };

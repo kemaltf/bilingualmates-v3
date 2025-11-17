@@ -4,7 +4,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
-import { BRAND, PRIMARY_BRAND, NEUTRAL } from "@/lib/ui/design-tokens";
+import { BRAND, NEUTRAL, PRIMARY_BRAND } from "@/lib/ui/design-tokens";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
@@ -158,12 +158,12 @@ const buttonVariants = cva(
           "relative select-none rounded-full uppercase font-semibold tracking-wide",
           "transition-transform active:translate-y-1 active:shadow-none",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-          NEUTRAL.slate200,
-          NEUTRAL.slate600,
+          "bg-muted",
+          "text-muted-foreground",
           "border-[3px]",
-          NEUTRAL.slate300,
+          "border-border",
           NEUTRAL.shadowSlate,
-          NEUTRAL.focusSlate,
+          "focus-visible:ring-ring focus-visible:border-ring",
         ].join(" "),
         text: [
           "bg-transparent",
@@ -172,7 +172,7 @@ const buttonVariants = cva(
           "!px-0 !py-0 !h-auto",
           "hover:underline",
           "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-          NEUTRAL.neutral400,
+          "disabled:text-muted-foreground",
         ].join(" "),
       },
       size: {

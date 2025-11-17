@@ -9,15 +9,15 @@ const optionButtonVariants = cva(
     variants: {
       variant: {
         "option-default":
-          "bg-white border-neutral-300 text-neutral-800 shadow-[0_3px_0_0_#a3a3a3] active:translate-y-1 active:shadow-none hover:bg-neutral-50 cursor-pointer focus-visible:ring-sky-500",
+          "bg-card border-border text-card-foreground shadow-[0_3px_0_0_hsl(var(--border))] active:translate-y-1 active:shadow-none hover:bg-muted cursor-pointer focus-visible:ring-ring",
         "option-selected":
-          "bg-sky-100 border-sky-300 text-sky-800 shadow-[0_1px_0_0_#7dd3fc] translate-y-1 cursor-pointer focus-visible:ring-sky-500",
+          "bg-sky-100 border-sky-300 text-sky-800 shadow-[0_1px_0_0_#7dd3fc] translate-y-1 cursor-pointer focus-visible:ring-ring",
         "option-correct":
-          "bg-emerald-100 border-emerald-400 text-emerald-900 shadow-none cursor-default focus-visible:ring-emerald-500",
+          "bg-emerald-100 border-emerald-400 text-emerald-900 shadow-none cursor-default focus-visible:ring-ring",
         "option-incorrect":
-          "bg-rose-100 border-rose-400 text-rose-900 shadow-none cursor-default focus-visible:ring-rose-500",
+          "bg-rose-100 border-rose-400 text-rose-900 shadow-none cursor-default focus-visible:ring-ring",
         "option-disabled":
-          "bg-neutral-100 border-neutral-200 text-neutral-400 opacity-80 cursor-not-allowed",
+          "bg-muted border-border text-muted-foreground opacity-80 cursor-not-allowed",
       },
     },
     defaultVariants: {
@@ -38,9 +38,9 @@ function labelClassesByVariant(variant: OptionButtonVariant) {
     case "option-incorrect":
       return `${base} bg-rose-200 text-rose-700`;
     case "option-disabled":
-      return `${base} bg-neutral-200 text-neutral-500`;
+      return `${base} bg-muted text-muted-foreground`;
     default:
-      return `${base} bg-neutral-200 text-neutral-600`;
+      return `${base} bg-muted text-muted-foreground`;
   }
 }
 

@@ -72,7 +72,7 @@ export function VerticalPathTrack({
             {unitIdx > 0 && (
               <div className="my-6">
                 <div
-                  className="h-[2px] bg-slate-200"
+                  className="h-[2px] bg-border"
                   ref={(el) => {
                     dividerRefs.current[unitIdx] = el;
                   }}
@@ -122,8 +122,7 @@ export function VerticalPathTrack({
                           aria-disabled={n.status === "locked"}
                           className={cn(
                             "w-full justify-start text-left rounded-full border-[3px]",
-                            n.status === "locked" &&
-                              "bg-slate-100 border-slate-300 text-slate-500 cursor-not-allowed"
+                            n.status === "locked" && "cursor-not-allowed"
                           )}
                         >
                           <div className="flex items-center justify-between w-full">
@@ -188,7 +187,7 @@ export function VerticalPathTrack({
                         className={cn(
                           "size-5",
                           badgeStatus === "locked"
-                            ? "text-slate-500"
+                            ? "text-muted-foreground"
                             : badgeStatus === "in_progress"
                             ? "text-amber-500"
                             : "text-emerald-600"

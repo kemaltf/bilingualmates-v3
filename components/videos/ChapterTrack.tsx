@@ -14,7 +14,7 @@ export interface ChapterTrackProps {
 export function ChapterTrack({ chapters, onSelect, className }: ChapterTrackProps) {
   return (
     <div className={cn("relative", className)}>
-      <div className="absolute inset-x-0 top-1/2 h-[2px] bg-slate-200" />
+      <div className="absolute inset-x-0 top-1/2 h-[2px] bg-border" />
       <div className="relative w-full overflow-x-auto">
         <div className="flex gap-4 py-3">
           {chapters.map((c) => (
@@ -22,14 +22,14 @@ export function ChapterTrack({ chapters, onSelect, className }: ChapterTrackProp
               <button
                 onClick={() => onSelect(c)}
                 className={cn(
-                  "w-full bg-white rounded-2xl shadow border-[3px] border-slate-300",
+                  "w-full bg-card rounded-2xl shadow border-[3px] border-border",
                   "transition-transform hover:-translate-y-0.5 hover:shadow-md"
                 )}
               >
-                <div className="h-28 rounded-t-xl bg-slate-200" />
+                <div className="h-28 rounded-t-xl bg-muted" />
                 <div className="p-3">
                   <div className="text-sm font-bold truncate">{c.title}</div>
-                  <div className="mt-2 h-2 bg-slate-200 rounded-full overflow-hidden">
+                  <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
                     <div className="h-full bg-emerald-500" style={{ width: `${Math.min(100, Math.max(0, c.progressPercent ?? 0))}%` }} />
                   </div>
                 </div>

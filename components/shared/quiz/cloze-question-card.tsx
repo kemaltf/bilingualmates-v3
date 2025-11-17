@@ -42,13 +42,13 @@ function BlankSlot({
   const base =
     "inline-block align-baseline rounded-xl border-[3px] px-3 py-2 min-w-[6ch]";
   const tone = current
-    ? "bg-white border-neutral-300 text-neutral-800"
-    : "bg-white border-neutral-300 text-neutral-400";
+    ? "bg-card border-border text-card-foreground"
+    : "bg-card border-border text-muted-foreground";
   const fx =
-    "shadow-[0_1px_0_0_#a3a3a3] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-500";
+    "shadow-[0_1px_0_0_hsl(var(--border))] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring";
   const disabledCls = disabled
     ? "opacity-70 cursor-not-allowed"
-    : "hover:bg-neutral-50";
+    : "hover:bg-muted";
   return (
     <button
       type="button"
