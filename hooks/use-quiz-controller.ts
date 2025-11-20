@@ -89,8 +89,8 @@ export function useQuizController(
   const [correctCount, setCorrectCount] = React.useState(0)
   const [checkedIds, setCheckedIds] = React.useState<Set<string>>(new Set())
   const [submitted, setSubmitted] = React.useState<SubmitAnswerPayload[]>([])
-  const attemptStartRef = React.useRef<number>(Date.now())
-  const questionStartRef = React.useRef<number>(Date.now())
+  const attemptStartRef = React.useRef<number>(0)
+  const questionStartRef = React.useRef<number>(0)
 
   const question = questions[index]
   const currentValue = answers[question.id]
@@ -120,7 +120,7 @@ export function useQuizController(
 
     const elapsed = Date.now() - questionStartRef.current
     const payload: SubmitAnswerPayload = {
-      attemptId: meta?.attemptId ?? "attempt-" + Math.random().toString(36).slice(2),
+      attemptId: meta?.attemptId ?? `attempt-${meta?.lessonId ?? "lesson-unknown"}`,
       questionId: question.id,
       questionType: question.kind,
       rawAnswer: currentValue,
@@ -136,7 +136,7 @@ export function useQuizController(
       if (onComplete) {
         const completedAt = Date.now()
         const payload: SubmitAttemptPayload = {
-          attemptId: meta?.attemptId ?? "attempt-" + Math.random().toString(36).slice(2),
+          attemptId: meta?.attemptId ?? `attempt-${meta?.lessonId ?? "lesson-unknown"}`,
           userId: meta?.userId,
           lessonId: meta?.lessonId ?? "lesson-unknown",
           startedAt: new Date(attemptStartRef.current).toISOString(),
@@ -158,6 +158,11 @@ export function useQuizController(
     setFeedback("idle")
     setLocked(false)
   }
+
+  React.useEffect(() => {
+    if (attemptStartRef.current === 0) attemptStartRef.current = Date.now()
+    if (questionStartRef.current === 0) questionStartRef.current = Date.now()
+  }, [])
 
   return {
     index,

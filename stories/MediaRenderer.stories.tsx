@@ -8,12 +8,22 @@ type Args = {
   url?: string;
   alt?: string;
   transcript?: string;
+  startTimeSec?: number;
+  endTimeSec?: number;
+  autoPlayTrigger?: number;
+  className?: string;
+  onStartLoop?: () => void;
+  onEndLoop?: () => void;
+  onPlay?: () => void;
+  onPause?: () => void;
+  onReady?: () => void;
+  onError?: () => void;
 };
 
 function Demo(args: Args) {
-  const { role, kind, text, url, alt, transcript } = args;
+  const { role, kind, text, url, alt, transcript, startTimeSec, endTimeSec, autoPlayTrigger, className, onStartLoop, onEndLoop, onPlay, onPause, onReady, onError } = args;
   return (
-    <MediaRenderer role={role} content={{ kind, text, url, alt, transcript }} />
+    <MediaRenderer role={role} className={className} autoPlayTrigger={autoPlayTrigger} onStartLoop={onStartLoop} onEndLoop={onEndLoop} onPlay={onPlay} onPause={onPause} onReady={onReady} onError={onError} content={{ kind, text, url, alt, transcript, startTimeSec, endTimeSec }} />
   );
 }
 
@@ -27,10 +37,22 @@ const meta: Meta<typeof Demo> = {
     url: "",
     alt: "",
     transcript: "",
+    autoPlayTrigger: undefined,
+    className: "",
   },
   argTypes: {
     role: { control: "radio", options: ["question", "option"] },
     kind: { control: "radio", options: ["text", "audio", "image", "video"] },
+    startTimeSec: { control: "number" },
+    endTimeSec: { control: "number" },
+    autoPlayTrigger: { control: "number" },
+    className: { control: "text" },
+    onStartLoop: { action: "startLoop" },
+    onEndLoop: { action: "endLoop" },
+    onPlay: { action: "play" },
+    onPause: { action: "pause" },
+    onReady: { action: "ready" },
+    onError: { action: "error" },
   },
   parameters: {
     docs: { source: { state: "open" } },
@@ -74,6 +96,17 @@ export const Video: Story = {
     role: "question",
     kind: "video",
     url: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+};
+
+export const SegmentLoop: Story = {
+  args: {
+    role: "question",
+    kind: "video",
+    url: "https://www.w3schools.com/html/mov_bbb.mp4",
+    transcript: "Looping a short segment.",
+    startTimeSec: 2,
+    endTimeSec: 5,
   },
 };
 

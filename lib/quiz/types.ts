@@ -7,6 +7,8 @@ export interface MediaContent {
   alt?: string
   transcript?: string
   pronunciationUrl?: string
+  startTimeSec?: number
+  endTimeSec?: number
 }
 
 export interface MCOption {

@@ -23,17 +23,17 @@ function feedbackToCardStatus(fb: "idle" | "correct" | "incorrect"): "correct" |
   return "info"
 }
 
-function praise(fb: "idle" | "correct" | "incorrect") {
-  if (fb !== "correct") return undefined
+function praise(id: string) {
   const variants = ["Great job!", "Nice work!", "Well done!", "Awesome!"]
-  return variants[Math.floor(Math.random() * variants.length)]
+  const sum = Array.from(id).reduce((acc, ch) => acc + ch.charCodeAt(0), 0)
+  return variants[sum % variants.length]
 }
 
 export function QuizRunner({ questions, onComplete, onSubmitAnswer, attemptId, lessonId, userId, className }: QuizRunnerProps) {
   const controller = useQuizController(
     questions,
     onComplete,
-    { attemptId: attemptId ?? "attempt-" + Math.random().toString(36).slice(2), lessonId: lessonId ?? "lesson-demo", userId },
+    { attemptId: attemptId ?? `attempt-${lessonId ?? "lesson-demo"}`, lessonId: lessonId ?? "lesson-demo", userId },
     onSubmitAnswer
   )
   const q = controller.question
@@ -73,7 +73,7 @@ export function QuizRunner({ questions, onComplete, onSubmitAnswer, attemptId, l
       {controller.feedback !== "idle" && (
         <FeedbackCard
           status={feedbackToCardStatus(controller.feedback)}
-          title={controller.feedback === "correct" ? praise(controller.feedback) : "Try again"}
+          title={controller.feedback === "correct" ? praise(q.id) : "Try again"}
           explanation={q.explanation}
         />
       )}
