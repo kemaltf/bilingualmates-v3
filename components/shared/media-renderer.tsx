@@ -221,7 +221,6 @@ function VideoPlayer({
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const playerRef = React.useRef<YTPlayer | null>(null);
   const htmlRef = React.useRef<HTMLVideoElement | null>(null);
-  const rafRef = React.useRef<number | null>(null);
   const [ready, setReady] = React.useState(false);
   const [playing, setPlaying] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
@@ -269,16 +268,6 @@ function VideoPlayer({
             setReady(true);
             playerRef.current.seekTo(start, true);
             onReady?.();
-            const iframe = containerRef.current?.querySelector(
-              "iframe"
-            ) as HTMLIFrameElement | null;
-            if (iframe) {
-              iframe.style.position = "absolute";
-              iframe.style.inset = "0";
-              iframe.style.width = "100%";
-              iframe.style.height = "100%";
-              iframe.style.border = "0";
-            }
           },
           onStateChange: (e: { data: number }) => {
             if (e.data === 1) setPlaying(true);
@@ -312,14 +301,13 @@ function VideoPlayer({
       initialize();
     }
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
       if (playerRef.current && playerRef.current.destroy)
         playerRef.current.destroy();
     };
   }, [videoId, start]);
 
   React.useEffect(() => {
-    const tick = () => {
+    const interval = window.setInterval(() => {
       if (videoId) {
         const p = playerRef.current;
         if (p && ready) {
@@ -355,11 +343,9 @@ function VideoPlayer({
           }
         }
       }
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
+    }, 250);
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.clearInterval(interval);
     };
   }, [ready, start, end, videoId, onEndLoop, onStartLoop]);
 
@@ -445,7 +431,9 @@ function VideoPlayer({
     <div className="relative">
       <div className="relative aspect-video overflow-hidden">
         {videoId ? (
-          <div ref={containerRef} className="absolute inset-0" />
+          <div className="ytmb-holder absolute inset-0">
+            <div ref={containerRef} className="absolute inset-0" />
+          </div>
         ) : (
           <video
             ref={htmlRef}
@@ -472,7 +460,7 @@ function VideoPlayer({
           />
         )}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/70 to-transparent" />
-        {!playing && <div className="absolute inset-0 bg-black/30" />}
+        {!playing && <div className="absolute inset-0 bg-black" />}
         {content.transcript && (
           <div className="absolute top-2 left-1/2 -translate-x-1/2 max-w-[85%] rounded-xl bg-black/30 backdrop-blur px-3 py-2 text-white text-sm">
             {content.transcript}
