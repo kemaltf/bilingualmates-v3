@@ -142,8 +142,13 @@ export function VerticalPathTrack({
                       >
                         <div className="text-sm font-bold">{n.title}</div>
                         {n.description && (
-                          <div className="mt-1 text-xs text-slate-600">
+                          <div className="mt-1 text-xs text-slate-600 dark:text-slate-300">
                             {n.description}
+                          </div>
+                        )}
+                        {n.kind === "ad" && (
+                          <div className="mt-2 text-xs text-muted-foreground">
+                            {`Ads help BilingualMates' mission to provide free English education.`}
                           </div>
                         )}
                         <div className="mt-1 text-xs text-slate-500">
@@ -164,7 +169,11 @@ export function VerticalPathTrack({
                                 ]
                               }
                               size="md"
-                              label={`PRACTICE +${n.xpReward} XP`}
+                              label={
+                                n.kind === "ad"
+                                  ? "WATCH AD"
+                                  : `PRACTICE +${n.xpReward} XP`
+                              }
                               onClick={() => {
                                 if (onUnitTest) onUnitTest(u);
                                 if (typeof window !== "undefined") {

@@ -17,6 +17,7 @@ export const paths: CurriculumPath[] = [
         nodes: [
           { id: "n1", title: "Greetings", description: "Basic hello/bye phrases", status: "completed", xpReward: 10, durationSec: 80 },
           { id: "n2", title: "Alphabet", description: "Pronouncing letters A–Z", status: "in_progress", xpReward: 10, durationSec: 90 },
+          { id: "ad-u1-1", title: "ADS", status: "in_progress", xpReward: 0, durationSec: 30, kind: "ad", ad: { id: "ad-yt-001", provider: "YouTube", mediaUrl: "https://youtu.be/dQw4w9WgXcQ" } },
           { id: "n3", title: "Numbers", description: "Counting from 1 to 100", status: "locked", xpReward: 10, durationSec: 85 },
         ],
       },
@@ -62,6 +63,7 @@ export const paths: CurriculumPath[] = [
         nodes: [
           { id: "bn1", title: "Greetings", description: "Formal vs casual greetings", status: "completed", xpReward: 10, durationSec: 80 },
           { id: "bn2", title: "Subject Lines", description: "Clear and effective subjects", status: "in_progress", xpReward: 10, durationSec: 90 },
+          { id: "ad-bu1-1", title: "ADS", status: "in_progress", xpReward: 0, durationSec: 30, kind: "ad", ad: { id: "ad-yt-002", provider: "YouTube" } },
           { id: "bn3", title: "Closings", description: "Professional email endings", status: "locked", xpReward: 10, durationSec: 85 },
         ],
       },
@@ -94,6 +96,7 @@ export const paths: CurriculumPath[] = [
         badge: { status: "locked", title: "Unit Badge" },
         nodes: [
           { id: "kn1", title: "Colors", description: "Learn basic colors", status: "locked", xpReward: 10, durationSec: 60 },
+          { id: "ad-k1-1", title: "ADS", status: "in_progress", xpReward: 0, durationSec: 20, kind: "ad", ad: { id: "ad-yt-003", provider: "YouTube" } },
           { id: "kn2", title: "Animals", description: "Common animals", status: "locked", xpReward: 10, durationSec: 70 },
           { id: "kn3", title: "Fruits", description: "Favorite fruits", status: "locked", xpReward: 10, durationSec: 65 },
         ],
@@ -115,6 +118,7 @@ export const paths: CurriculumPath[] = [
         badge: { status: "in_progress", title: "Unit Badge" },
         nodes: [
           { id: "tn1", title: "Tickets", description: "Buying tickets", status: "in_progress", xpReward: 10, durationSec: 80 },
+          { id: "ad-t1-1", title: "ADS", status: "in_progress", xpReward: 0, durationSec: 25, kind: "ad", ad: { id: "ad-yt-004", provider: "YouTube" } },
           { id: "tn2", title: "Boarding", description: "Boarding steps", status: "locked", xpReward: 10, durationSec: 90 },
           { id: "tn3", title: "Customs", description: "Customs questions", status: "locked", xpReward: 10, durationSec: 85 },
         ],

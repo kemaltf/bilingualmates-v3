@@ -151,6 +151,16 @@ export default function LearnLayout({
                 <BookOpen className="size-5" />
               </Link>
               <Link
+                href="/shop"
+                aria-label="Shop"
+                className={cn(
+                  buttonVariants({ variant: "blue", size: "icon" }),
+                  "flex items-center justify-center"
+                )}
+              >
+                <ShoppingBag className="size-5" />
+              </Link>
+              <Link
                 href="/profile"
                 aria-label="Profile"
                 className={cn(

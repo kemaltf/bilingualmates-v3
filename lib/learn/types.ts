@@ -1,5 +1,14 @@
 export type NodeStatus = "completed" | "in_progress" | "locked"
 
+export type NodeKind = "lesson" | "ad"
+
+export interface AdPayload {
+  id: string
+  provider?: string
+  targetingTags?: string[]
+  mediaUrl?: string
+}
+
 export interface LessonNode {
   id: string
   title: string
@@ -7,6 +16,8 @@ export interface LessonNode {
   status: NodeStatus
   xpReward: number
   durationSec: number
+  kind?: NodeKind
+  ad?: AdPayload
 }
 
 export interface UnitBadge {
