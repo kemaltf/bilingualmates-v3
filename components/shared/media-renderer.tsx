@@ -273,7 +273,7 @@ function VideoPlayer({
         events: {
           onReady: () => {
             setReady(true);
-            playerRef.current.seekTo(start, true);
+            playerRef.current?.seekTo?.(start, true);
             onReady?.();
           },
           onStateChange: (e: { data: number }) => {
@@ -282,7 +282,7 @@ function VideoPlayer({
             if (e.data === 0) {
               const p = playerRef.current;
               if (p) {
-                p.seekTo(start, true);
+                p.seekTo?.(start, true);
                 p.playVideo?.();
               }
             }
@@ -327,7 +327,7 @@ function VideoPlayer({
           setProgress(clamped);
           if (end > start && t >= end) {
             onEndLoop?.();
-            p.seekTo(start, true);
+            p.seekTo?.(start, true);
             p.playVideo?.();
             onStartLoop?.();
           }
@@ -365,7 +365,7 @@ function VideoPlayer({
         setPlaying(false);
       } else {
         if (end > start && (p.getCurrentTime?.() ?? 0) >= end)
-          p.seekTo(start, true);
+          p.seekTo?.(start, true);
         p.playVideo?.();
         setPlaying(true);
       }
@@ -387,7 +387,7 @@ function VideoPlayer({
     if (videoId) {
       const p = playerRef.current;
       if (!p) return;
-      p.seekTo(start, true);
+      p.seekTo?.(start, true);
       p.playVideo?.();
       setPlaying(true);
     } else {
@@ -411,7 +411,7 @@ function VideoPlayer({
           ? end - start
           : Math.max(0.1, (p.getDuration?.() ?? 0) - start);
       const t = start + ratio * baseLen;
-      p.seekTo(t, true);
+      p.seekTo?.(t, true);
     } else {
       const v = htmlRef.current;
       if (!v) return;
