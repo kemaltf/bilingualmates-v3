@@ -333,6 +333,52 @@ export const TextOptionsWithPronunciation: Story = {
   },
 };
 
+export const NumericLabels123: Story = {
+  args: {
+    showOptionLabel: true,
+    question: {
+      id: "q-numeric",
+      prompt: { kind: "text", text: "Pilih arti kata 'Halo' (tekan 1/2/3)" },
+      options: [
+        { id: "a", content: { kind: "text", text: "Hello" } },
+        { id: "b", content: { kind: "text", text: "Goodbye" } },
+        { id: "c", content: { kind: "text", text: "Thanks" } },
+      ],
+      correctOptionId: "a",
+    },
+    questionClassName: "max-w-[480px] mx-auto",
+    containerOptionClassName: "grid-cols-1",
+    // labelStyle prop is handled in the component via controls below
+  },
+  argTypes: {
+    // expose labelStyle to switch between numeric/alpha from Storybook controls if desired
+    labelStyle: {
+      control: { type: "radio" },
+      options: ["numeric", "alpha"],
+      description: "Tipe label opsi",
+    },
+  },
+};
+
+export const AlphaLabelsABC: Story = {
+  args: {
+    showOptionLabel: true,
+    labelStyle: "alpha",
+    question: {
+      id: "q-alpha",
+      prompt: { kind: "text", text: "Pilih arti kata 'Halo' (tekan A/B/C)" },
+      options: [
+        { id: "a", content: { kind: "text", text: "Hello" } },
+        { id: "b", content: { kind: "text", text: "Goodbye" } },
+        { id: "c", content: { kind: "text", text: "Thanks" } },
+      ],
+      correctOptionId: "a",
+    },
+    questionClassName: "max-w-[480px] mx-auto",
+    containerOptionClassName: "grid-cols-1",
+  },
+};
+
 export const TwoByTwoGrid: Story = {
   args: {
     containerOptionClassName: "grid-cols-2 grid-rows-2",

@@ -14,6 +14,7 @@ export interface MCQuestionCardProps {
   questionClassName?: string;
   containerOptionClassName?: string;
   locked?: boolean;
+  labelStyle?: "numeric" | "alpha";
 }
 
 export function MCQuestionCard({
@@ -25,6 +26,7 @@ export function MCQuestionCard({
   questionClassName,
   containerOptionClassName = "md:grid-cols-2",
   locked,
+  labelStyle = "numeric",
 }: MCQuestionCardProps) {
   usePronunciationOnCorrect(question, selectedOptionId);
   return (
@@ -36,14 +38,15 @@ export function MCQuestionCard({
         )}
       </div>
       <div className={cn("grid gap-3", containerOptionClassName)}>
-        {question.options.map((opt) => (
+        {question.options.map((opt, idx) => (
           <MCOptionButton
             key={opt.id}
             option={opt}
             isSelected={selectedOptionId === opt.id}
             disabled={!!locked}
             onSelect={() => onSelectOption(opt.id)}
-            label={String.fromCharCode(65 + question.options.indexOf(opt))}
+            label={labelStyle === "numeric" ? 1 + idx : String.fromCharCode(65 + idx)}
+            hotkey={labelStyle === "numeric" ? 1 + idx : String.fromCharCode(97 + idx)}
             showLabel={showOptionLabel}
           />
         ))}

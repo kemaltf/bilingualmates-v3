@@ -12,7 +12,8 @@ export interface MCOptionButtonProps {
   disabled?: boolean;
   onSelect: () => void;
   className?: string;
-  label?: string;
+  label?: string | number;
+  hotkey?: string | number;
   showLabel?: boolean;
 }
 
@@ -23,6 +24,7 @@ export function MCOptionButton({
   onSelect,
   className,
   label,
+  hotkey,
   showLabel = true,
 }: MCOptionButtonProps) {
   const variant = isSelected ? "option-selected" : "option-default";
@@ -52,6 +54,7 @@ export function MCOptionButton({
       disabled={disabled}
       onClick={handleClick}
       label={label}
+      hotkey={hotkey}
       showLabel={showLabel}
       className={cn(
         "w-full h-auto justify-start text-left rounded-2xl px-4 py-3",

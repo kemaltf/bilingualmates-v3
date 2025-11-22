@@ -9,6 +9,7 @@ const sampleQuestions: QuizQuestion[] = [
     kind: "mcq",
     id: "q-mc-1",
     prompt: { kind: "text", text: "Choose the correct translation for 'Halo'" },
+    textPrompt: "Pilih jawaban (tekan 1/2/3)",
     options: [
       { id: "a", content: { kind: "text", text: "Hello" } },
       { id: "b", content: { kind: "text", text: "Goodbye" } },
@@ -20,7 +21,7 @@ const sampleQuestions: QuizQuestion[] = [
     kind: "mcq",
     id: "q-mc-audio",
     prompt: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" },
-    textPrompt: "Listen and choose the word",
+    textPrompt: "Dengar lalu pilih (tekan 1/2/3)",
     options: [
       { id: "a", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
       { id: "b", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
@@ -32,7 +33,7 @@ const sampleQuestions: QuizQuestion[] = [
     kind: "mcq",
     id: "q-mc-image",
     prompt: { kind: "image", url: "https://picsum.photos/800/400", alt: "Random" },
-    textPrompt: "Choose the word that matches the picture",
+    textPrompt: "Pilih kata yang cocok (tekan 1/2/3)",
     options: [
       { id: "a", content: { kind: "text", text: "Landscape" } },
       { id: "b", content: { kind: "text", text: "Portrait" } },
@@ -43,8 +44,14 @@ const sampleQuestions: QuizQuestion[] = [
   {
     kind: "mcq",
     id: "q-mc-video",
-    prompt: { kind: "video", url: "https://www.w3schools.com/html/mov_bbb.mp4" },
-    textPrompt: "Select the correct description",
+    prompt: {
+      kind: "video",
+      url: "https://www.youtube.com/watch?v=0lStodgghOc",
+      startTimeSec: 5,
+      endTimeSec: 15,
+      transcript: "Alasan Terbesar 90% Anak Muda Gagal Usaha"
+    },
+    textPrompt: "Pilih deskripsi (tekan 1/2/3)",
     options: [
       { id: "a", content: { kind: "text", text: "A short video clip" } },
       { id: "b", content: { kind: "text", text: "An audio sample" } },

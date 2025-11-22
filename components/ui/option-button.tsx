@@ -71,22 +71,42 @@ export function getOptionButtonVariant(params: {
 
 type OptionButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof optionButtonVariants> & {
-    label?: string;
+    label?: string | number;
     showLabel?: boolean;
     pressed?: boolean;
+    hotkey?: string | number;
   };
 
-function OptionButton({ className, variant, disabled, children, label, showLabel = true, pressed = false, ...props }: OptionButtonProps) {
+function OptionButton({ className, variant, disabled, children, label, showLabel = true, pressed = false, hotkey, ...props }: OptionButtonProps) {
+  const btnRef = React.useRef<HTMLButtonElement | null>(null);
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (disabled) return;
+      const tgt = e.target as HTMLElement | null;
+      const tag = tgt?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tgt?.isContentEditable) return;
+      const k = typeof hotkey === "number" ? String(hotkey) : hotkey;
+      if (!k) return;
+      const eq = typeof k === "string" ? e.key.toLowerCase() === k.toLowerCase() : e.key === k;
+      if (eq) {
+        btnRef.current?.click();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [disabled, hotkey]);
   return (
     <button
+      ref={btnRef}
       type="button"
       aria-disabled={disabled}
       disabled={disabled}
+      aria-keyshortcuts={typeof hotkey === "number" ? String(hotkey) : hotkey}
       className={cn(optionButtonVariants({ variant, className }), pressed && "translate-y-1 shadow-none")}
       {...props}
     >
       <div className="flex items-center gap-4">
-        {showLabel && label && <span className={labelClassesByVariant(variant as OptionButtonVariant)}>{label}</span>}
+        {showLabel && label !== undefined && <span className={labelClassesByVariant(variant as OptionButtonVariant)}>{label}</span>}
         <div className="flex-1 space-y-2">{children}</div>
       </div>
     </button>
