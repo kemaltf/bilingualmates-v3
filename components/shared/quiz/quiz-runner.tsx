@@ -53,22 +53,20 @@ export function QuizRunner({ questions, onComplete, onSubmitAnswer, attemptId, l
   const progress = Math.round(((controller.index + 1) / questions.length) * 100)
 
   return (
-    <div className={cn("w-full max-w-[840px] mx-auto space-y-6", className)}>
-      <div className="flex items-center justify-between">
+    <div className={cn("w-full space-y-4", className)}>
+      <div className="flex items-center justify-between px-2">
         <div className="text-sm font-semibold">Question {controller.index + 1} of {questions.length}</div>
         <div className="w-40 h-2 bg-neutral-200 rounded-full overflow-hidden">
           <div className="h-2 bg-sky-500" style={{ width: `${progress}%` }} />
         </div>
       </div>
 
-      <div className="rounded-2xl border-[3px] border-neutral-300 shadow-[0_3px_0_0_#a3a3a3] p-4">
-        <QuestionRenderer
-          question={q}
-          locked={controller.isLocked}
-          value={value}
-          onAnswerChange={(val) => controller.setAnswer(q.id, val)}
-        />
-      </div>
+      <QuestionRenderer
+        question={q}
+        locked={controller.isLocked}
+        value={value}
+        onAnswerChange={(val) => controller.setAnswer(q.id, val)}
+      />
 
       {controller.feedback !== "idle" && (
         <FeedbackCard
@@ -78,7 +76,7 @@ export function QuizRunner({ questions, onComplete, onSubmitAnswer, attemptId, l
         />
       )}
 
-      <div className="flex items-center justify-end gap-3">
+      <div className="flex items-center justify-end gap-3 px-2">
         <Button
           variant="blue"
           size="md"

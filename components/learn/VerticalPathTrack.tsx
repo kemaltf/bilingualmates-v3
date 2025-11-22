@@ -11,6 +11,7 @@ import { Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BrandColor } from "@/lib/ui/design-tokens";
 import { brandColorToButtonVariant } from "@/lib/ui/design-tokens";
+import { useRouter } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface VerticalPathTrackProps {
@@ -33,6 +34,7 @@ export function VerticalPathTrack({
   className,
   brandColor,
 }: VerticalPathTrackProps) {
+  const router = useRouter();
   const unitRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const dividerRefs = React.useRef<Record<number, HTMLElement | null>>({});
   const isMobile = useIsMobile();
@@ -163,6 +165,12 @@ export function VerticalPathTrack({
                               }
                               size="md"
                               label={`PRACTICE +${n.xpReward} XP`}
+                              onClick={() => {
+                                if (onUnitTest) onUnitTest(u);
+                                if (typeof window !== "undefined") {
+                                  router.push(`/learn/${n.id}`);
+                                }
+                              }}
                             />
                           )}
                         </div>
