@@ -27,6 +27,7 @@ import {
   Settings,
   LogOut,
   Compass,
+  ShoppingBag,
 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -84,6 +85,17 @@ export default function LearnLayout({
                     <Link href="/profile" className="flex items-center gap-2">
                       <User2 className="size-4" />
                       <span>Profile</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname?.startsWith("/shop")}
+                  >
+                    <Link href="/shop" className="flex items-center gap-2">
+                      <ShoppingBag className="size-4" />
+                      <span>Shop</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
