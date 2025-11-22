@@ -473,22 +473,24 @@ function VideoPlayer({
             {content.transcript}
           </div>
         )}
-        <div className="absolute inset-x-0 bottom-2 flex items-center justify-center gap-3">
-          <Button
-            variant="blue"
-            size="icon"
-            aria-label={playing ? "Pause" : "Play"}
-            onClick={toggle}
-          >
-            {playing ? (
-              <Pause className="size-5" />
-            ) : (
-              <Play className="size-5" />
-            )}
-          </Button>
-          <div className="flex items-center gap-2">
+        <div className="absolute inset-x-0 bottom-2 flex flex-wrap items-center gap-3 px-3">
+          <div className="order-1">
+            <Button
+              variant="blue"
+              size="icon"
+              aria-label={playing ? "Pause" : "Play"}
+              onClick={toggle}
+            >
+              {playing ? (
+                <Pause className="size-5" />
+              ) : (
+                <Play className="size-5" />
+              )}
+            </Button>
+          </div>
+          <div className="order-2 min-w-0 flex-1 w-full">
             <div
-              className="relative h-2 w-[240px] rounded-full bg-foreground/20 dark:bg-foreground/15 overflow-hidden"
+              className="relative h-2 w-full rounded-full bg-foreground/20 dark:bg-foreground/15 overflow-hidden"
               onClick={onScrub}
             >
               <div
@@ -496,6 +498,8 @@ function VideoPlayer({
                 style={{ width: `${Math.round(progress * 100)}%` }}
               />
             </div>
+          </div>
+          <div className="order-3 ml-auto flex items-center gap-2">
             <Button
               variant="outline-amber"
               size="icon"
