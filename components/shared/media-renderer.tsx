@@ -3,6 +3,13 @@ import * as React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Volume2, Play, Pause, RotateCcw } from "lucide-react";
 // removed shadcn Select; using native select for speed control
 import type { MediaContent } from "@/lib/quiz/types";
@@ -481,7 +488,7 @@ function VideoPlayer({
           </Button>
           <div className="flex items-center gap-2">
             <div
-              className="relative h-2 w-[240px] rounded-full bg-white/40 overflow-hidden"
+              className="relative h-2 w-[240px] rounded-full bg-foreground/20 dark:bg-foreground/15 overflow-hidden"
               onClick={onScrub}
             >
               <div
@@ -497,18 +504,23 @@ function VideoPlayer({
             >
               <RotateCcw className="size-5" />
             </Button>
-            <select
-              value={speed}
-              onChange={(e) => changeSpeed(e.target.value)}
-              className="h-8 rounded-full bg-white/80 text-sm px-2"
-            >
-              <option value="0.5">0.5x</option>
-              <option value="0.75">0.75x</option>
-              <option value="1">1x</option>
-              <option value="1.25">1.25x</option>
-              <option value="1.5">1.5x</option>
-              <option value="2">2x</option>
-            </select>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline-blue" size="sm" aria-label="Playback Speed">
+                  {speed}x
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuRadioGroup value={speed} onValueChange={(v) => changeSpeed(v)}>
+                  <DropdownMenuRadioItem value="0.5">0.5x</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="0.75">0.75x</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="1">1x</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="1.25">1.25x</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="1.5">1.5x</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="2">2x</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
