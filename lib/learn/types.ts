@@ -18,6 +18,7 @@ export interface LessonNode {
   durationSec: number
   kind?: NodeKind
   ad?: AdPayload
+  finish?: LessonFinishMeta
 }
 
 export interface UnitBadge {
@@ -44,4 +45,17 @@ export interface CurriculumPath {
   color?: string
   imageUrl?: string
   units: Unit[]
+}
+
+export type FinishAnimationKind = "lottie" | "image" | "gif"
+
+export interface LessonFinishAnimation {
+  kind: FinishAnimationKind
+  src: string
+  fallbackSrc?: string
+}
+
+export interface LessonFinishMeta {
+  animation?: LessonFinishAnimation
+  praise?: string
 }

@@ -61,7 +61,7 @@ export const paths: CurriculumPath[] = [
         brandColor: "indigo",
         badge: { status: "in_progress", title: "Unit Badge" },
         nodes: [
-          { id: "bn1", title: "Greetings", description: "Formal vs casual greetings", status: "completed", xpReward: 10, durationSec: 80 },
+          { id: "bn1", title: "Greetings", description: "Formal vs casual greetings", status: "completed", xpReward: 10, durationSec: 80, finish: { praise: "Awesome!", animation: { kind: "lottie", src: "/lottie/celebration.json", fallbackSrc: "/window.svg" } } },
           { id: "bn2", title: "Subject Lines", description: "Clear and effective subjects", status: "in_progress", xpReward: 10, durationSec: 90 },
           { id: "ad-bu1-1", title: "ADS", status: "in_progress", xpReward: 0, durationSec: 30, kind: "ad", ad: { id: "ad-yt-002", provider: "YouTube" } },
           { id: "bn3", title: "Closings", description: "Professional email endings", status: "locked", xpReward: 10, durationSec: 85 },
