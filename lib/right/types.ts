@@ -50,3 +50,4 @@ export type RightSection =
   | { kind: "ad"; data: AdItem }
   | { kind: "notifications"; data: NotificationItem[] }
   | { kind: "follows"; data: FollowsData }
+  | { kind: "find_friends"; data: { suggestions?: FollowUser[] } }

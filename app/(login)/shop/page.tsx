@@ -2,15 +2,7 @@
 import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-} from "@/components/ui/dropdown-menu";
 import { subscriptionPlans, diamondPackages } from "@/lib/shop/mock";
-import { paths } from "@/lib/learn/mock";
 
 function formatIDR(cents: number) {
   const rupiah = Math.round(cents / 100);
@@ -22,19 +14,7 @@ function formatIDR(cents: number) {
 }
 
 export default function Page() {
-  const lessons = React.useMemo(() => {
-    return paths.flatMap((p) =>
-      p.units.flatMap((u) =>
-        u.nodes.map((n) => ({
-          id: n.id,
-          title: `${p.course} • ${u.title} • ${n.title}`,
-        }))
-      )
-    );
-  }, []);
-
-  const [giftLessonId, setGiftLessonId] = React.useState<string | null>(null);
-
+  
   return (
     <main className="w-full space-y-6">
       <section>
@@ -77,29 +57,7 @@ export default function Page() {
                 <div className="text-lg font-bold">
                   {formatIDR(pkg.priceCents)}
                 </div>
-                <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch gap-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="outline-blue"
-                        size="sm"
-                        className="w-full sm:w-auto"
-                        label={giftLessonId ? "UNTUK LESSON" : "PILIH LESSON"}
-                      />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="min-w-[240px] sm:min-w-[320px]">
-                      <DropdownMenuRadioGroup
-                        value={giftLessonId ?? undefined}
-                        onValueChange={(v) => setGiftLessonId(v)}
-                      >
-                        {lessons.map((l) => (
-                          <DropdownMenuRadioItem key={l.id} value={l.id}>
-                            {l.title}
-                          </DropdownMenuRadioItem>
-                        ))}
-                      </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                <div className="flex flex-col sm:flex-row items-stretch gap-2">
                   <Button
                     variant="amber"
                     size="md"

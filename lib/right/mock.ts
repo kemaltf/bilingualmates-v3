@@ -58,10 +58,25 @@ export const profileRightSections: RightSection[] = [
       following: [
         { id: "u1", name: "Framework2", xp: 18143070 },
         { id: "u2", name: "LanguageGarden", xp: 8571003 },
+        { id: "u3", name: "Kimi", xp: 523000 },
+        { id: "u4", name: "Ravi", xp: 412300 },
+        { id: "u5", name: "Luna", xp: 303200 },
+        { id: "u6", name: "Marta", xp: 225100 },
+        { id: "u7", name: "Leo", xp: 198000 },
+        { id: "u8", name: "Nora", xp: 175500 },
       ],
       followers: [
-        { id: "u3", name: "Jose Ramiro Vivar", xp: 7697715 },
+        { id: "v1", name: "Jose Ramiro Vivar", xp: 7697715 },
+        { id: "v2", name: "Arman", xp: 320000 },
+        { id: "v3", name: "Bella", xp: 250500 },
+        { id: "v4", name: "Chandra", xp: 199900 },
+        { id: "v5", name: "Dee", xp: 145000 },
+        { id: "v6", name: "Eka", xp: 95000 },
       ],
     },
+  },
+  {
+    kind: "find_friends",
+    data: {},
   },
 ]

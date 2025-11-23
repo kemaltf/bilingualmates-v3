@@ -27,21 +27,26 @@ export function NotificationsCard({ items, className }: NotificationsCardProps) 
         </div>
         {items.map((n) => (
           <div key={n.id} className="space-y-2">
-            <div className="text-sm font-bold">{n.userName}</div>
-            <div className="text-xs text-neutral-600">{n.timeAgo}</div>
-            <div className="text-sm">{n.message}</div>
-            <div className="flex items-center justify-between">
-              <Button variant="blue" size="sm" label="RAYAKAN" />
-              {n.reactions && n.reactions.length > 0 && (
-                <div className="flex items-center gap-2 text-xs">
-                  {n.reactions.map((r, idx) => (
-                    <span key={idx} className="inline-flex items-center gap-1">
-                      <span>{r.emoji}</span>
-                      <span className="font-bold">{r.count}</span>
-                    </span>
-                  ))}
+            <div className="flex items-start gap-3">
+              <div className="size-10 rounded-full bg-neutral-300 border-[3px] border-sky-600" />
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-bold">{n.userName}</div>
+                <div className="text-xs text-neutral-600">{n.timeAgo}</div>
+                <div className="text-sm">{n.message}</div>
+                <div className="mt-2 flex items-center justify-between">
+                  <Button variant="blue" size="sm" label="RAYAKAN" />
+                  {n.reactions && n.reactions.length > 0 && (
+                    <div className="flex items-center gap-2 text-xs">
+                      {n.reactions.map((r, idx) => (
+                        <span key={idx} className="inline-flex items-center gap-1">
+                          <span>{r.emoji}</span>
+                          <span className="font-bold">{r.count}</span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         ))}
