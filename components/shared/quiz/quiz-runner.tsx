@@ -136,7 +136,11 @@ export function QuizRunner({
 
       {showConfetti && (
         <div className="fixed inset-x-0 bottom-0 z-40 pointer-events-none translate-y-6">
-          <LottiePlayer src="/confetti big.json" className="w-full h-[40vh]" />
+          <LottiePlayer
+            src="/confetti big.json"
+            className="w-screen"
+            fitWidth
+          />
         </div>
       )}
 

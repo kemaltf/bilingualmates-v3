@@ -14,6 +14,7 @@ interface LottieLoadOptions {
 
 interface LottieAnimation {
   destroy(): void;
+  addEventListener(eventName: string, callback: () => void): void;
 }
 
 interface Lottie {
@@ -39,6 +40,7 @@ type Props = {
   loop?: boolean;
   autoplay?: boolean;
   fallbackSrc?: string;
+  fitWidth?: boolean;
 };
 
 export default function LottiePlayer({
@@ -47,11 +49,13 @@ export default function LottiePlayer({
   loop = true,
   autoplay = true,
   fallbackSrc,
+  fitWidth = false,
 }: Props) {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [ready, setReady] = React.useState(false);
   const [dotReady, setDotReady] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
+  const [aspect, setAspect] = React.useState<string | null>(null);
   const isDot = src?.toLowerCase().endsWith(".lottie");
 
   React.useEffect(() => {
@@ -100,12 +104,29 @@ export default function LottiePlayer({
         const res = await fetch(src);
         if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
         const data: unknown = await res.json();
+        const dim = data as { w?: number; h?: number };
+        if (
+          typeof dim.w === "number" &&
+          typeof dim.h === "number" &&
+          dim.w > 0 &&
+          dim.h > 0
+        ) {
+          setAspect(`${dim.w} / ${dim.h}`);
+        }
         anim = lottie.loadAnimation({
           container: ref.current!,
           renderer: "svg",
           loop,
           autoplay,
           animationData: data,
+        });
+        anim.addEventListener("DOMLoaded", () => {
+          const svg = ref.current?.querySelector("svg") as SVGSVGElement | null;
+          if (svg) {
+            svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+            svg.style.width = "100%";
+            svg.style.height = "100%";
+          }
         });
       } catch (e) {
         setFailed(true);
@@ -136,5 +157,9 @@ export default function LottiePlayer({
       style: { width: "100%", height: "10rem" },
     } as DotLottieProps);
   }
-  return <div ref={ref} className={cn("w-full h-40", className)} />;
+  const style: React.CSSProperties | undefined =
+    fitWidth && aspect
+      ? { width: "100%", height: "auto", aspectRatio: aspect }
+      : undefined;
+  return <div ref={ref} className={cn("w-full", className)} style={style} />;
 }
