@@ -9,6 +9,8 @@ import LottiePlayer from "@/components/shared/LottiePlayer";
 import { paths } from "@/lib/learn/mock";
 import type { LessonFinishMeta } from "@/lib/learn/types";
 import FinishSummary from "@/components/learn/FinishSummary";
+import MemoryCardStack from "@/components/learn/MemoryCardStack";
+import ReadingRunner from "@/components/shared/reading/ReadingRunner";
 
 export default function Page() {
   const params = useParams<{ lessonId: string }>();
@@ -16,6 +18,8 @@ export default function Page() {
   const [attempt, setAttempt] = React.useState<SubmitAttemptPayload | null>(
     null
   );
+  const [memDone, setMemDone] = React.useState(false);
+  const [readDone, setReadDone] = React.useState(false);
   const [entering, setEntering] = React.useState(true);
   React.useEffect(() => {
     const t = setTimeout(() => setEntering(false), 800);
@@ -54,6 +58,64 @@ export default function Page() {
         { id: "c", content: { kind: "text", text: "Thanks" } },
       ],
       correctOptionId: "a",
+    },
+  ];
+
+  const memoryItems = [
+    {
+      id: `${lessonId}-mem-hello`,
+      title: "Hello",
+      content: {
+        kind: "text",
+        text: "Hello",
+        pronunciationUrl: "/audio/hello.mp3",
+      },
+      translation: "Halo",
+      phonetic: "ˈhɛləʊ",
+      examples: ["Hello everyone", "Hello there"],
+    },
+    {
+      id: `${lessonId}-mem-thanks`,
+      title: "Thanks",
+      content: {
+        kind: "text",
+        text: "Thanks",
+        pronunciationUrl: "/audio/thanks.mp3",
+      },
+      translation: "Terima kasih",
+      phonetic: "θæŋks",
+      examples: ["Thanks a lot", "Thanks for coming"],
+    },
+  ];
+
+  const readingSections = [
+    {
+      kind: "text" as const,
+      id: `${lessonId}-p1`,
+      content: { kind: "text", text: "John pergi ke pasar setiap pagi." },
+    },
+    {
+      kind: "text" as const,
+      id: `${lessonId}-p2`,
+      content: {
+        kind: "text",
+        text: "Ia membeli buah dan sayur segar untuk sarapan.",
+      },
+    },
+    {
+      kind: "quiz" as const,
+      id: `${lessonId}-q1`,
+      question: {
+        kind: "cloze",
+        id: `${lessonId}-cloze-1`,
+        prompt: { kind: "text", text: "Lengkapi kalimat" },
+        segments: [
+          { kind: "text", text: "John pergi ke " },
+          { kind: "blank", blank: { id: "b1", options: ["pasar", "sekolah"] } },
+          { kind: "text", text: " setiap pagi." },
+        ],
+        correctAnswers: { b1: "pasar" },
+      },
     },
   ];
 
@@ -102,9 +164,9 @@ export default function Page() {
     return s.trim().toLowerCase().replace(/\s+/g, " ");
   }
 
-  const computeStats = (payload: SubmitAttemptPayload) => {
+  const computeStats = (payload: SubmitAttemptPayload | null) => {
     const ansById = new Map(
-      payload.answers.map((a) => [a.questionId, a.rawAnswer])
+      (payload?.answers ?? []).map((a) => [a.questionId, a.rawAnswer])
     );
     let correct = 0;
     for (const q of sample) {
@@ -114,7 +176,7 @@ export default function Page() {
     const total = sample.length;
     const accuracyPct = Math.round((correct / Math.max(1, total)) * 100);
     const xp = correct * 10;
-    const ms = payload.clientTotalTimeMs ?? 0;
+    const ms = payload?.clientTotalTimeMs ?? 0;
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return { xp, accuracyPct, minutes, seconds };
@@ -130,7 +192,7 @@ export default function Page() {
     return undefined;
   }
 
-  if (attempt) {
+  if (attempt || memDone || readDone) {
     const stats = computeStats(attempt);
     const finishMeta = getFinishMeta(lessonId);
     return (
@@ -140,7 +202,11 @@ export default function Page() {
           fallbackSrc={finishMeta?.animation?.fallbackSrc ?? "/window.svg"}
           stats={stats}
           praise={finishMeta?.praise ?? "Awesome!"}
-          onReview={() => setAttempt(null)}
+          onReview={() => {
+            setAttempt(null);
+            setMemDone(false);
+            setReadDone(false);
+          }}
           onContinue={() => (window.location.href = "/learn")}
         />
       </main>
@@ -156,6 +222,19 @@ export default function Page() {
             LOADING....
           </div>
         </div>
+      ) : lessonId.includes("vocab") ? (
+        <MemoryCardStack
+          items={memoryItems}
+          footerVariant="sticky"
+          onKnow={() => {}}
+          onLearn={() => {}}
+          onComplete={() => setMemDone(true)}
+        />
+      ) : lessonId.includes("reading") ? (
+        <ReadingRunner
+          sections={readingSections}
+          onComplete={() => setReadDone(true)}
+        />
       ) : (
         <QuizRunner
           questions={sample}

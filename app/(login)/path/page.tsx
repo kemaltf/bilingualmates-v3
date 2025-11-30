@@ -3,8 +3,10 @@ import { paths } from "@/lib/learn/mock";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function PathPage() {
+  const router = useRouter();
   return (
     <main className="max-w-[640px] mx-auto md:px-6">
       <h1 className="text-2xl font-extrabold">Choose Your Path</h1>
@@ -23,7 +25,13 @@ export default function PathPage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-800">
-                  <Image src={path.imageUrl ?? "/images/path-general.svg"} alt={path.course} width={640} height={360} className="w-full h-40 object-cover" />
+                  <Image
+                    src={path.imageUrl ?? "/images/path-general.svg"}
+                    alt={path.course}
+                    width={640}
+                    height={360}
+                    className="w-full h-40 object-cover"
+                  />
                 </div>
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-xs font-bold">
@@ -48,7 +56,14 @@ export default function PathPage() {
                         <Button variant="amber" size="sm" label="Unlock 50💎" />
                       </>
                     ) : (
-                      <Button variant="blue" size="sm" label="Open" />
+                      <Button
+                        variant="blue"
+                        size="sm"
+                        label="Open"
+                        onClick={() => {
+                          router.push(`/learn?pathId=${path.id}`);
+                        }}
+                      />
                     )}
                   </div>
                 </div>

@@ -4,18 +4,15 @@ import { VerticalPathTrack } from "./VerticalPathTrack";
 import { LearnHubHeader } from "./LearnHubHeader";
 import { paths } from "@/lib/learn/mock";
 
-import {
-  brandColorToBg,
-  brandColorToButtonVariant,
-} from "@/lib/ui/design-tokens";
+import { brandColorToBg, brandColorToButtonVariant } from "@/lib/ui/design-tokens";
+import { useSearchParams } from "next/navigation";
 
 export function LearnHubPage() {
-  // later we need to create some logic to determine latest course selected
-  const [selected] = React.useState<string>(paths[1]?.id ?? null);
-  const path = React.useMemo(
-    () => paths.find((p) => p.id === selected) ?? null,
-    [selected]
-  );
+  const searchParams = useSearchParams();
+  const selectedParam = searchParams.get("pathId");
+  const fallback = paths[0]?.id ?? null;
+  const selected = selectedParam ?? fallback;
+  const path = React.useMemo(() => paths.find((p) => p.id === selected) ?? null, [selected]);
 
   const [currentUnitIndex, setCurrentUnitIndex] = React.useState(0);
   const [dividerEls, setDividerEls] = React.useState<

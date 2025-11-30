@@ -120,6 +120,31 @@ export const paths: CurriculumPath[] = [
           },
         ],
       },
+      {
+        id: "u4",
+        title: "Unit 4: Vocabulary & Reading",
+        sequence: 4,
+        brandColor: "sky",
+        badge: { status: "in_progress", title: "Unit Badge" },
+        nodes: [
+          {
+            id: "vocab-101",
+            title: "Vocabulary Drill",
+            description: "Mark known vs learn",
+            status: "in_progress",
+            xpReward: 10,
+            durationSec: 60,
+          },
+          {
+            id: "reading-101",
+            title: "Reading Practice",
+            description: "Paragraphs + quizzes",
+            status: "in_progress",
+            xpReward: 10,
+            durationSec: 90,
+          },
+        ],
+      },
     ],
   },
   {
