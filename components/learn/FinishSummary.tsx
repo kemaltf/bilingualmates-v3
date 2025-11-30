@@ -39,7 +39,7 @@ export default function FinishSummary({
   return (
     <div className={cn("w-full max-w-[760px] mx-auto", className)}>
       {showConfetti && (
-        <div className="fixed inset-x-0 top-0 z-40 pointer-events-none -translate-y-6">
+        <div className="fixed inset-x-0 top-0 z-40 pointer-events-none">
           <LottiePlayer src="/confetti big.json" className="w-full h-[40vh]" />
         </div>
       )}
