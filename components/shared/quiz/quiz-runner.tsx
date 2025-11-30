@@ -83,7 +83,7 @@ export function QuizRunner({
 
   return (
     <div className={cn("w-full space-y-4", className)}>
-      <div className="flex items-center px-2">
+      <div className="flex items-center justify-between">
         <Button
           variant="text"
           size="icon-sm"
@@ -108,7 +108,7 @@ export function QuizRunner({
             />
           </svg>
         </Button>
-        <div className="flex items-center gap-3 ml-auto">
+        <div className="flex items-center gap-3">
           <div className="text-sm font-semibold hidden md:block">
             Question {controller.index + 1} of {questions.length}
           </div>
@@ -135,16 +135,13 @@ export function QuizRunner({
       )}
 
       {showConfetti && (
-        <div className="fixed inset-0 z-[60] pointer-events-none flex items-center justify-center">
-          <LottiePlayer
-            src="/confetti big.json"
-            className="w-screen h-screen"
-          />
+        <div className="fixed inset-x-0 bottom-0 z-40 pointer-events-none translate-y-6">
+          <LottiePlayer src="/confetti big.json" className="w-full h-[40vh]" />
         </div>
       )}
 
       {footerVariant === "inline" ? (
-        <div className="flex items-center justify-end gap-3 px-2">
+        <div className="flex items-center justify-end gap-3 px-4">
           {controller.feedback === "idle" ? (
             <Button
               variant="blue"
@@ -165,7 +162,7 @@ export function QuizRunner({
       ) : (
         <div className="fixed bottom-0 inset-x-0 z-50">
           <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
-            <div className="max-w-[980px] mx-auto px-6 h-16 flex items-center justify-between gap-6">
+            <div className="max-w-[980px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
               <div className="flex items-center gap-3">
                 {controller.feedback === "correct" && (
                   <LottiePlayer src="/confetti.json" className="h-16 w-16" />

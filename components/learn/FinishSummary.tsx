@@ -31,8 +31,18 @@ export default function FinishSummary({
   onContinue,
   className,
 }: Props) {
+  const [showConfetti, setShowConfetti] = React.useState(true);
+  React.useEffect(() => {
+    const t = setTimeout(() => setShowConfetti(false), 1500);
+    return () => clearTimeout(t);
+  }, []);
   return (
     <div className={cn("w-full max-w-[760px] mx-auto", className)}>
+      {showConfetti && (
+        <div className="fixed inset-x-0 top-0 z-40 pointer-events-none -translate-y-6">
+          <LottiePlayer src="/confetti big.json" className="w-full h-[40vh]" />
+        </div>
+      )}
       <div className="flex min-h-[75vh] items-center justify-center flex-col gap-2 text-center">
         <LottiePlayer
           src={animationSrc}

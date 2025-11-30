@@ -134,7 +134,7 @@ export default function Page() {
     const stats = computeStats(attempt);
     const finishMeta = getFinishMeta(lessonId);
     return (
-      <main className={cn("w-full max-w-[860px] mx-auto px-3 py-4")}>
+      <main className={cn("w-full max-w-[860px] mx-auto px-0 py-4")}>
         <FinishSummary
           animationSrc={finishMeta?.animation?.src ?? "/medals.json"}
           fallbackSrc={finishMeta?.animation?.fallbackSrc ?? "/window.svg"}
@@ -148,7 +148,7 @@ export default function Page() {
   }
 
   return (
-    <main className="w-full max-w-[860px] mx-auto px-3 py-4">
+    <main className="w-full max-w-[860px] mx-auto px-0 py-4">
       {entering ? (
         <div className="flex min-h-[80vh] items-center justify-center flex-col gap-2 text-center">
           <LottiePlayer src="/manrunning.json" className="h-52 w-52" />
