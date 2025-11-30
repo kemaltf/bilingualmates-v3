@@ -1,97 +1,211 @@
-"use client"
-import * as React from "react"
-import type { QuizQuestion, SubmitAttemptPayload } from "@/lib/quiz/types"
-import { useQuizController } from "@/hooks/use-quiz-controller"
-import { QuestionRenderer } from "./question-renderer"
-import { FeedbackCard } from "@/components/shared/feedback-card"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+"use client";
+import * as React from "react";
+import type { QuizQuestion, SubmitAttemptPayload } from "@/lib/quiz/types";
+import { useQuizController } from "@/hooks/use-quiz-controller";
+import { QuestionRenderer } from "./question-renderer";
+import { FeedbackCard } from "@/components/shared/feedback-card";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import LottiePlayer from "@/components/shared/LottiePlayer";
+import { AlertOctagon } from "lucide-react";
 
 export interface QuizRunnerProps {
-  questions: QuizQuestion[]
-  onComplete?: (payload: SubmitAttemptPayload) => void
-  onSubmitAnswer?: (payload: SubmitAttemptPayload["answers"][number]) => void
-  attemptId?: string
-  lessonId?: string
-  userId?: string
-  className?: string
+  questions: QuizQuestion[];
+  onComplete?: (payload: SubmitAttemptPayload) => void;
+  onSubmitAnswer?: (payload: SubmitAttemptPayload["answers"][number]) => void;
+  attemptId?: string;
+  lessonId?: string;
+  userId?: string;
+  className?: string;
+  footerVariant?: "inline" | "sticky";
 }
 
-function feedbackToCardStatus(fb: "idle" | "correct" | "incorrect"): "correct" | "incorrect" | "info" {
-  if (fb === "correct") return "correct"
-  if (fb === "incorrect") return "incorrect"
-  return "info"
+function feedbackToCardStatus(
+  fb: "idle" | "correct" | "incorrect"
+): "correct" | "incorrect" | "info" {
+  if (fb === "correct") return "correct";
+  if (fb === "incorrect") return "incorrect";
+  return "info";
 }
 
 function praise(id: string) {
-  const variants = ["Great job!", "Nice work!", "Well done!", "Awesome!"]
-  const sum = Array.from(id).reduce((acc, ch) => acc + ch.charCodeAt(0), 0)
-  return variants[sum % variants.length]
+  const variants = ["Great job!", "Nice work!", "Well done!", "Awesome!"];
+  const sum = Array.from(id).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  return variants[sum % variants.length];
 }
 
-export function QuizRunner({ questions, onComplete, onSubmitAnswer, attemptId, lessonId, userId, className }: QuizRunnerProps) {
+export function QuizRunner({
+  questions,
+  onComplete,
+  onSubmitAnswer,
+  attemptId,
+  lessonId,
+  userId,
+  className,
+  footerVariant = "inline",
+}: QuizRunnerProps) {
   const controller = useQuizController(
     questions,
     onComplete,
-    { attemptId: attemptId ?? `attempt-${lessonId ?? "lesson-demo"}`, lessonId: lessonId ?? "lesson-demo", userId },
+    {
+      attemptId: attemptId ?? `attempt-${lessonId ?? "lesson-demo"}`,
+      lessonId: lessonId ?? "lesson-demo",
+      userId,
+    },
     onSubmitAnswer
-  )
-  const q = controller.question
-  const value = controller.answers[q.id]
+  );
+  const q = controller.question;
+  const value = controller.answers[q.id];
+  const [showConfetti, setShowConfetti] = React.useState(false);
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        if (!controller.isLocked) controller.checkAnswer()
-        else controller.nextQuestion()
+        if (!controller.isLocked) controller.checkAnswer();
+        else controller.nextQuestion();
       }
-    }
-    window.addEventListener("keydown", handler)
-    return () => window.removeEventListener("keydown", handler)
-  }, [controller.isLocked, controller.checkAnswer, controller.nextQuestion])
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [controller.isLocked, controller.checkAnswer, controller.nextQuestion]);
 
-  const progress = Math.round(((controller.index + 1) / questions.length) * 100)
+  React.useEffect(() => {
+    if (controller.feedback === "correct") {
+      setShowConfetti(true);
+      const t = setTimeout(() => setShowConfetti(false), 1500);
+      return () => clearTimeout(t);
+    }
+  }, [controller.feedback]);
+
+  const progress = Math.round(
+    ((controller.index + 1) / questions.length) * 100
+  );
 
   return (
     <div className={cn("w-full space-y-4", className)}>
-      <div className="flex items-center justify-between px-2">
-        <div className="text-sm font-semibold">Question {controller.index + 1} of {questions.length}</div>
-        <div className="w-40 h-2 bg-neutral-200 rounded-full overflow-hidden">
-          <div className="h-2 bg-sky-500" style={{ width: `${progress}%` }} />
+      <div className="flex items-center px-2">
+        <Button
+          variant="text"
+          size="icon-sm"
+          aria-label="Close"
+          onClick={() => {
+            if (typeof window !== "undefined") window.history.back();
+          }}
+        >
+          {/* icon */}
+          <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+            <path
+              d="M18 6L6 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M6 6L18 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </Button>
+        <div className="flex items-center gap-3 ml-auto">
+          <div className="text-sm font-semibold hidden md:block">
+            Question {controller.index + 1} of {questions.length}
+          </div>
+          <div className="w-56 h-2 bg-neutral-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-sky-500" style={{ width: `${progress}%` }} />
+          </div>
         </div>
       </div>
 
-      <QuestionRenderer
-        question={q}
-        locked={controller.isLocked}
-        value={value}
-        onAnswerChange={(val) => controller.setAnswer(q.id, val)}
-      />
+      <div className="max-w-[720px] mx-auto">
+        <QuestionRenderer
+          question={q}
+          locked={controller.isLocked}
+          value={value}
+          onAnswerChange={(val) => controller.setAnswer(q.id, val)}
+        />
+      </div>
 
-      {controller.feedback !== "idle" && (
+      {controller.feedback !== "idle" && q.explanation && (
         <FeedbackCard
           status={feedbackToCardStatus(controller.feedback)}
-          title={controller.feedback === "correct" ? praise(q.id) : "Try again"}
           explanation={q.explanation}
         />
       )}
 
-      <div className="flex items-center justify-end gap-3 px-2">
-        <Button
-          variant="blue"
-          size="md"
-          disabled={!controller.canCheck || controller.isLocked}
-          onClick={controller.checkAnswer}
-          label="Check"
-        />
-        <Button
-          variant="green"
-          size="md"
-          disabled={controller.feedback === "idle"}
-          onClick={controller.nextQuestion}
-          label={controller.isLast ? "Finish" : "Next"}
-        />
-      </div>
+      {showConfetti && (
+        <div className="fixed inset-0 z-[60] pointer-events-none flex items-center justify-center">
+          <LottiePlayer
+            src="/confetti big.json"
+            className="w-screen h-screen"
+          />
+        </div>
+      )}
+
+      {footerVariant === "inline" ? (
+        <div className="flex items-center justify-end gap-3 px-2">
+          {controller.feedback === "idle" ? (
+            <Button
+              variant="blue"
+              size="md"
+              disabled={!controller.canCheck || controller.isLocked}
+              onClick={controller.checkAnswer}
+              label="Check"
+            />
+          ) : (
+            <Button
+              variant="green"
+              size="md"
+              onClick={controller.nextQuestion}
+              label={controller.isLast ? "Finish" : "Next"}
+            />
+          )}
+        </div>
+      ) : (
+        <div className="fixed bottom-0 inset-x-0 z-50">
+          <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
+            <div className="max-w-[980px] mx-auto px-6 h-16 flex items-center justify-between gap-6">
+              <div className="flex items-center gap-3">
+                {controller.feedback === "correct" && (
+                  <LottiePlayer src="/confetti.json" className="h-16 w-16" />
+                )}
+                {controller.feedback !== "idle" && (
+                  <div className="flex flex-col items-start gap-1">
+                    <div className="text-sm font-extrabold">
+                      {controller.feedback === "correct"
+                        ? praise(q.id)
+                        : "Coba lagi"}
+                    </div>
+                    <Button variant="text" size="sm">
+                      <AlertOctagon className="size-4" /> LAPORKAN
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-3 ml-auto">
+                {controller.feedback !== "idle" && <></>}
+                {controller.feedback === "idle" ? (
+                  <Button
+                    variant="blue"
+                    size="md"
+                    disabled={!controller.canCheck || controller.isLocked}
+                    onClick={controller.checkAnswer}
+                    label="PERIKSA"
+                  />
+                ) : (
+                  <Button
+                    variant="green"
+                    size="md"
+                    onClick={controller.nextQuestion}
+                    label={controller.isLast ? "SELESAI" : "LANJUTKAN"}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }

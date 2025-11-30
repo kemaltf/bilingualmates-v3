@@ -1,12 +1,15 @@
 "use client";
 import * as React from "react";
+import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export default function Page() {
+export const dynamic = "force-dynamic";
+
+function SearchContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initial = searchParams.get("s") ?? "";
@@ -31,7 +34,12 @@ export default function Page() {
           <CardTitle>Search</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Input value={q} onChange={setQ} placeholder="Search username…" onEnter={onSearch} />
+          <Input
+            value={q}
+            onChange={setQ}
+            placeholder="Search username…"
+            onEnter={onSearch}
+          />
           <div className="space-y-2">
             {mock.map((u) => (
               <div key={u.id} className="flex items-center justify-between">
@@ -46,5 +54,15 @@ export default function Page() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense
+      fallback={<div className={cn("p-6 max-w-[760px] mx-auto")}>Loading…</div>}
+    >
+      <SearchContent />
+    </Suspense>
   );
 }

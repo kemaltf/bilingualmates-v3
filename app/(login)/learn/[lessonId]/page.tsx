@@ -4,11 +4,11 @@ import type { QuizQuestion } from "@/lib/quiz/types";
 import type { SubmitAttemptPayload } from "@/lib/quiz/types";
 import { useParams } from "next/navigation";
 import * as React from "react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LottiePlayer from "@/components/shared/LottiePlayer";
 import { paths } from "@/lib/learn/mock";
 import type { LessonFinishMeta } from "@/lib/learn/types";
+import FinishSummary from "@/components/learn/FinishSummary";
 
 export default function Page() {
   const params = useParams<{ lessonId: string }>();
@@ -16,6 +16,11 @@ export default function Page() {
   const [attempt, setAttempt] = React.useState<SubmitAttemptPayload | null>(
     null
   );
+  const [entering, setEntering] = React.useState(true);
+  React.useEffect(() => {
+    const t = setTimeout(() => setEntering(false), 800);
+    return () => clearTimeout(t);
+  }, []);
   const sample: QuizQuestion[] = [
     {
       kind: "mcq",
@@ -129,61 +134,37 @@ export default function Page() {
     const stats = computeStats(attempt);
     const finishMeta = getFinishMeta(lessonId);
     return (
-      <main className={cn("w-full max-w-[860px] mx-auto px-3 py-4 space-y-4")}>
-        <div className="rounded-2xl overflow-hidden bg-neutral-200">
-          <LottiePlayer
-            src={finishMeta?.animation?.src ?? "/lottie/celebration.json"}
-            className="h-40"
-          />
-        </div>
-        <div className="text-2xl font-extrabold">
-          {finishMeta?.praise ?? "Awesome!"}
-        </div>
-        <div className="space-y-2">
-          <div className="text-sm font-bold">Statistics</div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            <div className="p-3 rounded-xl border">
-              <div className="text-xs text-neutral-600">XP gained</div>
-              <div className="text-lg font-extrabold">{stats.xp}</div>
-            </div>
-            <div className="p-3 rounded-xl border">
-              <div className="text-xs text-neutral-600">Accuracy</div>
-              <div className="text-lg font-extrabold">{stats.accuracyPct}%</div>
-            </div>
-            <div className="p-3 rounded-xl border">
-              <div className="text-xs text-neutral-600">Time spent</div>
-              <div className="text-lg font-extrabold">
-                {stats.minutes}m {stats.seconds}s
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center justify-end gap-3">
-          <Button
-            variant="blue"
-            size="md"
-            label="Review lesson"
-            onClick={() => setAttempt(null)}
-          />
-          <Button
-            variant="green"
-            size="md"
-            label="Continue"
-            onClick={() => (window.location.href = "/learn")}
-          />
-        </div>
+      <main className={cn("w-full max-w-[860px] mx-auto px-3 py-4")}>
+        <FinishSummary
+          animationSrc={finishMeta?.animation?.src ?? "/medals.json"}
+          fallbackSrc={finishMeta?.animation?.fallbackSrc ?? "/window.svg"}
+          stats={stats}
+          praise={finishMeta?.praise ?? "Awesome!"}
+          onReview={() => setAttempt(null)}
+          onContinue={() => (window.location.href = "/learn")}
+        />
       </main>
     );
   }
 
   return (
     <main className="w-full max-w-[860px] mx-auto px-3 py-4">
-      <QuizRunner
-        questions={sample}
-        lessonId={lessonId}
-        attemptId={`attempt-${lessonId}`}
-        onComplete={(payload) => setAttempt(payload)}
-      />
+      {entering ? (
+        <div className="flex min-h-[80vh] items-center justify-center flex-col gap-2 text-center">
+          <LottiePlayer src="/manrunning.json" className="h-52 w-52" />
+          <div className="text-sm font-extrabold tracking-wider">
+            LOADING....
+          </div>
+        </div>
+      ) : (
+        <QuizRunner
+          questions={sample}
+          lessonId={lessonId}
+          attemptId={`attempt-${lessonId}`}
+          onComplete={(payload) => setAttempt(payload)}
+          footerVariant="sticky"
+        />
+      )}
     </main>
   );
 }
