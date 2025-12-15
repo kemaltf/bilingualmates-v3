@@ -66,3 +66,12 @@ Whenever you modify the database structure (e.g., adding a new table, changing a
 1.  Create or update the corresponding SQL file in the appropriate subdirectory.
 2.  Ensure the SQL is valid and can be run in the Supabase SQL Editor.
 3.  Do NOT put everything in a single `schema.sql` file; keep it modular.
+
+## Theme & Dark Mode Compatibility
+
+1.  **Always Support Dark Mode**: Every UI component MUST look good and be readable in both Light and Dark modes.
+2.  **Use Semantic Colors**: Prefer using CSS variables or semantic utility classes (e.g., `text-foreground`, `bg-background`, `border-border`) over hardcoded colors like `text-black` or `bg-white`.
+3.  **Explicit Dark Variants**: If using neutral or specific colors, ALWAYS provide a `dark:` variant.
+    *   ❌ Bad: `text-neutral-600 bg-white`
+    *   ✅ Good: `text-neutral-600 dark:text-neutral-300 bg-white dark:bg-neutral-900`
+4.  **Test Visibility**: Verify that text contrast is sufficient and background colors are appropriate in dark mode, especially for popups, dropdowns, and cards.

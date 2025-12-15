@@ -10,6 +10,7 @@ export const learnRightSections: RightSection[] = [
       streakDays: 65,
       diamonds: 240,
       xp: 1050,
+      flagUrl: "/flags/id.svg",
     },
   },
   {
@@ -61,6 +62,7 @@ export const profileRightSections: RightSection[] = [
       streakDays: 65,
       diamonds: 250,
       xp: 1051,
+      flagUrl: "/flags/id.svg",
     },
   },
   {
