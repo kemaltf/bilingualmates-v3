@@ -65,7 +65,13 @@ export const PRIMARY_BRAND: BrandColor = "sky";
 
 export const BRAND: Record<
   BrandColor,
-  { bg500: string; border600: string; text600: string; shadow: string; focus: string }
+  {
+    bg500: string;
+    border600: string;
+    text600: string;
+    shadow: string;
+    focus: string;
+  }
 > = {
   emerald: {
     bg500: "bg-emerald-500",

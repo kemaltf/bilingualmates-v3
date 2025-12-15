@@ -37,6 +37,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { supabase } from "@/lib/supabase/client";
 
 export default function LearnLayout({
   children,
@@ -51,6 +52,12 @@ export default function LearnLayout({
     if (!pathname) return false;
     return pathname.startsWith("/learn/");
   }, [pathname]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
+
   return (
     <SidebarProvider>
       {!focusLesson && (
@@ -124,7 +131,7 @@ export default function LearnLayout({
                             <span>Settings</span>
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleLogout}>
                           <LogOut className="size-4" />
                           <span>Log out</span>
                         </DropdownMenuItem>
@@ -209,7 +216,10 @@ export default function LearnLayout({
                 <Settings className="size-5" />
                 <div className="text-sm font-bold">Settings</div>
               </Link>
-              <button className="flex items-center gap-3 rounded-xl border p-3 w-full">
+              <button
+                className="flex items-center gap-3 rounded-xl border p-3 w-full"
+                onClick={handleLogout}
+              >
                 <LogOut className="size-5" />
                 <div className="text-sm font-bold">Log out</div>
               </button>
