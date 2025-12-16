@@ -157,6 +157,19 @@ export const paths: CurriculumPath[] = [
     imageUrl: "/images/path-business.svg",
     price: 150000,
     currency: "IDR",
+    description: "Master professional communication and advance your career.",
+    learningPoints: [
+      "Write effective emails",
+      "Lead meetings confidently",
+      "Negotiate like a pro",
+      "Business vocabulary mastery",
+    ],
+    estimatedTime: "6 weeks",
+    studentsCount: 3215,
+    difficulty: "Intermediate",
+    certificate: true,
+    language: "English",
+    subtitles: ["English", "Indonesian"],
     units: [
       {
         id: "bu1",
@@ -251,6 +264,19 @@ export const paths: CurriculumPath[] = [
     imageUrl: "/images/path-kids.svg",
     price: 99000,
     currency: "IDR",
+    description: "Fun and engaging lessons designed specifically for children.",
+    learningPoints: [
+      "Basic vocabulary",
+      "Fun songs and games",
+      "Simple sentence structure",
+      "Interactive storytelling",
+    ],
+    estimatedTime: "4 weeks",
+    studentsCount: 5430,
+    difficulty: "Beginner",
+    certificate: true,
+    language: "English",
+    subtitles: ["English", "Indonesian"],
     units: [
       {
         id: "k1",
@@ -304,6 +330,19 @@ export const paths: CurriculumPath[] = [
     imageUrl: "/images/path-travel.svg",
     price: 120000,
     currency: "IDR",
+    description: "Essential phrases and confidence for your next adventure.",
+    learningPoints: [
+      "Airport and hotel check-in",
+      "Asking for directions",
+      "Ordering food",
+      "Emergency situations",
+    ],
+    estimatedTime: "3 weeks",
+    studentsCount: 2100,
+    difficulty: "Beginner",
+    certificate: true,
+    language: "English",
+    subtitles: ["English", "Indonesian"],
     units: [
       {
         id: "t1",

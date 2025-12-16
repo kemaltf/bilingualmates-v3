@@ -19,7 +19,7 @@ sequenceDiagram
     Browser->>Supabase: 1. Redirects to Google/Supabase
     Supabase-->>Browser: 2. Redirects back with "?code=xyz"
 
-    Note over Browser: Browser hits /auth/callback?code=xyz
+    Note over Browser: Browser hits /auth/callback?code=xyz (on localhost or domain)
     Browser->>Server: 3. GET /auth/callback?code=xyz
 
     Note right of Server: Server exchanges Code for Session

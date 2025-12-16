@@ -2,7 +2,7 @@
 import { QuizRunner } from "@/components/shared/quiz/quiz-runner";
 import type { QuizQuestion } from "@/lib/quiz/types";
 import type { SubmitAttemptPayload } from "@/lib/quiz/types";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import LottiePlayer from "@/components/shared/LottiePlayer";
@@ -16,10 +16,17 @@ import { getBrandColorByIndex } from "@/lib/ui/design-tokens";
 import ReadingRunner, {
   type ReadingSection,
 } from "@/components/shared/reading/ReadingRunner";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
   const params = useParams<{ lessonId: string }>();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const lessonId = params?.lessonId ?? "lesson-demo";
+  const isSample = searchParams.get("sample") === "true";
+  const pathId = searchParams.get("pathId");
+
   const [attempt, setAttempt] = React.useState<SubmitAttemptPayload | null>(
     null
   );
@@ -30,8 +37,8 @@ export default function Page() {
     const t = setTimeout(() => setEntering(false), 800);
     return () => clearTimeout(t);
   }, []);
-  const sample: QuizQuestion[] = React.useMemo(
-    () => [
+  const sample: QuizQuestion[] = React.useMemo(() => {
+    const all: QuizQuestion[] = [
       {
         kind: "mcq",
         id: `${lessonId}-video-mcq`,
@@ -65,9 +72,9 @@ export default function Page() {
         ],
         correctOptionId: "a",
       },
-    ],
-    [lessonId]
-  );
+    ];
+    return isSample ? all.slice(0, 2) : all;
+  }, [lessonId, isSample]);
 
   const memoryItems: MemoryItem[] = React.useMemo(() => {
     return sample
@@ -194,6 +201,45 @@ export default function Page() {
   }
 
   if (attempt || memDone || readDone) {
+    if (isSample) {
+      return (
+        <main
+          className={cn(
+            "w-full max-w-[860px] mx-auto px-6 py-4 flex flex-col items-center justify-center min-h-[60vh]"
+          )}
+        >
+          <div className="text-6xl mb-6 animate-bounce">🔒</div>
+          <h1 className="text-2xl font-bold text-slate-800 mb-2 text-center">
+            Sample Completed!
+          </h1>
+          <p className="text-slate-600 text-center mb-8 max-w-md">
+            You&apos;ve completed the sample lesson. Unlock the full course to
+            continue your journey and access all lessons.
+          </p>
+          <div className="w-full max-w-sm space-y-4">
+            <Button
+              variant="green"
+              size="lg"
+              className="w-full text-lg h-12 font-bold shadow-lg shadow-green-200"
+              onClick={() =>
+                router.push(pathId ? `/path/${pathId}/checkout` : "/path")
+              }
+            >
+              Unlock Full Course
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full text-slate-500"
+              onClick={() => router.push(pathId ? `/path/${pathId}` : "/path")}
+            >
+              Back to Details
+            </Button>
+          </div>
+        </main>
+      );
+    }
+
     const stats = computeStats(attempt);
     const finishMeta = getFinishMeta(lessonId);
     return (

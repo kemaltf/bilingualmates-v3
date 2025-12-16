@@ -47,6 +47,14 @@ export interface CurriculumPath {
   units: Unit[];
   price?: number;
   currency?: string;
+  description?: string;
+  learningPoints?: string[];
+  estimatedTime?: string;
+  studentsCount?: number;
+  difficulty?: "Beginner" | "Intermediate" | "Advanced";
+  certificate?: boolean;
+  language?: string;
+  subtitles?: string[];
 }
 
 export type FinishAnimationKind = "lottie" | "image" | "gif";

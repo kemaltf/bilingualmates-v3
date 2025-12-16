@@ -31,7 +31,10 @@ SUPABASE_ANON_KEY=your_supabase_anon_key
 
 1.  Go to **Authentication > URL Configuration**.
 2.  Set **Site URL** to `http://localhost:3000` (for development).
-3.  Add `http://localhost:3000/auth/callback` to **Redirect URLs**.
+3.  **IMPORTANT:** Add your production URLs to **Redirect URLs**:
+    - `http://localhost:3000/auth/callback`
+    - `https://bilingualmates.com/auth/callback` (and any other domains like www)
+    - `https://your-vercel-url.app/auth/callback` (for preview deployments)
 
 ### C. Google Cloud Console Setup (for OAuth)
 
