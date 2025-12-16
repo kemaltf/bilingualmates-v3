@@ -37,10 +37,9 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Terjadi kesalahan server" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Terjadi kesalahan server";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

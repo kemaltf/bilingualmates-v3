@@ -58,16 +58,18 @@ export function QuizRunner({
   const value = controller.answers[q.id];
   const [showConfetti, setShowConfetti] = React.useState(false);
 
+  const { isLocked, checkAnswer, nextQuestion } = controller;
+
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        if (!controller.isLocked) controller.checkAnswer();
-        else controller.nextQuestion();
+        if (!isLocked) checkAnswer();
+        else nextQuestion();
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [controller.isLocked, controller.checkAnswer, controller.nextQuestion]);
+  }, [isLocked, checkAnswer, nextQuestion]);
 
   React.useEffect(() => {
     if (controller.feedback === "correct") {

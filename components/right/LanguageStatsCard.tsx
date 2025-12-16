@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import { Gem, Zap, Crown, Plus, Check } from "lucide-react";
+import { Zap, Crown, Plus, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import {
   HoverCard,

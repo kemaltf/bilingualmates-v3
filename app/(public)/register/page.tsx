@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { supabase } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -71,8 +70,9 @@ export default function RegisterPage() {
       } else {
         if (typeof window !== "undefined") window.location.assign("/learn");
       }
-    } catch (e: any) {
-      setError(e?.message ?? "Registrasi gagal");
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Registrasi gagal";
+      setError(message);
     } finally {
       setLoading(false);
     }

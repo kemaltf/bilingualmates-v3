@@ -248,6 +248,17 @@ function VideoPlayer({
   };
 
   const videoId = parseYouTubeId(content.url);
+  const onReadyRef = React.useRef(onReady);
+  const onPlayRef = React.useRef(onPlay);
+  const onPauseRef = React.useRef(onPause);
+  const onErrorRef = React.useRef(onError);
+
+  React.useEffect(() => {
+    onReadyRef.current = onReady;
+    onPlayRef.current = onPlay;
+    onPauseRef.current = onPause;
+    onErrorRef.current = onError;
+  });
 
   React.useEffect(() => {
     if (!containerRef.current || !videoId) return;
@@ -274,7 +285,7 @@ function VideoPlayer({
           onReady: () => {
             setReady(true);
             playerRef.current?.seekTo?.(start, true);
-            onReady?.();
+            onReadyRef.current?.();
           },
           onStateChange: (e: { data: number }) => {
             if (e.data === 1) setPlaying(true);
@@ -286,11 +297,11 @@ function VideoPlayer({
                 p.playVideo?.();
               }
             }
-            if (e.data === 1) onPlay?.();
-            if (e.data === 2) onPause?.();
+            if (e.data === 1) onPlayRef.current?.();
+            if (e.data === 2) onPauseRef.current?.();
           },
           onError: () => {
-            onError?.();
+            onErrorRef.current?.();
           },
         },
       });

@@ -61,8 +61,9 @@ export default function ForgotPasswordPage() {
         type: "success",
         text: "Jika akun dengan email tersebut ada, kami telah mengirimkan tautan reset password.",
       });
-    } catch (e: any) {
-      setMessage({ type: "error", text: e?.message ?? "Terjadi kesalahan" });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Terjadi kesalahan";
+      setMessage({ type: "error", text: message });
     } finally {
       setLoading(false);
     }

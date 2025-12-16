@@ -67,10 +67,9 @@ export async function POST(request: Request) {
     const isEmailConfirmationRequired = data.user && !data.session;
 
     return NextResponse.json({ success: true, isEmailConfirmationRequired });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Terjadi kesalahan server" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Terjadi kesalahan server";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

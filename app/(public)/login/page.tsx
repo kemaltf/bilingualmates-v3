@@ -1,10 +1,9 @@
 "use client";
 import * as React from "react";
-import { supabase } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { AlertOctagon, Mail, Lock, User } from "lucide-react";
+import { AlertOctagon, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,8 +56,10 @@ export default function LoginPage() {
       if (data.url) {
         window.location.href = data.url;
       }
-    } catch (e: any) {
-      setError(e?.message ?? "Terjadi kesalahan saat login Google");
+    } catch (e: unknown) {
+      const message =
+        e instanceof Error ? e.message : "Terjadi kesalahan saat login Google";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -86,8 +87,9 @@ export default function LoginPage() {
       }
 
       if (typeof window !== "undefined") window.location.assign("/learn");
-    } catch (e: any) {
-      setError(e?.message ?? "Login gagal");
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Login gagal";
+      setError(message);
     } finally {
       setLoading(false);
     }

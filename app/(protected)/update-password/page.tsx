@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { supabase } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -70,10 +69,12 @@ export default function UpdatePasswordPage() {
       setTimeout(() => {
         router.push("/learn");
       }, 2000);
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const message =
+        e instanceof Error ? e.message : "Gagal memperbarui password";
       setMessage({
         type: "error",
-        text: e?.message ?? "Gagal memperbarui password",
+        text: message,
       });
     } finally {
       setLoading(false);

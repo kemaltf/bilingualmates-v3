@@ -30,41 +30,44 @@ export default function Page() {
     const t = setTimeout(() => setEntering(false), 800);
     return () => clearTimeout(t);
   }, []);
-  const sample: QuizQuestion[] = [
-    {
-      kind: "mcq",
-      id: `${lessonId}-video-mcq`,
-      prompt: {
-        kind: "video",
-        url: "https://www.youtube.com/watch?v=0lStodgghOc",
-        startTimeSec: 5,
-        endTimeSec: 15,
-        transcript: "Alasan Terbesar 90% Anak Muda Gagal Usaha",
+  const sample: QuizQuestion[] = React.useMemo(
+    () => [
+      {
+        kind: "mcq",
+        id: `${lessonId}-video-mcq`,
+        prompt: {
+          kind: "video",
+          url: "https://www.youtube.com/watch?v=0lStodgghOc",
+          startTimeSec: 5,
+          endTimeSec: 15,
+          transcript: "Alasan Terbesar 90% Anak Muda Gagal Usaha",
+        },
+        textPrompt: "Pilih deskripsi (tekan 1/2/3)",
+        options: [
+          { id: "a", content: { kind: "text", text: "A short video clip" } },
+          { id: "b", content: { kind: "text", text: "An audio sample" } },
+          { id: "c", content: { kind: "text", text: "A static image" } },
+        ],
+        correctOptionId: "a",
       },
-      textPrompt: "Pilih deskripsi (tekan 1/2/3)",
-      options: [
-        { id: "a", content: { kind: "text", text: "A short video clip" } },
-        { id: "b", content: { kind: "text", text: "An audio sample" } },
-        { id: "c", content: { kind: "text", text: "A static image" } },
-      ],
-      correctOptionId: "a",
-    },
-    {
-      kind: "mcq",
-      id: `${lessonId}-text-mcq`,
-      prompt: {
-        kind: "text",
-        text: "Choose the correct translation for 'Halo'",
+      {
+        kind: "mcq",
+        id: `${lessonId}-text-mcq`,
+        prompt: {
+          kind: "text",
+          text: "Choose the correct translation for 'Halo'",
+        },
+        textPrompt: "Pilih jawaban (tekan 1/2/3)",
+        options: [
+          { id: "a", content: { kind: "text", text: "Hello" } },
+          { id: "b", content: { kind: "text", text: "Goodbye" } },
+          { id: "c", content: { kind: "text", text: "Thanks" } },
+        ],
+        correctOptionId: "a",
       },
-      textPrompt: "Pilih jawaban (tekan 1/2/3)",
-      options: [
-        { id: "a", content: { kind: "text", text: "Hello" } },
-        { id: "b", content: { kind: "text", text: "Goodbye" } },
-        { id: "c", content: { kind: "text", text: "Thanks" } },
-      ],
-      correctOptionId: "a",
-    },
-  ];
+    ],
+    [lessonId]
+  );
 
   const memoryItems: MemoryItem[] = React.useMemo(() => {
     return sample

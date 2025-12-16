@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -128,7 +129,7 @@ export default function LottiePlayer({
             svg.style.height = "100%";
           }
         });
-      } catch (e) {
+      } catch {
         setFailed(true);
       }
     })();
