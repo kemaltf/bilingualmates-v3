@@ -1,4 +1,4 @@
-import { ThemeSelect } from "@/components/ui/theme-select"
+import { ThemeSelect } from "@/components/ui/theme-select";
 
 export default function Page() {
   return (
@@ -9,5 +9,5 @@ export default function Page() {
         <ThemeSelect className="w-80" />
       </div>
     </div>
-  )
+  );
 }

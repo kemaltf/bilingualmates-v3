@@ -15,7 +15,15 @@ const meta: Meta<typeof Button> = {
   },
   parameters: {
     controls: {
-      include: ["variant", "size", "disabled", "label", "loading", "pressed", "onFocus"],
+      include: [
+        "variant",
+        "size",
+        "disabled",
+        "label",
+        "loading",
+        "pressed",
+        "onFocus",
+      ],
     },
   },
 };
@@ -94,7 +102,7 @@ export const OnFocus: Story = {
   args: {
     size: "md",
     label: "Focus Me",
-    onFocus: () => {}
+    onFocus: () => {},
   },
 };
 

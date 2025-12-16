@@ -1,20 +1,25 @@
-"use client"
-import * as React from "react"
-import type { QuizQuestion } from "@/lib/quiz/types"
-import { MCQuestionCard } from "./mcq/mc-question-card"
-import { ShortTextQuestionCard } from "./short-text-question-card"
-import ClozeQuestionCard from "./cloze-question-card"
-import { MatchQuestionCard } from "./match-question-card"
-import QuestionReorder from "./question-reorder"
+"use client";
+import * as React from "react";
+import type { QuizQuestion } from "@/lib/quiz/types";
+import { MCQuestionCard } from "./mcq/mc-question-card";
+import { ShortTextQuestionCard } from "./short-text-question-card";
+import ClozeQuestionCard from "./cloze-question-card";
+import { MatchQuestionCard } from "./match-question-card";
+import QuestionReorder from "./question-reorder";
 
 export interface QuestionRendererProps {
-  question: QuizQuestion
-  locked: boolean
-  value: unknown
-  onAnswerChange: (value: unknown) => void
+  question: QuizQuestion;
+  locked: boolean;
+  value: unknown;
+  onAnswerChange: (value: unknown) => void;
 }
 
-export function QuestionRenderer({ question, locked, value, onAnswerChange }: QuestionRendererProps) {
+export function QuestionRenderer({
+  question,
+  locked,
+  value,
+  onAnswerChange,
+}: QuestionRendererProps) {
   if (question.kind === "mcq") {
     return (
       <MCQuestionCard
@@ -23,7 +28,7 @@ export function QuestionRenderer({ question, locked, value, onAnswerChange }: Qu
         onSelectOption={(id) => onAnswerChange(id)}
         locked={locked}
       />
-    )
+    );
   }
   if (question.kind === "short_text") {
     return (
@@ -34,21 +39,23 @@ export function QuestionRenderer({ question, locked, value, onAnswerChange }: Qu
         status={"idle"}
         locked={locked}
       />
-    )
+    );
   }
   if (question.kind === "match") {
-    const matches = Array.isArray(value) ? (value as { leftId: string; rightId: string }[]) : []
+    const matches = Array.isArray(value)
+      ? (value as { leftId: string; rightId: string }[])
+      : [];
     return (
       <MatchQuestionCard
         question={question}
         matches={matches}
         onCreateMatch={(l, r) => {
-          const next = [...matches, { leftId: l, rightId: r }]
-          onAnswerChange(next)
+          const next = [...matches, { leftId: l, rightId: r }];
+          onAnswerChange(next);
         }}
         locked={locked}
       />
-    )
+    );
   }
   if (question.kind === "reorder") {
     return (
@@ -59,7 +66,7 @@ export function QuestionRenderer({ question, locked, value, onAnswerChange }: Qu
         prompt={question.prompt.text}
         disabled={locked}
       />
-    )
+    );
   }
   return (
     <ClozeQuestionCard
@@ -69,5 +76,5 @@ export function QuestionRenderer({ question, locked, value, onAnswerChange }: Qu
       onChange={(next) => onAnswerChange(next)}
       locked={locked}
     />
-  )
+  );
 }

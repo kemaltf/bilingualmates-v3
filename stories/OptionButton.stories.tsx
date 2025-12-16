@@ -13,7 +13,17 @@ const meta: Meta<typeof OptionButton> = {
     pressed: false,
   },
   parameters: {
-    controls: { include: ["variant", "disabled", "label", "showLabel", "pressed", "children"], expanded: true },
+    controls: {
+      include: [
+        "variant",
+        "disabled",
+        "label",
+        "showLabel",
+        "pressed",
+        "children",
+      ],
+      expanded: true,
+    },
     docs: { source: { state: "open" } },
   },
   argTypes: {
@@ -37,5 +47,7 @@ export const Default: Story = {};
 export const Selected: Story = { args: { variant: "option-selected" } };
 export const Correct: Story = { args: { variant: "option-correct" } };
 export const Incorrect: Story = { args: { variant: "option-incorrect" } };
-export const Disabled: Story = { args: { variant: "option-disabled", disabled: true } };
+export const Disabled: Story = {
+  args: { variant: "option-disabled", disabled: true },
+};
 export const WithoutLabel: Story = { args: { showLabel: false } };

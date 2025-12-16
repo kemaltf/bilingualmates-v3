@@ -1,20 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { useState } from "react"
+import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 type StoryProps = {
-  size?: "sm" | "default"
-  disabled?: boolean
-}
+  size?: "sm" | "default";
+  disabled?: boolean;
+};
 
 function ControlledSelect({ size = "default", disabled = false }: StoryProps) {
-  const [value, setValue] = useState<string>("system")
+  const [value, setValue] = useState<string>("system");
   return (
     <Select value={value} onValueChange={setValue} disabled={disabled}>
       <SelectTrigger size={size} className="w-80">
@@ -26,7 +26,7 @@ function ControlledSelect({ size = "default", disabled = false }: StoryProps) {
         <SelectItem value="dark">Dark</SelectItem>
       </SelectContent>
     </Select>
-  )
+  );
 }
 
 const meta: Meta<typeof ControlledSelect> = {
@@ -36,17 +36,17 @@ const meta: Meta<typeof ControlledSelect> = {
     size: "default",
     disabled: false,
   },
-}
+};
 
-export default meta
-type Story = StoryObj<typeof ControlledSelect>
+export default meta;
+type Story = StoryObj<typeof ControlledSelect>;
 
-export const Default: Story = {}
+export const Default: Story = {};
 
 export const Small: Story = {
   args: { size: "sm" },
-}
+};
 
 export const Disabled: Story = {
   args: { disabled: true },
-}
+};

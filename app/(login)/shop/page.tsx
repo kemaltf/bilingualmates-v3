@@ -14,7 +14,6 @@ function formatIDR(cents: number) {
 }
 
 export default function Page() {
-  
   return (
     <main className="w-full space-y-6">
       <section>

@@ -9,8 +9,13 @@ import LottiePlayer from "@/components/shared/LottiePlayer";
 import { paths } from "@/lib/learn/mock";
 import type { LessonFinishMeta } from "@/lib/learn/types";
 import FinishSummary from "@/components/learn/FinishSummary";
-import MemoryCardStack from "@/components/learn/MemoryCardStack";
-import ReadingRunner from "@/components/shared/reading/ReadingRunner";
+import MemoryCardStack, {
+  type MemoryItem,
+} from "@/components/learn/MemoryCardStack";
+import { getBrandColorByIndex } from "@/lib/ui/design-tokens";
+import ReadingRunner, {
+  type ReadingSection,
+} from "@/components/shared/reading/ReadingRunner";
 
 export default function Page() {
   const params = useParams<{ lessonId: string }>();
@@ -61,41 +66,34 @@ export default function Page() {
     },
   ];
 
-  const memoryItems = [
-    {
-      id: `${lessonId}-mem-hello`,
-      title: "Hello",
-      content: {
-        kind: "text",
-        text: "Hello",
-        pronunciationUrl: "/audio/hello.mp3",
-      },
-      translation: "Halo",
-      phonetic: "ˈhɛləʊ",
-      examples: ["Hello everyone", "Hello there"],
-    },
-    {
-      id: `${lessonId}-mem-thanks`,
-      title: "Thanks",
-      content: {
-        kind: "text",
-        text: "Thanks",
-        pronunciationUrl: "/audio/thanks.mp3",
-      },
-      translation: "Terima kasih",
-      phonetic: "θæŋks",
-      examples: ["Thanks a lot", "Thanks for coming"],
-    },
-  ];
+  const memoryItems: MemoryItem[] = React.useMemo(() => {
+    return sample
+      .filter(
+        (q): q is Extract<QuizQuestion, { kind: "mcq" }> => q.kind === "mcq"
+      )
+      .map((q, idx) => ({
+        id: q.id,
+        title: "New Word",
+        content: {
+          kind: q.prompt.kind,
+          text: q.prompt.text ?? "",
+          pronunciationUrl: q.prompt.pronunciationUrl,
+        },
+        translation: q.options?.[0]?.content?.text ?? "Translation",
+        phonetic: "/.../",
+        examples: ["Example sentence 1", "Example sentence 2"],
+        color: getBrandColorByIndex(idx),
+      }));
+  }, [sample]);
 
-  const readingSections = [
+  const readingSections: ReadingSection[] = [
     {
-      kind: "text" as const,
+      kind: "text",
       id: `${lessonId}-p1`,
       content: { kind: "text", text: "John pergi ke pasar setiap pagi." },
     },
     {
-      kind: "text" as const,
+      kind: "text",
       id: `${lessonId}-p2`,
       content: {
         kind: "text",
@@ -103,7 +101,7 @@ export default function Page() {
       },
     },
     {
-      kind: "quiz" as const,
+      kind: "quiz",
       id: `${lessonId}-q1`,
       question: {
         kind: "cloze",

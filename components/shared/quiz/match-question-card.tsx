@@ -44,10 +44,10 @@ function MatchButton({
   feedbackVariant?: "option-correct" | "option-incorrect" | undefined;
 }) {
   const variant = matched
-    ? feedbackVariant ?? "option-disabled"
+    ? (feedbackVariant ?? "option-disabled")
     : selected
-    ? "option-selected"
-    : "option-default";
+      ? "option-selected"
+      : "option-default";
   return (
     <OptionButton
       variant={variant}

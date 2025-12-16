@@ -26,10 +26,13 @@ const optionButtonVariants = cva(
   }
 );
 
-export type OptionButtonVariant = VariantProps<typeof optionButtonVariants>["variant"];
+export type OptionButtonVariant = VariantProps<
+  typeof optionButtonVariants
+>["variant"];
 
 function labelClassesByVariant(variant: OptionButtonVariant) {
-  const base = "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-bold text-base";
+  const base =
+    "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-bold text-base";
   switch (variant) {
     case "option-selected":
       return `${base} bg-sky-200 text-sky-700`;
@@ -77,17 +80,31 @@ type OptionButtonProps = React.ComponentProps<"button"> &
     hotkey?: string | number;
   };
 
-function OptionButton({ className, variant, disabled, children, label, showLabel = true, pressed = false, hotkey, ...props }: OptionButtonProps) {
+function OptionButton({
+  className,
+  variant,
+  disabled,
+  children,
+  label,
+  showLabel = true,
+  pressed = false,
+  hotkey,
+  ...props
+}: OptionButtonProps) {
   const btnRef = React.useRef<HTMLButtonElement | null>(null);
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (disabled) return;
       const tgt = e.target as HTMLElement | null;
       const tag = tgt?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || tgt?.isContentEditable) return;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tgt?.isContentEditable)
+        return;
       const k = typeof hotkey === "number" ? String(hotkey) : hotkey;
       if (!k) return;
-      const eq = typeof k === "string" ? e.key.toLowerCase() === k.toLowerCase() : e.key === k;
+      const eq =
+        typeof k === "string"
+          ? e.key.toLowerCase() === k.toLowerCase()
+          : e.key === k;
       if (eq) {
         btnRef.current?.click();
       }
@@ -102,11 +119,20 @@ function OptionButton({ className, variant, disabled, children, label, showLabel
       aria-disabled={disabled}
       disabled={disabled}
       aria-keyshortcuts={typeof hotkey === "number" ? String(hotkey) : hotkey}
-      className={cn(optionButtonVariants({ variant, className }), pressed && "translate-y-1 shadow-none")}
+      className={cn(
+        optionButtonVariants({ variant, className }),
+        pressed && "translate-y-1 shadow-none"
+      )}
       {...props}
     >
       <div className="flex items-center gap-4">
-        {showLabel && label !== undefined && <span className={labelClassesByVariant(variant as OptionButtonVariant)}>{label}</span>}
+        {showLabel && label !== undefined && (
+          <span
+            className={labelClassesByVariant(variant as OptionButtonVariant)}
+          >
+            {label}
+          </span>
+        )}
         <div className="flex-1 space-y-2">{children}</div>
       </div>
     </button>

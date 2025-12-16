@@ -1,12 +1,12 @@
-"use client"
-import * as React from "react"
-import Link from "next/link"
-import { Search, ChevronRight } from "lucide-react"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+"use client";
+import * as React from "react";
+import Link from "next/link";
+import { Search, ChevronRight } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 export interface FindFriendsCardProps {
-  className?: string
+  className?: string;
 }
 
 export function FindFriendsCard({ className }: FindFriendsCardProps) {
@@ -27,5 +27,5 @@ export function FindFriendsCard({ className }: FindFriendsCardProps) {
         </Link>
       </CardContent>
     </Card>
-  )
+  );
 }

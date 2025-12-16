@@ -104,8 +104,8 @@ export default function Page() {
                         a.color === "emerald"
                           ? "emerald"
                           : a.color === "amber"
-                          ? "amber"
-                          : "violet"
+                            ? "amber"
+                            : "violet"
                       ]
                     }
                     size="md"

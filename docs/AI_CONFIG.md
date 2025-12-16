@@ -5,12 +5,10 @@
 All forms in this project MUST use the following stack and patterns:
 
 1.  **Library**: `react-hook-form`
-
     - Do NOT use local state (`useState`) for form fields.
     - Use the `useForm` hook for form state management.
 
 2.  **Validation**: `zod` with `@hookform/resolvers/zod`
-
     - Define a Zod schema for every form.
     - Infer TypeScript types from the Zod schema (`z.infer<typeof Schema>`).
 
@@ -79,7 +77,6 @@ Whenever you modify the database structure (e.g., adding a new table, changing a
 ## Authentication & Middleware
 
 1.  **Library**: `@supabase/ssr`
-
     - Use `@supabase/ssr` for server-side operations (Middleware, Server Components, Server Actions).
     - Use `@supabase/supabase-js` for client-side operations only.
 
@@ -130,6 +127,14 @@ try {
   setMessage({ type: "error", text: "An error occurred" });
 }
 ```
+
+## TypeScript Best Practices
+
+1.  **Avoid `any`**: Do NOT use the `any` type unless absolutely necessary (no other solution exists).
+2.  **Explicit Types**: Prefer explicit type definitions over `any` or implicit `any`.
+3.  **Use `unknown`**: When the type is truly unknown, use `unknown` instead of `any` and perform type checking before usage.
+4.  **Reuse Existing Types**: Always check if a type is already defined before creating a new one. Do not create arbitrary types if a suitable one exists.
+5.  **Type Definition Location**: Define types at their smallest scope (e.g., in the component that defines the props) unless it is a shared type used across multiple components (which should be in a shared types file).
 
 ## Language & Localization
 

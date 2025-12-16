@@ -7,7 +7,11 @@ const sampleItems: MemoryItem[] = [
   {
     id: "mem-hello",
     title: "Hello",
-    content: { kind: "text", text: "Hello", pronunciationUrl: "/audio/hello.mp3" },
+    content: {
+      kind: "text",
+      text: "Hello",
+      pronunciationUrl: "/audio/hello.mp3",
+    },
     phonetic: "ˈhɛləʊ",
     translation: "Halo",
     examples: ["Hello everyone", "Hello there"],
@@ -15,7 +19,11 @@ const sampleItems: MemoryItem[] = [
   {
     id: "mem-thanks",
     title: "Thanks",
-    content: { kind: "text", text: "Thanks", pronunciationUrl: "/audio/thanks.mp3" },
+    content: {
+      kind: "text",
+      text: "Thanks",
+      pronunciationUrl: "/audio/thanks.mp3",
+    },
     phonetic: "θæŋks",
     translation: "Terima kasih",
     examples: ["Thanks a lot", "Thanks for coming"],

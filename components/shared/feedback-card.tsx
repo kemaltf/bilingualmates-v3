@@ -24,7 +24,9 @@ export interface FeedbackCardProps {
 
 function iconByStatus(status: FeedbackStatus) {
   if (status === "correct")
-    return <CheckCircle2 className="size-6 text-emerald-600 dark:text-emerald-400" />;
+    return (
+      <CheckCircle2 className="size-6 text-emerald-600 dark:text-emerald-400" />
+    );
   if (status === "incorrect")
     return <XCircle className="size-6 text-rose-600 dark:text-rose-400" />;
   return <Info className="size-6 text-sky-600 dark:text-sky-400" />;
@@ -51,7 +53,9 @@ export function FeedbackCard({
       <CardHeader className="flex flex-row items-start gap-3">
         <div className="flex-shrink-0">{iconByStatus(status)}</div>
         <div className="flex-1 space-y-1">
-          {title && <CardTitle className="text-card-foreground">{title}</CardTitle>}
+          {title && (
+            <CardTitle className="text-card-foreground">{title}</CardTitle>
+          )}
           {message && (
             <CardDescription className="text-muted-foreground">
               {message}

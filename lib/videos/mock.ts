@@ -1,4 +1,9 @@
-import type { Topic, VideoItem, ContinueWatchingItem, ChapterItem } from "./types"
+import type {
+  Topic,
+  VideoItem,
+  ContinueWatchingItem,
+  ChapterItem,
+} from "./types";
 
 export const topics: Topic[] = [
   { id: "greetings", name: "Greetings", icon: "👋" },
@@ -8,7 +13,7 @@ export const topics: Topic[] = [
   { id: "slang", name: "Slang", icon: "😎" },
   { id: "grammar_tips", name: "Grammar Tips", icon: "📚" },
   { id: "culture", name: "Culture", icon: "🌍" },
-]
+];
 
 export const videos: VideoItem[] = [
   {
@@ -74,48 +79,188 @@ export const videos: VideoItem[] = [
     difficulty: "intermediate",
     topicId: "culture",
   },
-]
+];
 
 export const continueWatching: ContinueWatchingItem[] = [
   { ...videos[0], progressPercent: 40 },
   { ...videos[2], progressPercent: 65 },
   { ...videos[5], progressPercent: 25 },
-]
+];
 
 export const chaptersByTopic: Record<string, ChapterItem[]> = {
   greetings: [
-    { ...videos[0], id: "c-g-1", title: "Hello and Bye", sequence: 1, status: "completed", progressPercent: 100 },
-    { ...videos[0], id: "c-g-2", title: "Polite Greetings", sequence: 2, status: "in_progress", progressPercent: 45 },
-    { ...videos[0], id: "c-g-3", title: "Introducing Yourself", sequence: 3, status: "locked" },
+    {
+      ...videos[0],
+      id: "c-g-1",
+      title: "Hello and Bye",
+      sequence: 1,
+      status: "completed",
+      progressPercent: 100,
+    },
+    {
+      ...videos[0],
+      id: "c-g-2",
+      title: "Polite Greetings",
+      sequence: 2,
+      status: "in_progress",
+      progressPercent: 45,
+    },
+    {
+      ...videos[0],
+      id: "c-g-3",
+      title: "Introducing Yourself",
+      sequence: 3,
+      status: "locked",
+    },
   ],
   travel: [
-    { ...videos[1], id: "c-t-1", title: "At the Airport", sequence: 1, status: "completed", progressPercent: 100 },
-    { ...videos[1], id: "c-t-2", title: "On the Train", sequence: 2, status: "in_progress", progressPercent: 30 },
-    { ...videos[1], id: "c-t-3", title: "Hotel Check-in", sequence: 3, status: "locked" },
+    {
+      ...videos[1],
+      id: "c-t-1",
+      title: "At the Airport",
+      sequence: 1,
+      status: "completed",
+      progressPercent: 100,
+    },
+    {
+      ...videos[1],
+      id: "c-t-2",
+      title: "On the Train",
+      sequence: 2,
+      status: "in_progress",
+      progressPercent: 30,
+    },
+    {
+      ...videos[1],
+      id: "c-t-3",
+      title: "Hotel Check-in",
+      sequence: 3,
+      status: "locked",
+    },
   ],
   daily_life: [
-    { ...videos[2], id: "c-d-1", title: "Morning Routine", sequence: 1, status: "completed", progressPercent: 100 },
-    { ...videos[2], id: "c-d-2", title: "Shopping", sequence: 2, status: "in_progress", progressPercent: 60 },
-    { ...videos[2], id: "c-d-3", title: "Cooking", sequence: 3, status: "locked" },
+    {
+      ...videos[2],
+      id: "c-d-1",
+      title: "Morning Routine",
+      sequence: 1,
+      status: "completed",
+      progressPercent: 100,
+    },
+    {
+      ...videos[2],
+      id: "c-d-2",
+      title: "Shopping",
+      sequence: 2,
+      status: "in_progress",
+      progressPercent: 60,
+    },
+    {
+      ...videos[2],
+      id: "c-d-3",
+      title: "Cooking",
+      sequence: 3,
+      status: "locked",
+    },
   ],
   business: [
-    { ...videos[3], id: "c-b-1", title: "Email Basics", sequence: 1, status: "completed", progressPercent: 100 },
-    { ...videos[3], id: "c-b-2", title: "Meeting Phrases", sequence: 2, status: "in_progress", progressPercent: 25 },
-    { ...videos[3], id: "c-b-3", title: "Negotiations", sequence: 3, status: "locked" },
+    {
+      ...videos[3],
+      id: "c-b-1",
+      title: "Email Basics",
+      sequence: 1,
+      status: "completed",
+      progressPercent: 100,
+    },
+    {
+      ...videos[3],
+      id: "c-b-2",
+      title: "Meeting Phrases",
+      sequence: 2,
+      status: "in_progress",
+      progressPercent: 25,
+    },
+    {
+      ...videos[3],
+      id: "c-b-3",
+      title: "Negotiations",
+      sequence: 3,
+      status: "locked",
+    },
   ],
   slang: [
-    { ...videos[4], id: "c-s-1", title: "Internet Slang", sequence: 1, status: "completed", progressPercent: 100 },
-    { ...videos[4], id: "c-s-2", title: "Casual Phrases", sequence: 2, status: "in_progress", progressPercent: 40 },
-    { ...videos[4], id: "c-s-3", title: "Regional Slang", sequence: 3, status: "locked" },
+    {
+      ...videos[4],
+      id: "c-s-1",
+      title: "Internet Slang",
+      sequence: 1,
+      status: "completed",
+      progressPercent: 100,
+    },
+    {
+      ...videos[4],
+      id: "c-s-2",
+      title: "Casual Phrases",
+      sequence: 2,
+      status: "in_progress",
+      progressPercent: 40,
+    },
+    {
+      ...videos[4],
+      id: "c-s-3",
+      title: "Regional Slang",
+      sequence: 3,
+      status: "locked",
+    },
   ],
   grammar_tips: [
-    { ...videos[5], id: "c-gm-1", title: "Verb Tenses", sequence: 1, status: "completed", progressPercent: 100 },
-    { ...videos[5], id: "c-gm-2", title: "Prepositions", sequence: 2, status: "in_progress", progressPercent: 55 },
-    { ...videos[5], id: "c-gm-3", title: "Articles", sequence: 3, status: "locked" },
+    {
+      ...videos[5],
+      id: "c-gm-1",
+      title: "Verb Tenses",
+      sequence: 1,
+      status: "completed",
+      progressPercent: 100,
+    },
+    {
+      ...videos[5],
+      id: "c-gm-2",
+      title: "Prepositions",
+      sequence: 2,
+      status: "in_progress",
+      progressPercent: 55,
+    },
+    {
+      ...videos[5],
+      id: "c-gm-3",
+      title: "Articles",
+      sequence: 3,
+      status: "locked",
+    },
   ],
   culture: [
-    { ...videos[6], id: "c-c-1", title: "Greetings & Gestures", sequence: 1, status: "completed", progressPercent: 100 },
-    { ...videos[6], id: "c-c-2", title: "Dining Etiquette", sequence: 2, status: "in_progress", progressPercent: 35 },
-    { ...videos[6], id: "c-c-3", title: "Festivals", sequence: 3, status: "locked" },
+    {
+      ...videos[6],
+      id: "c-c-1",
+      title: "Greetings & Gestures",
+      sequence: 1,
+      status: "completed",
+      progressPercent: 100,
+    },
+    {
+      ...videos[6],
+      id: "c-c-2",
+      title: "Dining Etiquette",
+      sequence: 2,
+      status: "in_progress",
+      progressPercent: 35,
+    },
+    {
+      ...videos[6],
+      id: "c-c-3",
+      title: "Festivals",
+      sequence: 3,
+      status: "locked",
+    },
   ],
-}
+};

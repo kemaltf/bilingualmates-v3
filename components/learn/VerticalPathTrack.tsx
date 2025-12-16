@@ -206,8 +206,8 @@ export function VerticalPathTrack({
                           badgeStatus === "locked"
                             ? "text-muted-foreground"
                             : badgeStatus === "in_progress"
-                            ? "text-amber-500"
-                            : "text-emerald-600"
+                              ? "text-amber-500"
+                              : "text-emerald-600"
                         )}
                       />
                       <div className="text-sm font-bold">

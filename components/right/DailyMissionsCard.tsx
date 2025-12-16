@@ -1,24 +1,27 @@
-"use client"
-import * as React from "react"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import type { DailyMission } from "@/lib/right/types"
-import { cn } from "@/lib/utils"
+"use client";
+import * as React from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import type { DailyMission } from "@/lib/right/types";
+import { cn } from "@/lib/utils";
 
 export interface DailyMissionsCardProps {
-  missions: DailyMission[]
-  className?: string
+  missions: DailyMission[];
+  className?: string;
 }
 
 function ProgressBar({ value, max }: { value: number; max: number }) {
-  const pct = Math.min(100, Math.round((value / Math.max(1, max)) * 100))
+  const pct = Math.min(100, Math.round((value / Math.max(1, max)) * 100));
   return (
     <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
       <div className="h-full bg-emerald-500" style={{ width: `${pct}%` }} />
     </div>
-  )
+  );
 }
 
-export function DailyMissionsCard({ missions, className }: DailyMissionsCardProps) {
+export function DailyMissionsCard({
+  missions,
+  className,
+}: DailyMissionsCardProps) {
   return (
     <Card className={cn(className)}>
       <CardHeader>
@@ -39,5 +42,5 @@ export function DailyMissionsCard({ missions, className }: DailyMissionsCardProp
         ))}
       </CardContent>
     </Card>
-  )
+  );
 }

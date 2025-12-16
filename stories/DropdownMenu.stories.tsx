@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Settings, LogOut } from "lucide-react"
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal, Settings, LogOut } from "lucide-react";
 
 function MenuExample() {
   return (
@@ -30,15 +30,15 @@ function MenuExample() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 const meta: Meta<typeof MenuExample> = {
   title: "UI/menus/DropdownMenu",
   component: MenuExample,
-}
+};
 
-export default meta
-type Story = StoryObj<typeof MenuExample>
+export default meta;
+type Story = StoryObj<typeof MenuExample>;
 
-export const Default: Story = {}
+export const Default: Story = {};

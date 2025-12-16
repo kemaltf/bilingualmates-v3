@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { QuizRunner } from "@/components/shared/quiz/quiz-runner"
-import type { QuizQuestion, SubmitAttemptPayload } from "@/lib/quiz/types"
-import * as React from "react"
-import { Button } from "@/components/ui/button"
+import type { Meta, StoryObj } from "@storybook/react";
+import { QuizRunner } from "@/components/shared/quiz/quiz-runner";
+import type { QuizQuestion, SubmitAttemptPayload } from "@/lib/quiz/types";
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 
 const sampleQuestions: QuizQuestion[] = [
   {
@@ -23,16 +23,38 @@ const sampleQuestions: QuizQuestion[] = [
     prompt: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" },
     textPrompt: "Dengar lalu pilih (tekan 1/2/3)",
     options: [
-      { id: "a", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
-      { id: "b", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
-      { id: "c", content: { kind: "audio", url: "https://www.w3schools.com/html/horse.mp3" } },
+      {
+        id: "a",
+        content: {
+          kind: "audio",
+          url: "https://www.w3schools.com/html/horse.mp3",
+        },
+      },
+      {
+        id: "b",
+        content: {
+          kind: "audio",
+          url: "https://www.w3schools.com/html/horse.mp3",
+        },
+      },
+      {
+        id: "c",
+        content: {
+          kind: "audio",
+          url: "https://www.w3schools.com/html/horse.mp3",
+        },
+      },
     ],
     correctOptionId: "a",
   },
   {
     kind: "mcq",
     id: "q-mc-image",
-    prompt: { kind: "image", url: "https://picsum.photos/800/400", alt: "Random" },
+    prompt: {
+      kind: "image",
+      url: "https://picsum.photos/800/400",
+      alt: "Random",
+    },
     textPrompt: "Pilih kata yang cocok (tekan 1/2/3)",
     options: [
       { id: "a", content: { kind: "text", text: "Landscape" } },
@@ -49,7 +71,7 @@ const sampleQuestions: QuizQuestion[] = [
       url: "https://www.youtube.com/watch?v=0lStodgghOc",
       startTimeSec: 5,
       endTimeSec: 15,
-      transcript: "Alasan Terbesar 90% Anak Muda Gagal Usaha"
+      transcript: "Alasan Terbesar 90% Anak Muda Gagal Usaha",
     },
     textPrompt: "Pilih deskripsi (tekan 1/2/3)",
     options: [
@@ -88,9 +110,19 @@ const sampleQuestions: QuizQuestion[] = [
     prompt: { kind: "text", text: "Complete the sentence" },
     segments: [
       { kind: "text", text: "I " },
-      { kind: "blank", blank: { id: "b1", options: ["am", "is", "are"], placeholder: "_____" } },
+      {
+        kind: "blank",
+        blank: { id: "b1", options: ["am", "is", "are"], placeholder: "_____" },
+      },
       { kind: "text", text: " " },
-      { kind: "blank", blank: { id: "b2", options: ["learning", "learned", "learn"], placeholder: "_____" } },
+      {
+        kind: "blank",
+        blank: {
+          id: "b2",
+          options: ["learning", "learned", "learn"],
+          placeholder: "_____",
+        },
+      },
       { kind: "text", text: " English." },
     ],
     correctAnswers: { b1: "am", b2: "learning" },
@@ -98,12 +130,26 @@ const sampleQuestions: QuizQuestion[] = [
   {
     kind: "cloze",
     id: "q-cl-image",
-    prompt: { kind: "image", url: "https://picsum.photos/800/400", alt: "Scene" },
+    prompt: {
+      kind: "image",
+      url: "https://picsum.photos/800/400",
+      alt: "Scene",
+    },
     segments: [
       { kind: "text", text: "This is " },
-      { kind: "blank", blank: { id: "b1", options: ["a", "an"], placeholder: "_____" } },
+      {
+        kind: "blank",
+        blank: { id: "b1", options: ["a", "an"], placeholder: "_____" },
+      },
       { kind: "text", text: " " },
-      { kind: "blank", blank: { id: "b2", options: ["picture", "audio"], placeholder: "_____" } },
+      {
+        kind: "blank",
+        blank: {
+          id: "b2",
+          options: ["picture", "audio"],
+          placeholder: "_____",
+        },
+      },
       { kind: "text", text: "." },
     ],
     correctAnswers: { b1: "a", b2: "picture" },
@@ -135,15 +181,29 @@ const sampleQuestions: QuizQuestion[] = [
       { id: "l-dog", content: { kind: "text", text: "Dog" } },
     ],
     rightItems: [
-      { id: "r-cat", content: { kind: "image", url: "https://picsum.photos/seed/cat/200/120", alt: "Cat" } },
-      { id: "r-dog", content: { kind: "image", url: "https://picsum.photos/seed/dog/200/120", alt: "Dog" } },
+      {
+        id: "r-cat",
+        content: {
+          kind: "image",
+          url: "https://picsum.photos/seed/cat/200/120",
+          alt: "Cat",
+        },
+      },
+      {
+        id: "r-dog",
+        content: {
+          kind: "image",
+          url: "https://picsum.photos/seed/dog/200/120",
+          alt: "Dog",
+        },
+      },
     ],
     correctPairs: [
       { leftId: "l-cat", rightId: "r-cat" },
       { leftId: "l-dog", rightId: "r-dog" },
     ],
   },
-]
+];
 
 const meta: Meta<typeof QuizRunner> = {
   title: "Quiz/QuizRunner",
@@ -153,7 +213,8 @@ const meta: Meta<typeof QuizRunner> = {
     docs: {
       source: { state: "open" },
       description: {
-        component: "High-level orchestrator that renders different question types and manages quiz flow via useQuizController.",
+        component:
+          "High-level orchestrator that renders different question types and manages quiz flow via useQuizController.",
       },
     },
     controls: { expanded: true },
@@ -166,34 +227,42 @@ const meta: Meta<typeof QuizRunner> = {
   },
   argTypes: {
     questions: { description: "Array of union-typed QuizQuestion" },
-    onComplete: { action: "completed", description: "Called with final payload when finishing last question" },
-    onSubmitAnswer: { action: "answer_submitted", description: "Called on each Check with per-answer payload" },
+    onComplete: {
+      action: "completed",
+      description: "Called with final payload when finishing last question",
+    },
+    onSubmitAnswer: {
+      action: "answer_submitted",
+      description: "Called on each Check with per-answer payload",
+    },
     attemptId: { control: "text" },
     lessonId: { control: "text" },
     userId: { control: "text" },
   },
-}
+};
 
-export default meta
-type Story = StoryObj<typeof QuizRunner>
+export default meta;
+type Story = StoryObj<typeof QuizRunner>;
 
 export const Primary: Story = {
   args: {},
-}
+};
 
 export const WithSubmitLogger: Story = {
   args: {
     onSubmitAnswer: (payload) => {
-      alert("Per-Answer\n" + JSON.stringify(payload, null, 2))
+      alert("Per-Answer\n" + JSON.stringify(payload, null, 2));
     },
     onComplete: (payload: SubmitAttemptPayload) => {
-      alert("Attempt\n" + JSON.stringify(payload, null, 2))
+      alert("Attempt\n" + JSON.stringify(payload, null, 2));
     },
   },
-}
+};
 
 function FinishPreview(args: React.ComponentProps<typeof QuizRunner>) {
-  const [attempt, setAttempt] = React.useState<SubmitAttemptPayload | null>(null)
+  const [attempt, setAttempt] = React.useState<SubmitAttemptPayload | null>(
+    null
+  );
   if (attempt) {
     return (
       <div className="w-full max-w-[840px] mx-auto space-y-4">
@@ -204,21 +273,26 @@ function FinishPreview(args: React.ComponentProps<typeof QuizRunner>) {
           </pre>
         </div>
         <div className="flex justify-end">
-          <Button variant="blue" size="md" onClick={() => setAttempt(null)} label="Restart" />
+          <Button
+            variant="blue"
+            size="md"
+            onClick={() => setAttempt(null)}
+            label="Restart"
+          />
         </div>
       </div>
-    )
+    );
   }
   return (
     <QuizRunner
       {...args}
       onComplete={(payload) => {
-        setAttempt(payload)
+        setAttempt(payload);
       }}
     />
-  )
+  );
 }
 
 export const FinishShowsJSON: Story = {
   render: (args) => <FinishPreview {...args} />,
-}
+};

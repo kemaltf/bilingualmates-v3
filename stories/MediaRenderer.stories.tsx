@@ -21,9 +21,37 @@ type Args = {
 };
 
 function Demo(args: Args) {
-  const { role, kind, text, url, alt, transcript, startTimeSec, endTimeSec, autoPlayTrigger, className, onStartLoop, onEndLoop, onPlay, onPause, onReady, onError } = args;
+  const {
+    role,
+    kind,
+    text,
+    url,
+    alt,
+    transcript,
+    startTimeSec,
+    endTimeSec,
+    autoPlayTrigger,
+    className,
+    onStartLoop,
+    onEndLoop,
+    onPlay,
+    onPause,
+    onReady,
+    onError,
+  } = args;
   return (
-    <MediaRenderer role={role} className={className} autoPlayTrigger={autoPlayTrigger} onStartLoop={onStartLoop} onEndLoop={onEndLoop} onPlay={onPlay} onPause={onPause} onReady={onReady} onError={onError} content={{ kind, text, url, alt, transcript, startTimeSec, endTimeSec }} />
+    <MediaRenderer
+      role={role}
+      className={className}
+      autoPlayTrigger={autoPlayTrigger}
+      onStartLoop={onStartLoop}
+      onEndLoop={onEndLoop}
+      onPlay={onPlay}
+      onPause={onPause}
+      onReady={onReady}
+      onError={onError}
+      content={{ kind, text, url, alt, transcript, startTimeSec, endTimeSec }}
+    />
   );
 }
 

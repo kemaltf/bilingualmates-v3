@@ -7,10 +7,7 @@ export async function POST(request: Request) {
     const { email, redirectTo } = await request.json();
 
     if (!email) {
-      return NextResponse.json(
-        { error: "Email wajib diisi" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email wajib diisi" }, { status: 400 });
     }
 
     const cookieStore = await cookies();

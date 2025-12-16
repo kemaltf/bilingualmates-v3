@@ -45,8 +45,12 @@ export function MCQuestionCard({
             isSelected={selectedOptionId === opt.id}
             disabled={!!locked}
             onSelect={() => onSelectOption(opt.id)}
-            label={labelStyle === "numeric" ? 1 + idx : String.fromCharCode(65 + idx)}
-            hotkey={labelStyle === "numeric" ? 1 + idx : String.fromCharCode(97 + idx)}
+            label={
+              labelStyle === "numeric" ? 1 + idx : String.fromCharCode(65 + idx)
+            }
+            hotkey={
+              labelStyle === "numeric" ? 1 + idx : String.fromCharCode(97 + idx)
+            }
             showLabel={showOptionLabel}
           />
         ))}

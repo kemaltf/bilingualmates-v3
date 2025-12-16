@@ -510,17 +510,32 @@ function VideoPlayer({
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline-blue" size="sm" aria-label="Playback Speed">
+                <Button
+                  variant="outline-blue"
+                  size="sm"
+                  aria-label="Playback Speed"
+                >
                   {speed}x
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuRadioGroup value={speed} onValueChange={(v) => changeSpeed(v)}>
-                  <DropdownMenuRadioItem value="0.5">0.5x</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="0.75">0.75x</DropdownMenuRadioItem>
+                <DropdownMenuRadioGroup
+                  value={speed}
+                  onValueChange={(v) => changeSpeed(v)}
+                >
+                  <DropdownMenuRadioItem value="0.5">
+                    0.5x
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="0.75">
+                    0.75x
+                  </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="1">1x</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="1.25">1.25x</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="1.5">1.5x</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="1.25">
+                    1.25x
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="1.5">
+                    1.5x
+                  </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="2">2x</DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuContent>
