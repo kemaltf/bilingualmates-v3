@@ -50,7 +50,7 @@ export function PathLeaderboard({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-white dark:bg-neutral-800 rounded-2xl border-2 border-slate-100 dark:border-neutral-700 p-6",
+        "bg-white dark:bg-neutral-800 rounded-2xl border-2 border-slate-100 dark:border-neutral-700 p-4",
         className
       )}
     >

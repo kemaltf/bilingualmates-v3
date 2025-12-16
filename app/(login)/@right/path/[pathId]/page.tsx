@@ -1,5 +1,6 @@
 import { paths } from "@/lib/learn/mock";
-import { PathDetailSidebar } from "@/components/learn/PathDetailSidebar";
+import { PathPriceCard } from "@/components/learn/PathPriceCard";
+import { PathMobileBottomBar } from "@/components/learn/PathMobileBottomBar";
 
 export default async function PathRightSidebar({
   params,
@@ -19,5 +20,15 @@ export default async function PathRightSidebar({
     0
   );
 
-  return <PathDetailSidebar path={path} totalLessons={totalLessons} />;
+  return (
+    <>
+      <div className="hidden lg:block sticky top-6 z-10 space-y-6">
+        <PathPriceCard path={path} totalLessons={totalLessons} />
+        <div className="text-center text-xs text-slate-400 dark:text-slate-500 mt-4">
+          30-Day Money-Back Guarantee
+        </div>
+      </div>
+      <PathMobileBottomBar path={path} totalLessons={totalLessons} />
+    </>
+  );
 }

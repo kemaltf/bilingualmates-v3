@@ -5,6 +5,8 @@ import Link from "next/link";
 import { VerticalPathTrack } from "@/components/learn/VerticalPathTrack";
 import { CurriculumPath } from "@/lib/learn/types";
 import { VideoPlayer } from "@/components/shared/media-renderer";
+import { PathCertificateCard } from "@/components/learn/PathCertificateCard";
+import { PathLeaderboard } from "@/components/learn/PathLeaderboard";
 
 export default async function PathDetailPage({
   params,
@@ -69,7 +71,7 @@ export default async function PathDetailPage({
       </div>
 
       {/* What you will learn */}
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl border-2 border-slate-100 dark:border-neutral-700 p-6">
+      <div className="bg-white dark:bg-neutral-800 rounded-2xl border-2 border-slate-100 dark:border-neutral-700 p-4">
         <h2 className="font-bold text-slate-800 dark:text-slate-200 mb-4 text-lg">
           What you will learn
         </h2>
@@ -87,12 +89,18 @@ export default async function PathDetailPage({
         </div>
       </div>
 
+      {/* Certificate & Leaderboard */}
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+        <PathCertificateCard path={path} />
+        <PathLeaderboard className="h-full" />
+      </div>
+
       {/* Sample Path Visualization */}
       <div>
         <h2 className="font-bold text-slate-800 dark:text-slate-200 mb-6 text-xl">
           Course Content Preview
         </h2>
-        <div className="bg-white dark:bg-neutral-800 rounded-2xl border-2 border-slate-100 dark:border-neutral-700 p-6 md:p-8 relative">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border-2 border-slate-100 dark:border-neutral-700 p-4 relative">
           <VerticalPathTrack
             path={samplePath}
             className="pointer-events-auto"
