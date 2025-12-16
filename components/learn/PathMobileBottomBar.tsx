@@ -32,7 +32,7 @@ export function PathMobileBottomBar({
   totalLessons,
 }: PathMobileBottomBarProps) {
   return (
-    <div className="fixed bottom-0 inset-x-0 z-50 bg-white dark:bg-neutral-900 border-t border-slate-200 dark:border-neutral-800 p-4 pb-[3.5rem] lg:hidden">
+    <div className="fixed bottom-0 inset-x-0 z-[110] bg-white dark:bg-neutral-900 border-t border-slate-200 dark:border-neutral-800 p-4 lg:hidden">
       <div className="max-w-[1024px] mx-auto flex items-center justify-between gap-4">
         {/* Price Section */}
         <div className="flex flex-col">
