@@ -18,7 +18,24 @@ export default function PathPage() {
   const router = useRouter();
   return (
     <main className="w-full">
-      <h1 className="text-2xl font-extrabold mb-6">Choose Your Path</h1>
+      <div className="mb-8">
+        <h1 className="text-2xl md:text-3xl font-extrabold mb-2">
+          Learn English for your life needs now.
+        </h1>
+        <p className="text-neutral-600 dark:text-neutral-400">
+          {`Choose what's relevant. You can switch anytime.`}
+        </p>
+        <div className="mt-6 p-4 bg-sky-50 dark:bg-sky-900/20 border border-sky-100 dark:border-sky-800 rounded-xl flex items-start gap-3">
+          <span className="text-xl">💡</span>
+          <div className="text-sm text-neutral-700 dark:text-neutral-300">
+            <strong>Planning to learn more than 1 class?</strong>
+            <p className="mt-0.5 text-neutral-600 dark:text-neutral-400">
+              Most learners choose subscription for unlimited access to all
+              paths.
+            </p>
+          </div>
+        </div>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {paths.map((path) => {
           const isLocked = path.units.every((u) =>
@@ -102,7 +119,9 @@ export default function PathPage() {
                   <Button
                     variant={path.price && path.price > 0 ? "blue" : "green"}
                     size="sm"
-                    label={path.price && path.price > 0 ? "Details" : "Start"}
+                    label={
+                      path.price && path.price > 0 ? "See Inside" : "My Choice"
+                    }
                     className="px-6"
                     onClick={(e) => {
                       e.stopPropagation();

@@ -9,6 +9,7 @@ export const paths: CurriculumPath[] = [
     imageUrl: "/images/path-general.svg",
     price: 0,
     currency: "IDR",
+    description: "Just starting and want to be consistent without pressure.",
     units: [
       {
         id: "u1",
@@ -269,7 +270,7 @@ export const paths: CurriculumPath[] = [
     price: 99000,
     originalPrice: 199000,
     currency: "IDR",
-    description: "Fun and engaging lessons designed specifically for children.",
+    description: "For kids who need English in a fun way, not forced.",
     learningPoints: [
       "Basic vocabulary",
       "Fun songs and games",
@@ -337,7 +338,7 @@ export const paths: CurriculumPath[] = [
     price: 120000,
     originalPrice: 249000,
     currency: "IDR",
-    description: "Essential phrases and confidence for your next adventure.",
+    description: "Want to speak confidently when traveling or going abroad.",
     learningPoints: [
       "Airport and hotel check-in",
       "Asking for directions",
