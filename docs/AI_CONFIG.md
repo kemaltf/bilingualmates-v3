@@ -136,6 +136,15 @@ try {
 4.  **Reuse Existing Types**: Always check if a type is already defined before creating a new one. Do not create arbitrary types if a suitable one exists.
 5.  **Type Definition Location**: Define types at their smallest scope (e.g., in the component that defines the props) unless it is a shared type used across multiple components (which should be in a shared types file).
 
+## Next.js & React Best Practices
+
+1.  **Use `proxy.ts` instead of `middleware.ts`**: The `middleware` file convention is deprecated. Use `proxy` instead to avoid confusion with Express.js middleware and clarify its purpose as a network boundary/proxy.
+    - Run `npx @next/codemod@canary middleware-to-proxy .` to migrate.
+2.  **`useSearchParams` requires Suspense**: When using `useSearchParams` in a Client Component, you MUST wrap the component (or the hook usage) in a `<Suspense>` boundary.
+    - Failure to do so will opt the entire page into Client-Side Rendering (CSR), causing the page to be blank until JS loads.
+    - **Fix**: Wrap the component using `useSearchParams` in `<Suspense fallback={<Loading />}>`.
+    - Alternatively, for Server Components, use `await connection()` or `export const dynamic = 'force-dynamic'` (legacy) to opt into dynamic rendering.
+
 ## Language & Localization
 
 1.  **Default Language**: All generated text, comments, and documentation MUST be in **English**.
