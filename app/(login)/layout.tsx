@@ -37,7 +37,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { supabase } from "@/lib/supabase/client";
 
 export default function LearnLayout({
   children,
@@ -54,7 +53,7 @@ export default function LearnLayout({
   }, [pathname]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await fetch("/api/auth/logout", { method: "POST" });
     window.location.href = "/";
   };
 
