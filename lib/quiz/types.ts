@@ -7,6 +7,7 @@ export interface MediaContent {
   alt?: string;
   transcript?: string;
   pronunciationUrl?: string;
+  thumbnailUrl?: string;
   startTimeSec?: number;
   endTimeSec?: number;
 }

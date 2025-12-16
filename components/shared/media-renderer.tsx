@@ -208,7 +208,7 @@ type YTGlobal = {
   Player: new (el: HTMLElement, opts: unknown) => YTPlayer;
 };
 
-function VideoPlayer({
+export function VideoPlayer({
   content,
   onStartLoop,
   onEndLoop,
@@ -234,7 +234,8 @@ function VideoPlayer({
   const [speed, setSpeed] = React.useState<string>("1");
 
   const start = Math.max(0, content.startTimeSec ?? 0);
-  const end = Math.max(start + 0.1, content.endTimeSec ?? 0);
+  const end = content.endTimeSec ?? 0;
+  const thumbnailUrl = content.thumbnailUrl;
 
   const parseYouTubeId = (url?: string) => {
     if (!url) return null;
@@ -477,14 +478,33 @@ function VideoPlayer({
             onError={() => onError?.()}
           />
         )}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/70 to-transparent" />
-        {!playing && <div className="absolute inset-0 bg-black" />}
+        {!playing && (
+          <div className="absolute inset-0 z-10 bg-black">
+            {thumbnailUrl ? (
+              <Image
+                src={thumbnailUrl}
+                alt="Video thumbnail"
+                fill
+                className="object-cover opacity-80"
+                unoptimized
+              />
+            ) : (
+              <div className="w-full h-full bg-black" />
+            )}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="rounded-full bg-white/20 p-4 backdrop-blur-sm transition-transform hover:scale-110">
+                <Play className="fill-white text-white size-8" />
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/70 to-transparent z-20" />
         {content.transcript && (
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 max-w-[85%] rounded-xl bg-black/30 backdrop-blur px-3 py-2 text-white text-sm">
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 max-w-[85%] rounded-xl bg-black/30 backdrop-blur px-3 py-2 text-white text-sm z-20">
             {content.transcript}
           </div>
         )}
-        <div className="absolute inset-x-0 bottom-2 flex flex-wrap items-center gap-3 px-3">
+        <div className="absolute inset-x-0 bottom-2 flex flex-wrap items-center gap-3 px-3 z-20">
           <div className="order-1">
             <Button
               variant="blue"

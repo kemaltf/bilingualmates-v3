@@ -156,6 +156,7 @@ export const paths: CurriculumPath[] = [
     color: "sky",
     imageUrl: "/images/path-business.svg",
     price: 150000,
+    originalPrice: 299000,
     currency: "IDR",
     description: "Master professional communication and advance your career.",
     learningPoints: [
@@ -170,6 +171,9 @@ export const paths: CurriculumPath[] = [
     certificate: true,
     language: "English",
     subtitles: ["English", "Indonesian"],
+    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    badgeImg: "/images/badge-business.svg",
+    certificateImg: "/images/certificate-business.svg",
     units: [
       {
         id: "bu1",
@@ -263,6 +267,7 @@ export const paths: CurriculumPath[] = [
     color: "amber",
     imageUrl: "/images/path-kids.svg",
     price: 99000,
+    originalPrice: 199000,
     currency: "IDR",
     description: "Fun and engaging lessons designed specifically for children.",
     learningPoints: [
@@ -277,6 +282,7 @@ export const paths: CurriculumPath[] = [
     certificate: true,
     language: "English",
     subtitles: ["English", "Indonesian"],
+    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     units: [
       {
         id: "k1",
@@ -329,6 +335,7 @@ export const paths: CurriculumPath[] = [
     color: "indigo",
     imageUrl: "/images/path-travel.svg",
     price: 120000,
+    originalPrice: 249000,
     currency: "IDR",
     description: "Essential phrases and confidence for your next adventure.",
     learningPoints: [
@@ -343,6 +350,7 @@ export const paths: CurriculumPath[] = [
     certificate: true,
     language: "English",
     subtitles: ["English", "Indonesian"],
+    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     units: [
       {
         id: "t1",

@@ -52,7 +52,7 @@ export default function LearnLayout({
     return pathname.startsWith("/learn/");
   }, [pathname]);
 
-  const isPathPage = pathname?.startsWith("/path");
+  const isPathPage = pathname === "/path";
   const isFullWidth = focusLesson || isPathPage;
 
   const handleLogout = async () => {

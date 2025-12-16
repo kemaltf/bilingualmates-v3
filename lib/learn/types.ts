@@ -55,6 +55,10 @@ export interface CurriculumPath {
   certificate?: boolean;
   language?: string;
   subtitles?: string[];
+  videoUrl?: string;
+  originalPrice?: number;
+  badgeImg?: string;
+  certificateImg?: string;
 }
 
 export type FinishAnimationKind = "lottie" | "image" | "gif";

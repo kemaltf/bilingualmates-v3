@@ -13,6 +13,7 @@ export interface QuizRunnerProps {
   questions: QuizQuestion[];
   onComplete?: (payload: SubmitAttemptPayload) => void;
   onSubmitAnswer?: (payload: SubmitAttemptPayload["answers"][number]) => void;
+  onClose?: () => void;
   attemptId?: string;
   lessonId?: string;
   userId?: string;
@@ -38,6 +39,7 @@ export function QuizRunner({
   questions,
   onComplete,
   onSubmitAnswer,
+  onClose,
   attemptId,
   lessonId,
   userId,
@@ -91,7 +93,11 @@ export function QuizRunner({
           size="icon-sm"
           aria-label="Close"
           onClick={() => {
-            if (typeof window !== "undefined") window.history.back();
+            if (onClose) {
+              onClose();
+            } else if (typeof window !== "undefined") {
+              window.history.back();
+            }
           }}
         >
           {/* icon */}
