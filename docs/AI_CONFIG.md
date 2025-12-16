@@ -75,3 +75,14 @@ Whenever you modify the database structure (e.g., adding a new table, changing a
     *   ❌ Bad: `text-neutral-600 bg-white`
     *   ✅ Good: `text-neutral-600 dark:text-neutral-300 bg-white dark:bg-neutral-900`
 4.  **Test Visibility**: Verify that text contrast is sufficient and background colors are appropriate in dark mode, especially for popups, dropdowns, and cards.
+
+## Authentication & Middleware
+
+1.  **Library**: `@supabase/ssr`
+    *   Use `@supabase/ssr` for server-side operations (Middleware, Server Components, Server Actions).
+    *   Use `@supabase/supabase-js` for client-side operations only.
+
+2.  **Middleware Protection**:
+    *   `middleware.ts` is the central place for route protection.
+    *   **Authenticated Users**: Must be redirected AWAY from `/login` and `/register` (e.g., to `/learn`).
+    *   **Unauthenticated Users**: Must be redirected TO `/login` if accessing protected routes (e.g., `/learn`, `/profile`, `/settings`).

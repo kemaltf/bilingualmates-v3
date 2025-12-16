@@ -36,22 +36,12 @@ export default function LoginPage() {
   const isEmail = (str: string) => /@/.test(str);
 
   const signInWithGoogle = async () => {
-    setError(null);
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo:
-            typeof window !== "undefined" ? window.location.origin : undefined,
-        },
-      });
-      if (error) throw error;
-    } catch (e: any) {
-      setError(e?.message ?? "Terjadi kesalahan saat login Google");
-    } finally {
-      setLoading(false);
-    }
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
   };
 
   const resolveEmailByUsername = async (username: string) => {
