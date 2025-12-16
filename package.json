@@ -11,7 +11,8 @@
     "format": "prettier --write .",
     "quality": "npm run format && npm run type-check && npm run lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -51,6 +52,7 @@
     "eslint-config-next": "16.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-storybook": "^10.0.7",
+    "husky": "^9.1.7",
     "playwright": "^1.56.1",
     "prettier": "^3.7.4",
     "storybook": "^10.0.7",

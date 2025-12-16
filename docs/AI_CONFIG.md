@@ -144,6 +144,10 @@ try {
     - Failure to do so will opt the entire page into Client-Side Rendering (CSR), causing the page to be blank until JS loads.
     - **Fix**: Wrap the component using `useSearchParams` in `<Suspense fallback={<Loading />}>`.
     - Alternatively, for Server Components, use `await connection()` or `export const dynamic = 'force-dynamic'` (legacy) to opt into dynamic rendering.
+3.  **Prevent Unescaped Entities**: When using single quotes or apostrophes in JSX text content, ALWAYS wrap the text in curly braces and backticks (template literals) or use HTML entities.
+    - ❌ Bad: `<p>Don't do this</p>`
+    - ✅ Good: `<p>{"Don't do this"}</p>` or `<p>Don&apos;t do this</p>`
+    - **Preferred**: Use `{"Text here"}` pattern as it's more readable than HTML entities.
 
 ## Language & Localization
 
