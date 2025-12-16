@@ -126,11 +126,7 @@ export function PathPriceContent({
 
       <div className="space-y-3">
         <Link href={`/path/${path.id}/checkout`} className="block w-full">
-          <Button
-            variant="green"
-            size="lg"
-            className="w-full font-bold shadow-lg shadow-green-200 dark:shadow-green-900/20"
-          >
+          <Button variant="green" size="lg" className="w-full font-bold">
             Enroll Course
           </Button>
         </Link>
@@ -138,11 +134,7 @@ export function PathPriceContent({
           href={`/path/${path.id}/checkout?gift=true`}
           className="block w-full"
         >
-          <Button
-            variant="ghost"
-            size="lg"
-            className="w-full font-bold border-2 border-slate-200 dark:border-neutral-700 hover:bg-slate-50 dark:hover:bg-neutral-700"
-          >
+          <Button variant="outline" className="w-full font-bold" size="lg">
             <Gift className="w-4 h-4 mr-2" />
             Buy as a gift
           </Button>

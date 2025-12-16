@@ -479,7 +479,10 @@ export function VideoPlayer({
           />
         )}
         {!playing && (
-          <div className="absolute inset-0 z-10 bg-black">
+          <div
+            className="absolute inset-0 z-10 bg-black cursor-pointer"
+            onClick={toggle}
+          >
             {thumbnailUrl ? (
               <Image
                 src={thumbnailUrl}

@@ -154,6 +154,17 @@ const buttonVariants = cva(
           BRAND.indigo.shadow,
           BRAND.indigo.focus,
         ].join(" "),
+        outline: [
+          "relative select-none rounded-full uppercase font-semibold tracking-wide",
+          "transition-transform active:translate-y-1 active:shadow-none",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+          "bg-white dark:bg-neutral-800",
+          "text-slate-500 dark:text-slate-400",
+          "border-[3px]",
+          "border-slate-200 dark:border-neutral-700",
+          "shadow-[0_2px_0_0_#e2e8f0] dark:shadow-[0_2px_0_0_#404040]",
+          "hover:bg-slate-50 dark:hover:bg-neutral-700",
+        ].join(" "),
         disabled: [
           "relative select-none rounded-full uppercase font-semibold tracking-wide",
           "transition-transform active:translate-y-1 active:shadow-none",
