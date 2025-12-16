@@ -1,0 +1,130 @@
+"use client";
+import * as React from "react";
+import { supabase } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Mail, ArrowLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import Link from "next/link";
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Format email tidak valid"),
+});
+
+type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+
+export default function ForgotPasswordPage() {
+  const [loading, setLoading] = React.useState(false);
+  const [message, setMessage] = React.useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const onSubmit = async (values: ForgotPasswordValues) => {
+    setMessage(null);
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(
+        values.email,
+        {
+          redirectTo: `${window.location.origin}/auth/callback?next=/update-password`,
+        }
+      );
+      if (error) throw error;
+      setMessage({
+        type: "success",
+        text: "Jika akun dengan email tersebut ada, kami telah mengirimkan tautan reset password.",
+      });
+    } catch (e: any) {
+      setMessage({ type: "error", text: e?.message ?? "Terjadi kesalahan" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={cn("min-h-screen flex items-center justify-center px-4")}>
+      <div className="w-full max-w-[440px]">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2 mb-2">
+              <Link
+                href="/login"
+                className="text-neutral-500 hover:text-neutral-700"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </Link>
+            </div>
+            <CardTitle>Lupa Password</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {message && (
+              <div
+                className={cn(
+                  "p-3 rounded-md text-sm font-medium",
+                  message.type === "success"
+                    ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                    : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                )}
+              >
+                {message.text}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
+                  Email
+                </label>
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field }) => (
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder="Masukkan email anda"
+                        className="pl-10"
+                        disabled={loading}
+                      />
+                      <Mail className="absolute left-3 top-2.5 h-5 w-5 text-neutral-400" />
+                    </div>
+                  )}
+                />
+                {errors.email && (
+                  <span className="text-xs font-bold text-red-500">
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                variant="green"
+                size="lg"
+                className="w-full"
+                loading={loading}
+                label="KIRIM TAUTAN RESET"
+              />
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}

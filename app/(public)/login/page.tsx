@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import Link from "next/link";
 
 const loginSchema = z.object({
   identifier: z.string().min(1, "Email atau username harus diisi"),
@@ -101,7 +102,11 @@ export default function LoginPage() {
               <span>Masuk dengan Google</span>
             </Button>
 
-            <div className="h-0.5 bg-neutral-200" />
+            <div className="flex items-center gap-4">
+              <div className="h-px flex-1 bg-neutral-200" />
+              <span className="text-xs text-neutral-500">ATAU</span>
+              <div className="h-px flex-1 bg-neutral-200" />
+            </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <Controller
@@ -134,6 +139,15 @@ export default function LoginPage() {
                   />
                 )}
               />
+
+              <div className="flex justify-end">
+                <Link
+                  href="/forgot-password"
+                  className="text-xs font-bold text-neutral-500 hover:text-neutral-700 uppercase"
+                >
+                  Lupa Password?
+                </Link>
+              </div>
 
               {error && (
                 <div className="text-sm text-rose-600 flex items-center gap-2">

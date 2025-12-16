@@ -56,6 +56,7 @@ export async function middleware(request: NextRequest) {
     "/shop",
     "/user-search",
     "/path",
+    "/update-password",
   ];
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
