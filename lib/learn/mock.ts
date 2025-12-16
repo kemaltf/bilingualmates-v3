@@ -7,6 +7,8 @@ export const paths: CurriculumPath[] = [
     emoji: "📘",
     color: "emerald",
     imageUrl: "/images/path-general.svg",
+    price: 0,
+    currency: "IDR",
     units: [
       {
         id: "u1",
@@ -153,6 +155,8 @@ export const paths: CurriculumPath[] = [
     emoji: "💼",
     color: "sky",
     imageUrl: "/images/path-business.svg",
+    price: 150000,
+    currency: "IDR",
     units: [
       {
         id: "bu1",
@@ -241,10 +245,12 @@ export const paths: CurriculumPath[] = [
   },
   {
     id: "kids",
-    course: "Kids English",
+    course: "English for Kids",
     emoji: "🧸",
     color: "amber",
     imageUrl: "/images/path-kids.svg",
+    price: 99000,
+    currency: "IDR",
     units: [
       {
         id: "k1",
@@ -296,6 +302,8 @@ export const paths: CurriculumPath[] = [
     emoji: "✈️",
     color: "indigo",
     imageUrl: "/images/path-travel.svg",
+    price: 120000,
+    currency: "IDR",
     units: [
       {
         id: "t1",

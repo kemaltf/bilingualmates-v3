@@ -52,6 +52,9 @@ export default function LearnLayout({
     return pathname.startsWith("/learn/");
   }, [pathname]);
 
+  const isPathPage = pathname?.startsWith("/path");
+  const isFullWidth = focusLesson || isPathPage;
+
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     window.location.href = "/";
@@ -148,13 +151,13 @@ export default function LearnLayout({
         <div
           className={cn(
             "w-full px-4 pt-3 pb-20 md:pb-3",
-            focusLesson
-              ? "max-w-[860px] mx-auto"
+            isFullWidth
+              ? "max-w-[1024px] mx-auto"
               : "grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-4"
           )}
         >
           <div className="min-w-0">{children}</div>
-          {!focusLesson && <div className="lg:w-[360px]">{right}</div>}
+          {!isFullWidth && <div className="lg:w-[360px]">{right}</div>}
         </div>
         {!focusLesson && (
           <div className="fixed bottom-0 inset-x-0 z-100 md:hidden">

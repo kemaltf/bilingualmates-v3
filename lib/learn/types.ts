@@ -45,6 +45,8 @@ export interface CurriculumPath {
   color?: string;
   imageUrl?: string;
   units: Unit[];
+  price?: number;
+  currency?: string;
 }
 
 export type FinishAnimationKind = "lottie" | "image" | "gif";
