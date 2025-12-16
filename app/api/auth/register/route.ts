@@ -48,6 +48,8 @@ export async function POST(request: Request) {
       );
     }
 
+    const origin = request.headers.get("origin");
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -56,6 +58,7 @@ export async function POST(request: Request) {
           username,
           full_name: username,
         },
+        emailRedirectTo: origin ? `${origin}/auth/callback` : undefined,
       },
     });
 
