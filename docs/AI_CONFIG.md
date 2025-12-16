@@ -85,4 +85,12 @@ Whenever you modify the database structure (e.g., adding a new table, changing a
 2.  **Middleware Protection**:
     *   `middleware.ts` is the central place for route protection.
     *   **Authenticated Users**: Must be redirected AWAY from `/login` and `/register` (e.g., to `/learn`).
-    *   **Unauthenticated Users**: Must be redirected TO `/login` if accessing protected routes (e.g., `/learn`, `/profile`, `/settings`).
+88→    *   **Unauthenticated Users**: Must be redirected TO `/login` if accessing protected routes (e.g., `/learn`, `/profile`, `/settings`).
+
+## Client-Side Security & Server Actions
+
+1.  **Avoid Direct Supabase Calls on Client**:
+    *   Do NOT call sensitive Supabase Auth methods (e.g., `resetPasswordForEmail`, `signUp`) directly in Client Components if possible.
+    *   Instead, move this logic to **Server Actions** or **API Routes** (Route Handlers).
+    *   This hides the underlying Supabase API usage and prevents exposing implementation details in the browser network tab.
+    *   Example: Use `api/auth/forgot-password` route handler instead of `supabase.auth.resetPasswordForEmail` in `page.tsx`.

@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { supabase } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -39,13 +38,25 @@ export default function ForgotPasswordPage() {
     setMessage(null);
     setLoading(true);
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(
-        values.email,
-        {
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
           redirectTo: `${window.location.origin}/auth/callback?next=/update-password`,
-        }
-      );
-      if (error) throw error;
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Gagal mengirim permintaan reset password"
+        );
+      }
+
       setMessage({
         type: "success",
         text: "Jika akun dengan email tersebut ada, kami telah mengirimkan tautan reset password.",
@@ -94,23 +105,18 @@ export default function ForgotPasswordPage() {
                 <Controller
                   control={control}
                   name="email"
-                  render={({ field }) => (
-                    <div className="relative">
-                      <Input
-                        {...field}
-                        placeholder="Masukkan email anda"
-                        className="pl-10"
-                        disabled={loading}
-                      />
-                      <Mail className="absolute left-3 top-2.5 h-5 w-5 text-neutral-400" />
-                    </div>
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      value={value}
+                      onChange={onChange}
+                      placeholder="Masukkan email anda"
+                      disabled={loading}
+                      prefix={<Mail className="h-5 w-5 text-neutral-400" />}
+                      status={errors.email ? "incorrect" : "idle"}
+                      helperText={errors.email?.message}
+                    />
                   )}
                 />
-                {errors.email && (
-                  <span className="text-xs font-bold text-red-500">
-                    {errors.email.message}
-                  </span>
-                )}
               </div>
 
               <Button

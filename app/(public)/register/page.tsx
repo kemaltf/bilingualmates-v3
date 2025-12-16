@@ -48,36 +48,25 @@ export default function RegisterPage() {
     setError(null);
     setLoading(true);
     try {
-      const uname = values.username.trim().toLowerCase();
-      const email = values.email.trim().toLowerCase();
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+          username: values.username.trim().toLowerCase(),
+        }),
+      });
 
-      // Check if username exists
-      const { data: existingUser, error: checkError } = await supabase
-        .from("profiles")
-        .select("username")
-        .eq("username", uname)
-        .maybeSingle();
+      const data = await response.json();
 
-      if (checkError) throw checkError;
-      if (existingUser) {
-        throw new Error("Username sudah digunakan");
+      if (!response.ok) {
+        throw new Error(data.error || "Registrasi gagal");
       }
 
-      // Pass metadata so the trigger can populate the profile
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: values.password,
-        options: {
-          data: {
-            username: uname,
-            full_name: values.username, // using username as display name initially
-          },
-        },
-      });
-      if (error) throw error;
-
-      // Check if email confirmation is required (session will be null if email confirmation is on)
-      if (data.user && !data.session) {
+      if (data.isEmailConfirmationRequired) {
         setSuccess(true);
       } else {
         if (typeof window !== "undefined") window.location.assign("/learn");

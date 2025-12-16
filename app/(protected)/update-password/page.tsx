@@ -25,7 +25,10 @@ type UpdatePasswordValues = z.infer<typeof updatePasswordSchema>;
 
 export default function UpdatePasswordPage() {
   const [loading, setLoading] = React.useState(false);
-  const [message, setMessage] = React.useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = React.useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const router = useRouter();
 
   const {
@@ -44,10 +47,22 @@ export default function UpdatePasswordPage() {
     setMessage(null);
     setLoading(true);
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: values.password,
+      const response = await fetch("/api/auth/update-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: values.password,
+        }),
       });
-      if (error) throw error;
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Gagal memperbarui password");
+      }
+
       setMessage({
         type: "success",
         text: "Password berhasil diperbarui. Mengalihkan...",
@@ -56,7 +71,10 @@ export default function UpdatePasswordPage() {
         router.push("/learn");
       }, 2000);
     } catch (e: any) {
-      setMessage({ type: "error", text: e?.message ?? "Gagal memperbarui password" });
+      setMessage({
+        type: "error",
+        text: e?.message ?? "Gagal memperbarui password",
+      });
     } finally {
       setLoading(false);
     }
@@ -91,24 +109,19 @@ export default function UpdatePasswordPage() {
                 <Controller
                   control={control}
                   name="password"
-                  render={({ field }) => (
-                    <div className="relative">
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Masukkan password baru"
-                        className="pl-10"
-                        disabled={loading}
-                      />
-                      <Lock className="absolute left-3 top-2.5 h-5 w-5 text-neutral-400" />
-                    </div>
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      value={value}
+                      onChange={onChange}
+                      type="password"
+                      placeholder="Masukkan password baru"
+                      disabled={loading}
+                      prefix={<Lock className="h-5 w-5 text-neutral-400" />}
+                      status={errors.password ? "incorrect" : "idle"}
+                      helperText={errors.password?.message}
+                    />
                   )}
                 />
-                {errors.password && (
-                  <span className="text-xs font-bold text-red-500">
-                    {errors.password.message}
-                  </span>
-                )}
               </div>
 
               <div className="space-y-2">
@@ -118,24 +131,19 @@ export default function UpdatePasswordPage() {
                 <Controller
                   control={control}
                   name="confirmPassword"
-                  render={({ field }) => (
-                    <div className="relative">
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Ulangi password baru"
-                        className="pl-10"
-                        disabled={loading}
-                      />
-                      <Lock className="absolute left-3 top-2.5 h-5 w-5 text-neutral-400" />
-                    </div>
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      value={value}
+                      onChange={onChange}
+                      type="password"
+                      placeholder="Ulangi password baru"
+                      disabled={loading}
+                      prefix={<Lock className="h-5 w-5 text-neutral-400" />}
+                      status={errors.confirmPassword ? "incorrect" : "idle"}
+                      helperText={errors.confirmPassword?.message}
+                    />
                   )}
                 />
-                {errors.confirmPassword && (
-                  <span className="text-xs font-bold text-red-500">
-                    {errors.confirmPassword.message}
-                  </span>
-                )}
               </div>
 
               <Button

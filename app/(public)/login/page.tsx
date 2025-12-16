@@ -34,43 +34,57 @@ export default function LoginPage() {
     },
   });
 
-  const isEmail = (str: string) => /@/.test(str);
-
   const signInWithGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-  };
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await fetch("/api/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          redirectTo: `${window.location.origin}/auth/callback`,
+        }),
+      });
 
-  const resolveEmailByUsername = async (username: string) => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("email")
-      .eq("username", username.toLowerCase())
-      .limit(1)
-      .maybeSingle();
-    if (error) throw error;
-    return data?.email ?? null;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Gagal inisialisasi login Google");
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (e: any) {
+      setError(e?.message ?? "Terjadi kesalahan saat login Google");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSubmit = async (values: LoginValues) => {
     setError(null);
     setLoading(true);
     try {
-      let email = values.identifier.trim();
-      if (!isEmail(email)) {
-        const resolved = await resolveEmailByUsername(email);
-        if (!resolved) throw new Error("Username tidak ditemukan");
-        email = resolved;
-      }
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password: values.password,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier: values.identifier,
+          password: values.password,
+        }),
       });
-      if (error) throw error;
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Login gagal");
+      }
+
       if (typeof window !== "undefined") window.location.assign("/learn");
     } catch (e: any) {
       setError(e?.message ?? "Login gagal");
