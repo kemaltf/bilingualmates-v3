@@ -38,6 +38,14 @@ export interface Unit {
   brandColor?: BrandColor;
 }
 
+export interface Course {
+  id: string;
+  title: string;
+  flagUrl: string;
+  description?: string;
+  paths: CurriculumPath[];
+}
+
 export interface CurriculumPath {
   id: string;
   course: string;

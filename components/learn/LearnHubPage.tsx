@@ -10,10 +10,14 @@ import {
 } from "@/lib/ui/design-tokens";
 import { useSearchParams } from "next/navigation";
 
-export function LearnHubPage() {
+export interface LearnHubPageProps {
+  initialPathId?: string;
+}
+
+export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
   const searchParams = useSearchParams();
   const selectedParam = searchParams.get("pathId");
-  const fallback = paths[0]?.id ?? null;
+  const fallback = initialPathId ?? paths[0]?.id ?? null;
   const selected = selectedParam ?? fallback;
   const path = React.useMemo(
     () => paths.find((p) => p.id === selected) ?? null,

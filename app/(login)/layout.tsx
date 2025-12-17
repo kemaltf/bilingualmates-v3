@@ -54,7 +54,8 @@ export default function LearnLayout({
 
   const isPathPage = pathname === "/path";
   const isShopPage = pathname === "/shop";
-  const isFullWidth = focusLesson || isPathPage || isShopPage;
+  const isCoursePage = pathname === "/course";
+  const isFullWidth = focusLesson || isPathPage || isShopPage || isCoursePage;
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
