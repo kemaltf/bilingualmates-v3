@@ -16,6 +16,7 @@ create table if not exists profiles (
   hearts integer default 5,
   current_course_id text,
   current_path_id text,
+  language text default 'en',
   last_activity_at timestamp with time zone,
   
   constraint username_length check (char_length(username) >= 3)

@@ -1,0 +1,27 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "darkMode": "Dark Mode",
+    "theme": "Theme",
+    "languageDescription": "Choose your preferred language for the interface."
+  },
+  "sidebar": {
+    "path": "Path",
+    "learn": "Learn",
+    "practice": "Practice",
+    "leaderboard": "Leaderboard",
+    "quests": "Quests",
+    "shop": "Shop",
+    "profile": "Profile",
+    "more": "More",
+    "settings": "Settings",
+    "logout": "Log out"
+  }
+}

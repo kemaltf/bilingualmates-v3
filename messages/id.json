@@ -1,0 +1,27 @@
+{
+  "common": {
+    "loading": "Memuat...",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "back": "Kembali"
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "language": "Bahasa",
+    "darkMode": "Mode Gelap",
+    "theme": "Tema",
+    "languageDescription": "Pilih bahasa pilihan Anda untuk antarmuka."
+  },
+  "sidebar": {
+    "path": "Jalur",
+    "learn": "Belajar",
+    "practice": "Latihan",
+    "leaderboard": "Peringkat",
+    "quests": "Misi",
+    "shop": "Toko",
+    "profile": "Profil",
+    "more": "Lainnya",
+    "settings": "Pengaturan",
+    "logout": "Keluar"
+  }
+}
