@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { createLoginSchema } from "@/lib/zod-rules";
 
 export default function LoginPage() {
   const t = useTranslations("auth.login");
@@ -17,10 +18,10 @@ export default function LoginPage() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
-  const loginSchema = z.object({
-    identifier: z.string().min(1, tVal("required") || "Wajib diisi"),
-    password: z.string().min(1, tVal("required") || "Wajib diisi"),
-  });
+  const loginSchema = React.useMemo(
+    () => createLoginSchema(undefined, tVal),
+    [tVal]
+  );
 
   type LoginValues = z.infer<typeof loginSchema>;
 

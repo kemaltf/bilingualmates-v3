@@ -1,25 +1,20 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import * as z from "zod";
-
-const registerSchema = z.object({
-  username: z.string().trim().min(3, "Username minimal 3 karakter"),
-  email: z.string().trim().email("Format email tidak valid"),
-  password: z.string().min(6, "Password minimal 6 karakter"),
-});
+import { registerBaseSchema } from "@/lib/zod-rules";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    let { email, password, username } = body;
+    const { password } = body;
+    let { email, username } = body;
 
     // Debug logging
     console.log("Register Request:", { email, username });
     if (email) {
       console.log(
         "Email char codes:",
-        email.split("").map((c: any) => String(c).charCodeAt(0))
+        email.split("").map((c: string) => String(c).charCodeAt(0))
       );
     }
 
@@ -36,14 +31,15 @@ export async function POST(request: Request) {
     }
 
     // Validate with Zod
-    const validationResult = registerSchema.safeParse({
+    const validationResult = registerBaseSchema().safeParse({
       email,
       password,
       username,
     });
 
     if (!validationResult.success) {
-      const errorMessage = validationResult.error.errors[0].message;
+      const errorMessage =
+        validationResult.error.issues[0]?.message || "Validation failed";
       return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
 

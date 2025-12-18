@@ -9,19 +9,24 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
-
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Format email tidak valid"),
-});
-
-type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+import { useTranslations } from "next-intl";
+import { createForgotPasswordSchema } from "@/lib/zod-rules";
 
 export default function ForgotPasswordPage() {
+  const t = useTranslations("auth.forgotPassword");
+  const tVal = useTranslations("auth.validation");
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
+
+  const forgotPasswordSchema = React.useMemo(
+    () => createForgotPasswordSchema(undefined, tVal),
+    [tVal]
+  );
+
+  type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 
   const {
     control,
@@ -52,17 +57,15 @@ export default function ForgotPasswordPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.error || "Gagal mengirim permintaan reset password"
-        );
+        throw new Error(data.error || t("error"));
       }
 
       setMessage({
         type: "success",
-        text: "Jika akun dengan email tersebut ada, kami telah mengirimkan tautan reset password.",
+        text: t("success"),
       });
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : "Terjadi kesalahan";
+      const message = e instanceof Error ? e.message : t("error");
       setMessage({ type: "error", text: message });
     } finally {
       setLoading(false);
@@ -82,7 +85,7 @@ export default function ForgotPasswordPage() {
                 <ArrowLeft className="w-5 h-5" />
               </Link>
             </div>
-            <CardTitle>Lupa Password</CardTitle>
+            <CardTitle>{t("title")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {message && (
@@ -99,34 +102,27 @@ export default function ForgotPasswordPage() {
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
-                  Email
-                </label>
-                <Controller
-                  control={control}
-                  name="email"
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      value={value}
-                      onChange={onChange}
-                      placeholder="Masukkan email anda"
-                      disabled={loading}
-                      prefix={<Mail className="h-5 w-5 text-neutral-400" />}
-                      status={errors.email ? "incorrect" : "idle"}
-                      helperText={errors.email?.message}
-                    />
-                  )}
-                />
-              </div>
-
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value}
+                    onChange={onChange}
+                    placeholder={t("fields.email.placeholder")}
+                    prefix={<Mail className="w-4 h-4" />}
+                    status={errors.email ? "incorrect" : "idle"}
+                    helperText={errors.email?.message}
+                  />
+                )}
+              />
               <Button
                 type="submit"
                 variant="green"
                 size="lg"
                 className="w-full"
                 loading={loading}
-                label="KIRIM TAUTAN RESET"
+                label={t("submit")}
               />
             </form>
           </CardContent>

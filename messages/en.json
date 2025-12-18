@@ -119,6 +119,35 @@
         "length": "At least 6 characters"
       }
     },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "submit": "SEND RESET LINK",
+      "backToLogin": "Back to Login",
+      "success": "If an account with that email exists, we have sent a password reset link.",
+      "error": "Failed to send reset link",
+      "fields": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Email"
+        }
+      }
+    },
+    "updatePassword": {
+      "title": "Update Password",
+      "submit": "UPDATE PASSWORD",
+      "success": "Password updated successfully. Redirecting...",
+      "error": "Failed to update password",
+      "fields": {
+        "password": {
+          "label": "New Password",
+          "placeholder": "New Password"
+        },
+        "confirmPassword": {
+          "label": "Confirm Password",
+          "placeholder": "Confirm Password"
+        }
+      }
+    },
     "validation": {
       "required": "Required",
       "emailInvalid": "Invalid email format",

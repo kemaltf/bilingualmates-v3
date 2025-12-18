@@ -9,6 +9,11 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslations } from "next-intl";
+import {
+  createRegisterSchema,
+  calculatePasswordStrength,
+  checkPasswordRequirements,
+} from "@/lib/zod-rules";
 
 export default function RegisterPage() {
   const t = useTranslations("auth.register");
@@ -17,20 +22,10 @@ export default function RegisterPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState(false);
 
-  const registerSchema = z
-    .object({
-      username: z
-        .string()
-        .trim()
-        .min(3, tVal("usernameMin", { min: 3 })),
-      email: z.string().trim().email(tVal("emailInvalid")),
-      password: z.string().min(6, tVal("minChar", { min: 6 })),
-      confirmPassword: z.string(),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: tVal("passwordMismatch"),
-      path: ["confirmPassword"],
-    });
+  const registerSchema = React.useMemo(
+    () => createRegisterSchema(undefined, tVal),
+    [tVal]
+  );
 
   type RegisterValues = z.infer<typeof registerSchema>;
 
@@ -51,19 +46,8 @@ export default function RegisterPage() {
   });
 
   const password = watch("password");
-
-  const calculateStrength = (pass: string) => {
-    let score = 0;
-    if (!pass) return 0;
-    if (pass.length > 5) score++;
-    if (pass.length > 7) score++;
-    if (/[A-Z]/.test(pass)) score++;
-    if (/[0-9]/.test(pass)) score++;
-    if (/[^A-Za-z0-9]/.test(pass)) score++;
-    return score > 4 ? 4 : score;
-  };
-
-  const strength = calculateStrength(password);
+  const strength = calculatePasswordStrength(password);
+  const requirements = checkPasswordRequirements(password);
 
   const getStrengthLabel = (s: number) => {
     switch (s) {
@@ -98,14 +82,6 @@ export default function RegisterPage() {
         return "bg-neutral-200 dark:bg-neutral-700";
     }
   };
-
-  const requirements = [
-    { key: "length", met: (password || "").length >= 6 },
-    { key: "lowercase", met: /[a-z]/.test(password || "") },
-    { key: "uppercase", met: /[A-Z]/.test(password || "") },
-    { key: "number", met: /[0-9]/.test(password || "") },
-    { key: "special", met: /[^A-Za-z0-9]/.test(password || "") },
-  ] as const;
 
   const onSubmit = async (values: RegisterValues) => {
     setError(null);
@@ -157,9 +133,10 @@ export default function RegisterPage() {
                 </div>
                 <div className="text-neutral-600 dark:text-neutral-400">
                   {t.rich("successMessage", {
-                    email: () => (
+                    email: watch("email"),
+                    strong: (chunks) => (
                       <strong className="text-neutral-900 dark:text-neutral-200">
-                        {getValues("email")}
+                        {chunks}
                       </strong>
                     ),
                   })}

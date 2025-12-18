@@ -84,7 +84,7 @@
       "hasAccount": "Sudah punya akun?",
       "login": "Masuk",
       "successTitle": "Cek Email Kamu",
-      "successMessage": "Kami telah mengirimkan link konfirmasi ke <strong>{email}</strong>. Silakan cek inbox (atau folder spam) kamu untuk mengaktifkan akun.",
+      "successMessage": "Kami telah mengirimkan tautan konfirmasi ke <strong>{email}</strong>. Silakan cek kotak masuk (atau folder spam) untuk mengaktifkan akun Anda.",
       "backToLogin": "KEMBALI KE LOGIN",
       "fields": {
         "username": {
@@ -117,6 +117,35 @@
         "number": "Angka",
         "special": "Karakter spesial",
         "length": "Minimal 6 karakter"
+      }
+    },
+    "forgotPassword": {
+      "title": "Lupa Password",
+      "submit": "KIRIM TAUTAN RESET",
+      "backToLogin": "Kembali ke Login",
+      "success": "Jika akun dengan email tersebut ada, kami telah mengirimkan tautan reset password.",
+      "error": "Gagal mengirim tautan reset",
+      "fields": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Email"
+        }
+      }
+    },
+    "updatePassword": {
+      "title": "Perbarui Password",
+      "submit": "PERBARUI PASSWORD",
+      "success": "Password berhasil diperbarui. Mengalihkan...",
+      "error": "Gagal memperbarui password",
+      "fields": {
+        "password": {
+          "label": "Password Baru",
+          "placeholder": "Password Baru"
+        },
+        "confirmPassword": {
+          "label": "Konfirmasi Password",
+          "placeholder": "Konfirmasi Password"
+        }
       }
     },
     "validation": {

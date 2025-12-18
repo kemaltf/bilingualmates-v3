@@ -9,26 +9,25 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
-
-const updatePasswordSchema = z
-  .object({
-    password: z.string().min(6, "Password minimal 6 karakter"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Password tidak cocok",
-    path: ["confirmPassword"],
-  });
-
-type UpdatePasswordValues = z.infer<typeof updatePasswordSchema>;
+import { useTranslations } from "next-intl";
+import { createUpdatePasswordSchema } from "@/lib/zod-rules";
 
 export default function UpdatePasswordPage() {
+  const t = useTranslations("auth.updatePassword");
+  const tVal = useTranslations("auth.validation");
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
   const router = useRouter();
+
+  const updatePasswordSchema = React.useMemo(
+    () => createUpdatePasswordSchema(undefined, tVal),
+    [tVal]
+  );
+
+  type UpdatePasswordValues = z.infer<typeof updatePasswordSchema>;
 
   const {
     control,
@@ -59,19 +58,18 @@ export default function UpdatePasswordPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Gagal memperbarui password");
+        throw new Error(data.error || t("error"));
       }
 
       setMessage({
         type: "success",
-        text: "Password berhasil diperbarui. Mengalihkan...",
+        text: t("success"),
       });
       setTimeout(() => {
         router.push("/learn");
       }, 2000);
     } catch (e: unknown) {
-      const message =
-        e instanceof Error ? e.message : "Gagal memperbarui password";
+      const message = e instanceof Error ? e.message : t("error");
       setMessage({
         type: "error",
         text: message,
@@ -86,7 +84,7 @@ export default function UpdatePasswordPage() {
       <div className="w-full max-w-[440px]">
         <Card>
           <CardHeader>
-            <CardTitle>Perbarui Password</CardTitle>
+            <CardTitle>{t("title")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {message && (
@@ -105,7 +103,7 @@ export default function UpdatePasswordPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
-                  Password Baru
+                  {t("fields.password.label")}
                 </label>
                 <Controller
                   control={control}
@@ -115,7 +113,7 @@ export default function UpdatePasswordPage() {
                       value={value}
                       onChange={onChange}
                       type="password"
-                      placeholder="Masukkan password baru"
+                      placeholder={t("fields.password.placeholder")}
                       disabled={loading}
                       prefix={<Lock className="h-5 w-5 text-neutral-400" />}
                       status={errors.password ? "incorrect" : "idle"}
@@ -127,7 +125,7 @@ export default function UpdatePasswordPage() {
 
               <div className="space-y-2">
                 <label className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
-                  Konfirmasi Password
+                  {t("fields.confirmPassword.label")}
                 </label>
                 <Controller
                   control={control}
@@ -137,7 +135,7 @@ export default function UpdatePasswordPage() {
                       value={value}
                       onChange={onChange}
                       type="password"
-                      placeholder="Ulangi password baru"
+                      placeholder={t("fields.confirmPassword.placeholder")}
                       disabled={loading}
                       prefix={<Lock className="h-5 w-5 text-neutral-400" />}
                       status={errors.confirmPassword ? "incorrect" : "idle"}
@@ -153,7 +151,7 @@ export default function UpdatePasswordPage() {
                 size="lg"
                 className="w-full"
                 loading={loading}
-                label="SIMPAN PASSWORD"
+                label={t("submit")}
               />
             </form>
           </CardContent>
