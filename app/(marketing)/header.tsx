@@ -33,7 +33,7 @@ export const Header = () => {
             <Link href="/login">
               <Button variant="outline-blue" size="sm" label="Login" />
             </Link>
-            <Link href="/register">
+            <Link href="/get-started">
               <Button variant="green" size="sm" label="Get Started" />
             </Link>
           </div>
