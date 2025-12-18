@@ -55,5 +55,76 @@
       "gift": "BUY AS A GIFT",
       "testimonials": "What Students Say"
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "submit": "LOGIN",
+      "google": "Login with Google",
+      "or": "OR",
+      "forgotPassword": "Forgot Password?",
+      "noAccount": "Don't have an account?",
+      "register": "Register",
+      "success": "Login successful",
+      "error": "Login failed",
+      "fields": {
+        "identifier": {
+          "label": "Email or Username",
+          "placeholder": "Email or Username"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password"
+        }
+      }
+    },
+    "register": {
+      "title": "Register",
+      "submit": "REGISTER",
+      "hasAccount": "Already have an account?",
+      "login": "Login",
+      "successTitle": "Check Your Email",
+      "successMessage": "We have sent a confirmation link to <strong>{email}</strong>. Please check your inbox (or spam folder) to activate your account.",
+      "backToLogin": "BACK TO LOGIN",
+      "fields": {
+        "username": {
+          "label": "Username",
+          "placeholder": "Username"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Email"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password"
+        },
+        "confirmPassword": {
+          "label": "Confirm Password",
+          "placeholder": "Confirm Password"
+        }
+      },
+      "passwordStrength": {
+        "weak": "Weak",
+        "medium": "Medium",
+        "strong": "Strong",
+        "veryStrong": "Very Strong"
+      },
+      "requirements": {
+        "title": "Password requirements:",
+        "lowercase": "Lowercase letter",
+        "uppercase": "Uppercase letter",
+        "number": "Number",
+        "special": "Special character",
+        "length": "At least 6 characters"
+      }
+    },
+    "validation": {
+      "required": "Required",
+      "emailInvalid": "Invalid email format",
+      "minChar": "Minimum {min} characters",
+      "passwordMismatch": "Passwords do not match",
+      "usernameMin": "Username minimum {min} characters"
+    }
   }
 }

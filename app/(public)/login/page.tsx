@@ -9,17 +9,20 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
-
-const loginSchema = z.object({
-  identifier: z.string().min(1, "Email atau username harus diisi"),
-  password: z.string().min(1, "Password harus diisi"),
-});
-
-type LoginValues = z.infer<typeof loginSchema>;
+import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
+  const t = useTranslations("auth.login");
+  const tVal = useTranslations("auth.validation");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+
+  const loginSchema = z.object({
+    identifier: z.string().min(1, tVal("required") || "Wajib diisi"),
+    password: z.string().min(1, tVal("required") || "Wajib diisi"),
+  });
+
+  type LoginValues = z.infer<typeof loginSchema>;
 
   const {
     control,
@@ -83,12 +86,13 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Login gagal");
+        throw new Error(data.error || t("error") || "Login gagal");
       }
 
       if (typeof window !== "undefined") window.location.assign("/learn");
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : "Login gagal";
+      const message =
+        e instanceof Error ? e.message : t("error") || "Login gagal";
       setError(message);
     } finally {
       setLoading(false);
@@ -100,7 +104,7 @@ export default function LoginPage() {
       <div className="w-full max-w-[440px]">
         <Card>
           <CardHeader>
-            <CardTitle>Masuk</CardTitle>
+            <CardTitle>{t("title")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button
@@ -115,13 +119,15 @@ export default function LoginPage() {
                   fill="currentColor"
                 />
               </svg>
-              <span>Masuk dengan Google</span>
+              <span>{t("google")}</span>
             </Button>
 
             <div className="flex items-center gap-4">
-              <div className="h-px flex-1 bg-neutral-200" />
-              <span className="text-xs text-neutral-500">ATAU</span>
-              <div className="h-px flex-1 bg-neutral-200" />
+              <div className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
+              <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                {t("or")}
+              </span>
+              <div className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -132,7 +138,7 @@ export default function LoginPage() {
                   <Input
                     value={value}
                     onChange={onChange}
-                    placeholder="Email atau username"
+                    placeholder={t("fields.identifier.placeholder")}
                     prefix={<User className="size-4" />}
                     status={errors.identifier ? "incorrect" : "idle"}
                     helperText={errors.identifier?.message}
@@ -147,7 +153,7 @@ export default function LoginPage() {
                   <Input
                     value={value}
                     onChange={onChange}
-                    placeholder="Password"
+                    placeholder={t("fields.password.placeholder")}
                     type="password"
                     prefix={<Lock className="size-4" />}
                     status={errors.password ? "incorrect" : "idle"}
@@ -159,9 +165,9 @@ export default function LoginPage() {
               <div className="flex justify-end">
                 <Link
                   href="/forgot-password"
-                  className="text-xs font-bold text-neutral-500 hover:text-neutral-700 uppercase"
+                  className="text-xs font-bold text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300 uppercase"
                 >
-                  Lupa Password?
+                  {t("forgotPassword")}
                 </Link>
               </div>
 
@@ -176,15 +182,15 @@ export default function LoginPage() {
                   variant="green"
                   size="md"
                   disabled={loading}
-                  label="MASUK"
+                  label={t("submit")}
                 />
               </div>
             </form>
 
-            <div className="text-sm text-neutral-600">
-              Belum punya akun?{" "}
+            <div className="text-sm text-neutral-600 dark:text-neutral-400">
+              {t("noAccount")}{" "}
               <a href="/register" className="underline">
-                Daftar
+                {t("register")}
               </a>
             </div>
           </CardContent>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito, Inter } from "next/font/google";
 import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -20,13 +22,16 @@ export const metadata: Metadata = {
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -45,7 +50,9 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} ${inter.variable} [--font-sans:var(--font-nunito)] [--font-mono:var(--font-inter)] font-sans antialiased bg-red-40`}
       >
-        <TooltipProvider>{children}</TooltipProvider>
+        <NextIntlClientProvider messages={messages}>
+          <TooltipProvider>{children}</TooltipProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

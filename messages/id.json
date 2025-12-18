@@ -55,5 +55,76 @@
       "gift": "BELI SEBAGAI HADIAH",
       "testimonials": "Apa Kata Siswa"
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Masuk",
+      "submit": "MASUK",
+      "google": "Masuk dengan Google",
+      "or": "ATAU",
+      "forgotPassword": "Lupa Password?",
+      "noAccount": "Belum punya akun?",
+      "register": "Daftar",
+      "success": "Login berhasil",
+      "error": "Login gagal",
+      "fields": {
+        "identifier": {
+          "label": "Email atau Username",
+          "placeholder": "Email atau Username"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password"
+        }
+      }
+    },
+    "register": {
+      "title": "Daftar",
+      "submit": "DAFTAR",
+      "hasAccount": "Sudah punya akun?",
+      "login": "Masuk",
+      "successTitle": "Cek Email Kamu",
+      "successMessage": "Kami telah mengirimkan link konfirmasi ke <strong>{email}</strong>. Silakan cek inbox (atau folder spam) kamu untuk mengaktifkan akun.",
+      "backToLogin": "KEMBALI KE LOGIN",
+      "fields": {
+        "username": {
+          "label": "Username",
+          "placeholder": "Username"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Email"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password"
+        },
+        "confirmPassword": {
+          "label": "Konfirmasi Password",
+          "placeholder": "Konfirmasi Password"
+        }
+      },
+      "passwordStrength": {
+        "weak": "Lemah",
+        "medium": "Sedang",
+        "strong": "Kuat",
+        "veryStrong": "Sangat Kuat"
+      },
+      "requirements": {
+        "title": "Syarat password:",
+        "lowercase": "Huruf kecil",
+        "uppercase": "Huruf besar",
+        "number": "Angka",
+        "special": "Karakter spesial",
+        "length": "Minimal 6 karakter"
+      }
+    },
+    "validation": {
+      "required": "Wajib diisi",
+      "emailInvalid": "Format email tidak valid",
+      "minChar": "Minimal {min} karakter",
+      "passwordMismatch": "Password tidak cocok",
+      "usernameMin": "Username minimal {min} karakter"
+    }
   }
 }

@@ -1,16 +1,50 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import * as z from "zod";
+
+const registerSchema = z.object({
+  username: z.string().trim().min(3, "Username minimal 3 karakter"),
+  email: z.string().trim().email("Format email tidak valid"),
+  password: z.string().min(6, "Password minimal 6 karakter"),
+});
 
 export async function POST(request: Request) {
   try {
-    const { email, password, username } = await request.json();
+    const body = await request.json();
+    let { email, password, username } = body;
 
-    if (!email || !password || !username) {
-      return NextResponse.json(
-        { error: "Semua field wajib diisi" },
-        { status: 400 }
+    // Debug logging
+    console.log("Register Request:", { email, username });
+    if (email) {
+      console.log(
+        "Email char codes:",
+        email.split("").map((c: any) => String(c).charCodeAt(0))
       );
+    }
+
+    // Sanitize input
+    if (email) {
+      // Remove whitespace and invisible characters
+      email = email.toString().trim().toLowerCase();
+      // Remove non-printable ASCII characters (like zero-width spaces)
+      email = email.replace(/[^\x20-\x7E]/g, "");
+    }
+
+    if (username) {
+      username = username.toString().trim().toLowerCase();
+    }
+
+    // Validate with Zod
+    const validationResult = registerSchema.safeParse({
+      email,
+      password,
+      username,
+    });
+
+    if (!validationResult.success) {
+      const errorMessage = validationResult.error.errors[0].message;
+      return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
 
     const cookieStore = await cookies();
