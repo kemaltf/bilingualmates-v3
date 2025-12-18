@@ -55,6 +55,7 @@ export function TrialStep({ onComplete }: Props) {
       <QuizRunner
         questions={TRIAL_QUESTIONS}
         footerVariant="sticky"
+        hideHeader={true}
         onComplete={() => {
           onComplete();
         }}

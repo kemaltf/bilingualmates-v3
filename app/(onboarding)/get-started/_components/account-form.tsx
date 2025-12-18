@@ -14,16 +14,20 @@ import {
 } from "@/lib/zod-rules";
 import * as z from "zod";
 
+import Image from "next/image";
+
 type RegisterSchemaType = ReturnType<typeof createRegisterSchema>;
 type RegisterValues = z.infer<RegisterSchemaType>;
 
 type Props = {
   onRegister: (data: RegisterValues) => Promise<void>;
+  onboardingData?: unknown; // We'll use this to save to cookie before Google login
 };
 
-export function AccountForm({ onRegister }: Props) {
+export function AccountForm({ onRegister, onboardingData }: Props) {
   const t = useTranslations("onboarding.account");
   const tReg = useTranslations("auth.register");
+  const tLogin = useTranslations("auth.login");
   const tVal = useTranslations("auth.validation");
   const [loading, setLoading] = React.useState(false);
 
@@ -56,6 +60,43 @@ export function AccountForm({ onRegister }: Props) {
     setLoading(true);
     await onRegister(data);
     setLoading(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      // Save onboarding data to cookie before redirecting
+      if (onboardingData) {
+        document.cookie = `onboarding-data=${JSON.stringify(
+          onboardingData
+        )}; path=/; max-age=3600`;
+      }
+
+      const response = await fetch("/api/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          redirectTo: `${window.location.origin}/auth/callback`,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Gagal inisialisasi login Google");
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (e: unknown) {
+      console.error(e);
+      // In a real app we might want to show this error
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -203,6 +244,34 @@ export function AccountForm({ onRegister }: Props) {
           disabled={loading}
         >
           {loading ? tReg("title") + "..." : tReg("submit")}
+        </Button>
+
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-slate-300 dark:border-slate-700" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-slate-50 dark:bg-slate-900 px-2 text-slate-500">
+              {tLogin("or")}
+            </span>
+          </div>
+        </div>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="lg"
+          className="w-full border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+          onClick={handleGoogleLogin}
+        >
+          <Image
+            src="/svg/google.svg"
+            alt="Google"
+            width={20}
+            height={20}
+            className="mr-2"
+          />
+          {tLogin("google")}
         </Button>
       </form>
     </div>

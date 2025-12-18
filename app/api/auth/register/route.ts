@@ -6,7 +6,16 @@ import { registerBaseSchema } from "@/lib/zod-rules";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { password } = body;
+    const {
+      password,
+      language,
+      source,
+      goal,
+      level,
+      path,
+      dailyGoal,
+      notifications,
+    } = body;
     let { email, username } = body;
 
     // Debug logging

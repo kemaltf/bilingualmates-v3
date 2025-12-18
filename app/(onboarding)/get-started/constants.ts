@@ -47,3 +47,10 @@ export const LEVELS = [
   { id: "intermediate" },
   { id: "advanced" },
 ];
+
+export const PATHS = [
+  { id: "basics", icon: Globe },
+  { id: "travel", icon: Plane },
+  { id: "business", icon: Briefcase },
+  { id: "academic", icon: GraduationCap },
+];

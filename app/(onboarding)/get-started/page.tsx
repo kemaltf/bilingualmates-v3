@@ -7,12 +7,12 @@ import { LanguageStep } from "./_components/language-step";
 import { SourceStep } from "./_components/source-step";
 import { GoalStep } from "./_components/goal-step";
 import { LevelStep } from "./_components/level-step";
+import { PathStep } from "./_components/path-step";
 import { DailyGoalStep } from "./_components/daily-goal-step";
 import { NotificationStep } from "./_components/notification-step";
 import { TrialIntroStep } from "./_components/trial-intro-step";
 import { TrialStep } from "./_components/trial-step";
 import { TrialCompletedStep } from "./_components/trial-completed-step";
-import { ProfileForm } from "./_components/profile-form";
 import { AccountForm } from "./_components/account-form";
 
 type Step =
@@ -20,6 +20,7 @@ type Step =
   | "source"
   | "goal"
   | "level"
+  | "path"
   | "daily_goal"
   | "notifications"
   | "trial_intro"
@@ -34,14 +35,9 @@ type OnboardingData = {
   source?: string;
   goal?: string;
   level?: string;
+  path?: string;
   dailyGoal?: number;
   notifications?: boolean;
-  profile?: {
-    name: string;
-    age: string;
-    gender: string;
-    nickname?: string;
-  };
   account?: {
     username: string;
     email: string;
@@ -111,6 +107,17 @@ export default function GetStartedPage() {
           />
         );
 
+      case "path":
+        return (
+          <PathStep
+            languageId={data.language}
+            onSelect={(pathId) => {
+              updateData("path", pathId);
+              nextStep("trial", 80);
+            }}
+          />
+        );
+
       case "daily_goal":
         return (
           <DailyGoalStep
@@ -152,7 +159,7 @@ export default function GetStartedPage() {
         );
 
       case "trial_intro":
-        return <TrialIntroStep onStart={() => nextStep("trial", 80)} />;
+        return <TrialIntroStep onStart={() => nextStep("path", 75)} />;
 
       case "trial":
         return (
@@ -165,22 +172,13 @@ export default function GetStartedPage() {
 
       case "trial_completed":
         return (
-          <TrialCompletedStep onCreateProfile={() => nextStep("profile", 95)} />
-        );
-
-      case "profile":
-        return (
-          <ProfileForm
-            onNext={(pData) => {
-              updateData("profile", pData);
-              nextStep("account", 98);
-            }}
-          />
+          <TrialCompletedStep onCreateProfile={() => nextStep("account", 95)} />
         );
 
       case "account":
         return (
           <AccountForm
+            onboardingData={data}
             onRegister={async (accData) => {
               updateData("account", accData);
               // Call API to register
@@ -192,8 +190,14 @@ export default function GetStartedPage() {
                     username: accData.username,
                     email: accData.email,
                     password: accData.password,
-                    // In a real app, we would pass the profile data too
-                    // but for now the API only accepts these
+                    // Pass onboarding data
+                    language: data.language,
+                    source: data.source,
+                    goal: data.goal,
+                    level: data.level,
+                    path: data.path,
+                    dailyGoal: data.dailyGoal,
+                    notifications: data.notifications,
                   }),
                 });
                 const res = await response.json();
@@ -224,6 +228,9 @@ export default function GetStartedPage() {
       case "level":
         nextStep("goal", 30);
         break;
+      case "path":
+        nextStep("trial_intro", 70);
+        break;
       case "daily_goal":
         nextStep("level", 40);
         break;
@@ -232,6 +239,9 @@ export default function GetStartedPage() {
         break;
       case "trial_intro":
         nextStep("notifications", 60);
+        break;
+      case "trial":
+        nextStep("path", 75);
         break;
       case "profile":
         nextStep("trial_completed", 90);

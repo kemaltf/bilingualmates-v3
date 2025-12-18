@@ -38,7 +38,9 @@
       "selecting": "Selecting...",
       "select": "Select Path",
       "myChoice": "My Choice",
-      "seeInside": "See Inside"
+      "seeInside": "See Inside",
+      "purchased": "Purchased",
+      "owned": "Owned"
     },
     "detail": {
       "off": "OFF",
@@ -235,6 +237,27 @@
         "advanced": {
           "label": "I'm advanced",
           "sub": "I can discuss complex topics"
+        }
+      }
+    },
+    "path": {
+      "title": "Which path do you want to take?",
+      "options": {
+        "basics": {
+          "title": "Basics & Foundations",
+          "description": "Start with essential vocabulary and grammar."
+        },
+        "travel": {
+          "title": "Travel & Culture",
+          "description": "Learn to navigate and interact with locals."
+        },
+        "business": {
+          "title": "Business & Career",
+          "description": "Master professional terminology and etiquette."
+        },
+        "academic": {
+          "title": "Academic & Literature",
+          "description": "Deep dive into complex texts and formal language."
         }
       }
     },

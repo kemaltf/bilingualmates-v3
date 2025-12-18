@@ -38,7 +38,9 @@
       "selecting": "Memilih...",
       "select": "Pilih Jalur",
       "myChoice": "Pilihan Saya",
-      "seeInside": "Lihat Isi"
+      "seeInside": "Lihat Isi",
+      "purchased": "Sudah Dibeli",
+      "owned": "Milik Anda"
     },
     "detail": {
       "off": "HEMAT",
@@ -238,6 +240,27 @@
         "advanced": {
           "label": "Saya sudah mahir",
           "sub": "Bisa diskusi topik kompleks"
+        }
+      }
+    },
+    "path": {
+      "title": "Jalur mana yang ingin Anda ambil?",
+      "options": {
+        "basics": {
+          "title": "Dasar & Fondasi",
+          "description": "Mulai dengan kosakata dan tata bahasa dasar."
+        },
+        "travel": {
+          "title": "Wisata & Budaya",
+          "description": "Belajar navigasi dan berinteraksi dengan warga lokal."
+        },
+        "business": {
+          "title": "Bisnis & Karir",
+          "description": "Kuasai terminologi profesional dan etiket."
+        },
+        "academic": {
+          "title": "Akademik & Sastra",
+          "description": "Pelajari teks kompleks dan bahasa formal."
         }
       }
     },
