@@ -19,6 +19,7 @@ export interface QuizRunnerProps {
   userId?: string;
   className?: string;
   footerVariant?: "inline" | "sticky";
+  hideHeader?: boolean;
 }
 
 function feedbackToCardStatus(
@@ -45,6 +46,7 @@ export function QuizRunner({
   userId,
   className,
   footerVariant = "inline",
+  hideHeader,
 }: QuizRunnerProps) {
   const controller = useQuizController(
     questions,
@@ -87,44 +89,49 @@ export function QuizRunner({
 
   return (
     <div className={cn("w-full space-y-4", className)}>
-      <div className="flex items-center justify-between">
-        <Button
-          variant="text"
-          size="icon-sm"
-          aria-label="Close"
-          onClick={() => {
-            if (onClose) {
-              onClose();
-            } else if (typeof window !== "undefined") {
-              window.history.back();
-            }
-          }}
-        >
-          {/* icon */}
-          <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
-            <path
-              d="M18 6L6 18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        </Button>
-        <div className="flex items-center gap-3">
-          <div className="text-sm font-semibold hidden md:block">
-            Question {controller.index + 1} of {questions.length}
-          </div>
-          <div className="w-56 h-2 bg-neutral-200 rounded-full overflow-hidden">
-            <div className="h-2 bg-sky-500" style={{ width: `${progress}%` }} />
+      {!hideHeader && (
+        <div className="flex items-center justify-between">
+          <Button
+            variant="text"
+            size="icon-sm"
+            aria-label="Close"
+            onClick={() => {
+              if (onClose) {
+                onClose();
+              } else if (typeof window !== "undefined") {
+                window.history.back();
+              }
+            }}
+          >
+            {/* icon */}
+            <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+              <path
+                d="M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <path
+                d="M6 6L18 18"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </Button>
+          <div className="flex items-center gap-3">
+            <div className="text-sm font-semibold hidden md:block">
+              Question {controller.index + 1} of {questions.length}
+            </div>
+            <div className="w-56 h-2 bg-neutral-200 rounded-full overflow-hidden">
+              <div
+                className="h-2 bg-sky-500"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="max-w-[720px] mx-auto">
         <QuestionRenderer

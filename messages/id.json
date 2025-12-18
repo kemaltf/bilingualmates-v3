@@ -38,7 +38,9 @@
       "selecting": "Memilih...",
       "select": "Pilih Jalur",
       "myChoice": "Pilihan Saya",
-      "seeInside": "Lihat Isi"
+      "seeInside": "Lihat Isi",
+      "purchased": "Sudah Dibeli",
+      "owned": "Milik Anda"
     },
     "detail": {
       "off": "HEMAT",
@@ -190,6 +192,122 @@
         "privacy": "Privasi",
         "blog": "Blog"
       }
+    }
+  },
+  "onboarding": {
+    "language": {
+      "title": "Saya ingin belajar..."
+    },
+    "source": {
+      "title": "Dari mana Anda tahu tentang kami?",
+      "options": {
+        "youtube": "YouTube",
+        "news": "Berita/Artikel",
+        "friends": "Teman/Keluarga",
+        "google": "Pencarian Google",
+        "social": "Media Sosial",
+        "tv": "TV/Film",
+        "other": "Lainnya"
+      }
+    },
+    "goal": {
+      "title": "Mengapa Anda belajar {language}?",
+      "options": {
+        "travel": "Persiapan liburan",
+        "career": "Menunjang karir",
+        "school": "Mendukung pendidikan",
+        "fun": "Hanya untuk kesenangan",
+        "brain": "Melatih otak",
+        "connect": "Terhubung dengan orang lain",
+        "other": "Lainnya"
+      }
+    },
+    "level": {
+      "title": "Seberapa jauh kemampuan {language} Anda?",
+      "options": {
+        "new": {
+          "label": "Saya baru belajar {language}",
+          "sub": "Mulai dari awal"
+        },
+        "beginner": {
+          "label": "Saya tahu beberapa kata",
+          "sub": "Saya tahu dasar-dasarnya"
+        },
+        "intermediate": {
+          "label": "Saya bisa percakapan",
+          "sub": "Bisa bicara topik sederhana"
+        },
+        "advanced": {
+          "label": "Saya sudah mahir",
+          "sub": "Bisa diskusi topik kompleks"
+        }
+      }
+    },
+    "path": {
+      "title": "Jalur mana yang ingin Anda ambil?",
+      "options": {
+        "basics": {
+          "title": "Dasar & Fondasi",
+          "description": "Mulai dengan kosakata dan tata bahasa dasar."
+        },
+        "travel": {
+          "title": "Wisata & Budaya",
+          "description": "Belajar navigasi dan berinteraksi dengan warga lokal."
+        },
+        "business": {
+          "title": "Bisnis & Karir",
+          "description": "Kuasai terminologi profesional dan etiket."
+        },
+        "academic": {
+          "title": "Akademik & Sastra",
+          "description": "Pelajari teks kompleks dan bahasa formal."
+        }
+      }
+    },
+    "dailyGoal": {
+      "title": "Atur target harian",
+      "casual": "Santai",
+      "intense": "Intens",
+      "lessonsPerDay": "Pelajaran per hari",
+      "continue": "LANJUTKAN"
+    },
+    "notifications": {
+      "title": "Jaga konsistensi Anda!",
+      "description": "Belajar bahasa butuh konsistensi. Aktifkan notifikasi agar Anda tidak melewatkan target harian.",
+      "enable": "AKTIFKAN NOTIFIKASI",
+      "later": "NANTI SAJA"
+    },
+    "trialIntro": {
+      "title": "Mari kita coba!",
+      "description": "Ikuti pelajaran singkat 1 menit untuk melihat cara kerja BilingualMates. Seru, efektif, dan gratis.",
+      "start": "MULAI PELAJARAN"
+    },
+    "trialCompleted": {
+      "title": "Kerja bagus!",
+      "description": "Anda telah menyelesaikan pelajaran pertama. Sekarang ayo simpan progres Anda.",
+      "createProfile": "BUAT PROFIL"
+    },
+    "profile": {
+      "title": "Ceritakan tentang diri Anda",
+      "fields": {
+        "name": "Nama Lengkap",
+        "age": "Umur",
+        "gender": {
+          "label": "Jenis Kelamin",
+          "options": {
+            "select": "Pilih...",
+            "male": "Laki-laki",
+            "female": "Perempuan",
+            "other": "Lainnya"
+          }
+        },
+        "nickname": "Nama Panggilan (Opsional)",
+        "nicknamePlaceholder": "Pak Budi"
+      },
+      "continue": "LANJUTKAN"
+    },
+    "account": {
+      "title": "Buat akun Anda"
     }
   }
 }

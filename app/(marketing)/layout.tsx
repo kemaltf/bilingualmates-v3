@@ -1,5 +1,6 @@
 import { Footer } from "./footer";
 import { Header } from "./header";
+import { ScrollToTop } from "./scroll-to-top";
 
 type Props = {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ const MarketingLayout = ({ children }: Props) => {
         {children}
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };

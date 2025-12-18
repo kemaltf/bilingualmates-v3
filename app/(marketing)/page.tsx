@@ -30,7 +30,7 @@ export default async function LandingPage() {
           The free, fun, and effective way to learn a language!
         </h1>
         <div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">
-          <Link href="/register">
+          <Link href="/get-started">
             <Button
               size="lg"
               variant="green"

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { LanguageSelector } from "./language-selector";
 import { ThemeToggle } from "./theme-toggle";
+import { MobileMenu } from "./mobile-menu";
 
 export const Header = () => {
   return (
@@ -11,7 +12,7 @@ export const Header = () => {
           <h1 className="text-2xl font-extrabold text-green-600 tracking-wide">
             BilingualMates
           </h1>
-          <div className="hidden md:flex gap-x-6 ml-8 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">
+          <div className="hidden lg:flex gap-x-6 ml-8 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">
             <Link
               href="/pricing"
               className="hover:text-slate-700 dark:hover:text-slate-200 transition"
@@ -26,18 +27,23 @@ export const Header = () => {
             </Link>
           </div>
         </div>
-        <div className="flex items-center gap-x-3">
+
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex items-center gap-x-3">
           <ThemeToggle />
           <LanguageSelector />
           <div className="flex gap-x-3">
             <Link href="/login">
               <Button variant="outline-blue" size="sm" label="Login" />
             </Link>
-            <Link href="/register">
+            <Link href="/get-started">
               <Button variant="green" size="sm" label="Get Started" />
             </Link>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        <MobileMenu />
       </div>
     </header>
   );

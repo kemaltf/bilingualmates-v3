@@ -38,7 +38,9 @@
       "selecting": "Selecting...",
       "select": "Select Path",
       "myChoice": "My Choice",
-      "seeInside": "See Inside"
+      "seeInside": "See Inside",
+      "purchased": "Purchased",
+      "owned": "Owned"
     },
     "detail": {
       "off": "OFF",
@@ -190,6 +192,121 @@
         "privacy": "Privacy",
         "blog": "Blog"
       }
+    }
+  },
+  "onboarding": {
+    "language": {
+      "title": "I want to learn..."
+    },
+    "source": {
+      "title": "How did you hear about us?",
+      "options": {
+        "youtube": "YouTube",
+        "news": "News/Article",
+        "friends": "Friends/Family",
+        "google": "Google Search",
+        "social": "Social Media",
+        "tv": "TV/Movies",
+        "other": "Other"
+      }
+    },
+    "goal": {
+      "title": "Why are you learning {language}?",
+      "options": {
+        "travel": "Prepare for travel",
+        "career": "Boost my career",
+        "school": "Support my education",
+        "fun": "Just for fun",
+        "brain": "Brain training",
+        "connect": "Connect with people",
+        "other": "Other"
+      }
+    },
+    "level": {
+      "title": "How much {language} do you know?",
+      "options": {
+        "new": {
+          "label": "I'm new to {language}",
+          "sub": "Start from scratch"
+        },
+        "beginner": { "label": "I know some words", "sub": "I know basics" },
+        "intermediate": {
+          "label": "I can have conversations",
+          "sub": "I can talk about simple topics"
+        },
+        "advanced": {
+          "label": "I'm advanced",
+          "sub": "I can discuss complex topics"
+        }
+      }
+    },
+    "path": {
+      "title": "Which path do you want to take?",
+      "options": {
+        "basics": {
+          "title": "Basics & Foundations",
+          "description": "Start with essential vocabulary and grammar."
+        },
+        "travel": {
+          "title": "Travel & Culture",
+          "description": "Learn to navigate and interact with locals."
+        },
+        "business": {
+          "title": "Business & Career",
+          "description": "Master professional terminology and etiquette."
+        },
+        "academic": {
+          "title": "Academic & Literature",
+          "description": "Deep dive into complex texts and formal language."
+        }
+      }
+    },
+    "dailyGoal": {
+      "title": "Set your daily goal",
+      "casual": "Casual",
+      "intense": "Intense",
+      "lessonsPerDay": "Daily lessons per day",
+      "continue": "CONTINUE"
+    },
+    "notifications": {
+      "title": "Keep your streak going!",
+      "description": "Learning a language requires consistency. Enable notifications so you don't miss your daily goal.",
+      "enable": "ENABLE NOTIFICATIONS",
+      "later": "MAYBE LATER"
+    },
+    "trialIntro": {
+      "title": "Let's try it out!",
+      "description": "Take a quick 1-minute lesson to see how BilingualMates works. It's fun, effective, and free.",
+      "start": "START LESSON"
+    },
+    "trialCompleted": {
+      "title": "Great job!",
+      "description": "You've completed your first lesson. Now let's save your progress.",
+      "createProfile": "CREATE PROFILE"
+    },
+    "profile": {
+      "title": "Tell us about yourself",
+      "fields": {
+        "name": "Full Name",
+        "namePlaceholder": "John Doe",
+        "age": "Age",
+        "agePlaceholder": "25",
+        "gender": {
+          "label": "Gender",
+          "options": {
+            "select": "Select...",
+            "male": "Male",
+            "female": "Female",
+            "other": "Other"
+          }
+        },
+        "nickname": "Nickname (Optional)",
+        "nicknamePlaceholder": "Mr. John"
+      },
+      "continue": "CONTINUE"
+    },
+    "account": {
+      "title": "Create your account"
     }
   }
 }

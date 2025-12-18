@@ -37,6 +37,35 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${origin}/auth/auth-code-error`);
   }
 
+  // Check for onboarding cookie and save to DB
+  const onboardingCookie = cookieStore.get("onboarding-data");
+  if (onboardingCookie) {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const onboardingData = JSON.parse(onboardingCookie.value);
+        await supabase.from("user_settings").insert({
+          user_id: user.id,
+          target_language: onboardingData.language,
+          source: onboardingData.source,
+          learning_goal: onboardingData.goal,
+          proficiency_level: onboardingData.level,
+          current_path_id: onboardingData.path,
+          daily_goal_minutes: onboardingData.dailyGoal,
+          notifications_enabled: onboardingData.notifications,
+        });
+
+        // Delete the cookie after use
+        cookieStore.delete("onboarding-data");
+      }
+    } catch (err) {
+      console.error("Error saving onboarding data from cookie:", err);
+    }
+  }
+
   const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
   const isLocalEnv = process.env.NODE_ENV === "development";
 
