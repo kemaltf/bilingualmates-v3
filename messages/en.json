@@ -155,5 +155,41 @@
       "passwordMismatch": "Passwords do not match",
       "usernameMin": "Username minimum {min} characters"
     }
+  },
+  "marketing": {
+    "footer": {
+      "about": "About us",
+      "products": "Products",
+      "apps": "Apps",
+      "help": "Help and support",
+      "privacy": "Privacy and terms",
+      "social": "Social",
+      "siteLanguage": "Site language:",
+      "rights": "© {year} BilingualMates. All rights reserved.",
+      "links": {
+        "courses": "Courses",
+        "mission": "Mission",
+        "approach": "Approach",
+        "efficacy": "Efficacy",
+        "team": "Team",
+        "research": "Research",
+        "careers": "Careers",
+        "brand": "Brand guidelines",
+        "press": "Press",
+        "investors": "Investors",
+        "contact": "Contact us",
+        "business": "BilingualMates for Business",
+        "super": "Super BilingualMates",
+        "gift": "Gift",
+        "android": "BilingualMates for Android",
+        "ios": "BilingualMates for iOS",
+        "faq": "BilingualMates FAQs",
+        "status": "Status",
+        "community": "Community guidelines",
+        "terms": "Terms",
+        "privacy": "Privacy",
+        "blog": "Blog"
+      }
+    }
   }
 }

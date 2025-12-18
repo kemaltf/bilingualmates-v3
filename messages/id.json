@@ -155,5 +155,41 @@
       "passwordMismatch": "Password tidak cocok",
       "usernameMin": "Username minimal {min} karakter"
     }
+  },
+  "marketing": {
+    "footer": {
+      "about": "Tentang kami",
+      "products": "Produk",
+      "apps": "Aplikasi",
+      "help": "Bantuan dan dukungan",
+      "privacy": "Privasi dan ketentuan",
+      "social": "Sosial",
+      "siteLanguage": "Bahasa situs:",
+      "rights": "© {year} BilingualMates. Hak cipta dilindungi.",
+      "links": {
+        "courses": "Kursus",
+        "mission": "Misi",
+        "approach": "Pendekatan",
+        "efficacy": "Efikasi",
+        "team": "Tim",
+        "research": "Penelitian",
+        "careers": "Karir",
+        "brand": "Panduan merek",
+        "press": "Pers",
+        "investors": "Investor",
+        "contact": "Hubungi kami",
+        "business": "BilingualMates untuk Bisnis",
+        "super": "Super BilingualMates",
+        "gift": "Hadiah",
+        "android": "BilingualMates untuk Android",
+        "ios": "BilingualMates untuk iOS",
+        "faq": "FAQ BilingualMates",
+        "status": "Status",
+        "community": "Panduan komunitas",
+        "terms": "Ketentuan",
+        "privacy": "Privasi",
+        "blog": "Blog"
+      }
+    }
   }
 }
