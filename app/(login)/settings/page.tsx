@@ -24,7 +24,9 @@ export default function Page() {
     try {
       await updateLanguage(newLocale);
       toast.success(
-        newLocale === "id" ? "Bahasa diubah ke Indonesia" : "Language changed to English"
+        newLocale === "id"
+          ? "Bahasa diubah ke Indonesia"
+          : "Language changed to English"
       );
       router.refresh();
     } catch (error) {
@@ -40,10 +42,11 @@ export default function Page() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-sm font-semibold">{t("language")}</h2>
-          <p className="text-sm text-neutral-500">
-            {t("languageDescription")}
-          </p>
-          <Select value={locale} onValueChange={(v) => handleLanguageChange(v as Locale)}>
+          <p className="text-sm text-neutral-500">{t("languageDescription")}</p>
+          <Select
+            value={locale}
+            onValueChange={(v) => handleLanguageChange(v as Locale)}
+          >
             <SelectTrigger className="w-80">
               <SelectValue />
             </SelectTrigger>

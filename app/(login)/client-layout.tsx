@@ -59,6 +59,9 @@ export default function ClientLayout({
   const isCoursePage = pathname === "/course";
   const isFullWidth = focusLesson || isPathPage || isShopPage || isCoursePage;
 
+  const showMobileStats =
+    pathname === "/learn" || pathname?.startsWith("/profile");
+
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     window.location.href = "/";
@@ -154,10 +157,11 @@ export default function ClientLayout({
       <main className="flex-1">
         <div
           className={cn(
-            "w-full px-4 pt-3 pb-20 md:pb-3",
+            "w-full px-4 pb-20 md:pb-3",
+            !isFullWidth && showMobileStats ? "pt-20 md:pt-3" : "pt-3",
             isFullWidth
               ? "max-w-[1024px] mx-auto"
-              : "grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-4"
+              : "grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-8"
           )}
         >
           <div className="min-w-0">{children}</div>

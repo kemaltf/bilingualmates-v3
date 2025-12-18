@@ -23,5 +23,37 @@
     "more": "More",
     "settings": "Settings",
     "logout": "Log out"
+  },
+  "path": {
+    "promo": {
+      "title": "Planning to learn more than 1 class?",
+      "description": "Most learners choose subscription for unlimited access to all paths.",
+      "action": "View Plans"
+    },
+    "card": {
+      "students": "Students",
+      "units": "Units",
+      "free": "Free",
+      "locked": "Locked",
+      "selecting": "Selecting...",
+      "select": "Select Path",
+      "myChoice": "My Choice",
+      "seeInside": "See Inside"
+    },
+    "detail": {
+      "off": "OFF",
+      "cheaper": "Cheaper than a lunch package 🍔",
+      "lessons": "Lessons",
+      "difficulty": "Difficulty",
+      "students": "Students",
+      "language": "Language",
+      "duration": "Duration",
+      "certificate": "Certificate",
+      "yes": "Yes",
+      "no": "No",
+      "enroll": "ENROLL COURSE",
+      "gift": "BUY AS A GIFT",
+      "testimonials": "What Students Say"
+    }
   }
 }

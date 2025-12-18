@@ -138,7 +138,18 @@ const englishPaths: CurriculumPath[] = [
     price: 150000,
     originalPrice: 299000,
     currency: "IDR",
+    studentsCount: 3215,
+    difficulty: "Advanced",
+    estimatedTime: "8 Weeks",
+    certificate: true,
+    language: "English",
     description: "Master professional communication and advance your career.",
+    learningPoints: [
+      "Write professional emails and reports",
+      "Conduct meetings and negotiations confidently",
+      "Deliver impactful presentations",
+      "Network with international colleagues",
+    ],
     units: [
       {
         id: "bu1",
@@ -168,7 +179,18 @@ const englishPaths: CurriculumPath[] = [
     price: 120000,
     originalPrice: 249000,
     currency: "IDR",
+    studentsCount: 843,
+    difficulty: "Intermediate",
+    estimatedTime: "4 Weeks",
+    certificate: false,
+    language: "English",
     description: "Want to speak confidently when traveling or going abroad.",
+    learningPoints: [
+      "Navigate airports and hotels with ease",
+      "Order food and ask for recommendations",
+      "Handle emergencies and health issues",
+      "Make small talk with locals",
+    ],
     units: [
       {
         id: "t1",

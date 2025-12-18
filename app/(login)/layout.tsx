@@ -24,7 +24,7 @@ export default async function Layout({
       .select("language")
       .eq("id", user.id)
       .single();
-    
+
     if (data?.language) {
       language = data.language as Locale;
     }

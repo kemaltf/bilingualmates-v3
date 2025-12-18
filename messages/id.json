@@ -23,5 +23,37 @@
     "more": "Lainnya",
     "settings": "Pengaturan",
     "logout": "Keluar"
+  },
+  "path": {
+    "promo": {
+      "title": "Berencana belajar lebih dari 1 kelas?",
+      "description": "Kebanyakan pelajar memilih langganan untuk akses tak terbatas ke semua jalur.",
+      "action": "Lihat Paket"
+    },
+    "card": {
+      "students": "Siswa",
+      "units": "Unit",
+      "free": "Gratis",
+      "locked": "Terkunci",
+      "selecting": "Memilih...",
+      "select": "Pilih Jalur",
+      "myChoice": "Pilihan Saya",
+      "seeInside": "Lihat Isi"
+    },
+    "detail": {
+      "off": "HEMAT",
+      "cheaper": "Lebih murah dari paket makan siang 🍔",
+      "lessons": "Pelajaran",
+      "difficulty": "Kesulitan",
+      "students": "Siswa",
+      "language": "Bahasa",
+      "duration": "Durasi",
+      "certificate": "Sertifikat",
+      "yes": "Ya",
+      "no": "Tidak",
+      "enroll": "DAFTAR KURSUS",
+      "gift": "BELI SEBAGAI HADIAH",
+      "testimonials": "Apa Kata Siswa"
+    }
   }
 }

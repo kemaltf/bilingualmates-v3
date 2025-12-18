@@ -62,11 +62,12 @@ export function PathMobileBottomBar({
                 <SheetHeader className="sr-only">
                   <SheetTitle>Detail Biaya</SheetTitle>
                 </SheetHeader>
-                <div className="p-6">
-                  <PathPriceContent path={path} totalLessons={totalLessons} />
-                </div>
-                <div className="text-center text-xs text-slate-400 dark:text-slate-500 mt-4 pb-4">
-                  30-Day Money-Back Guarantee
+                <div className="p-6 pb-24">
+                  <PathPriceContent
+                    path={path}
+                    totalLessons={totalLessons}
+                    hideEnrollButton
+                  />
                 </div>
               </SheetContent>
             </Sheet>

@@ -23,15 +23,25 @@ export function RightPanelRenderer({
       {sections.map((s, idx) => {
         if (s.kind === "language_stats")
           return <LanguageStatsCard key={idx} stats={s.data} />;
-        if (s.kind === "missions")
-          return <DailyMissionsCard key={idx} missions={s.data} />;
-        if (s.kind === "ad") return <AdCard key={idx} ad={s.data} />;
-        if (s.kind === "notifications")
-          return <NotificationsCard key={idx} items={s.data} />;
-        if (s.kind === "follows")
-          return <FollowsTabsCard key={idx} data={s.data} />;
-        if (s.kind === "find_friends") return <FindFriendsCard key={idx} />;
-        return null;
+
+        const content = (() => {
+          if (s.kind === "missions")
+            return <DailyMissionsCard missions={s.data} />;
+          if (s.kind === "ad") return <AdCard ad={s.data} />;
+          if (s.kind === "notifications")
+            return <NotificationsCard items={s.data} />;
+          if (s.kind === "follows") return <FollowsTabsCard data={s.data} />;
+          if (s.kind === "find_friends") return <FindFriendsCard />;
+          return null;
+        })();
+
+        if (!content) return null;
+
+        return (
+          <div key={idx} className="hidden lg:block">
+            {content}
+          </div>
+        );
       })}
     </div>
   );

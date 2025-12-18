@@ -63,7 +63,7 @@ export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
   const chooseVariant = brandColorToButtonVariant[unitBrandColor];
 
   return (
-    <main className="max-w-[640px] mx-auto md:px-6">
+    <main className="max-w-[640px] mx-auto">
       <LearnHubHeader
         ref={headerRef}
         courseTitle={path ? path.course : "Course"}

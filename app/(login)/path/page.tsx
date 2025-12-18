@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { courses } from "@/lib/learn/mock";
 import { PathSelectionList } from "@/components/path/PathSelectionList";
 import { redirect } from "next/navigation";
+import { PromoCard } from "@/components/path/PromoCard";
 
 export default async function PathPage() {
   const supabase = await createClient();
@@ -32,16 +33,7 @@ export default async function PathPage() {
         <p className="text-neutral-600 dark:text-neutral-400">
           {`Choose what's relevant for your ${currentCourse.title} journey. You can switch anytime.`}
         </p>
-        <div className="mt-6 p-4 bg-sky-50 dark:bg-sky-900/20 border border-sky-100 dark:border-sky-800 rounded-xl flex items-start gap-3">
-          <span className="text-xl">💡</span>
-          <div className="text-sm text-neutral-700 dark:text-neutral-300">
-            <strong>Planning to learn more than 1 class?</strong>
-            <p className="mt-0.5 text-neutral-600 dark:text-neutral-400">
-              Most learners choose subscription for unlimited access to all
-              paths.
-            </p>
-          </div>
-        </div>
+        <PromoCard />
       </div>
 
       <PathSelectionList paths={currentCourse.paths} />

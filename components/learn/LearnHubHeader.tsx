@@ -23,7 +23,7 @@ const LearnHubHeader = React.forwardRef<HTMLElement, LearnHubHeaderProps>(
     return (
       <section
         className={cn(
-          "sticky top-3 z-20 rounded-2xl p-3 md:p-4 shadow",
+          "sticky top-20 md:top-3 z-20 rounded-2xl p-3 md:p-4 shadow",
           headerColor
         )}
         ref={ref}

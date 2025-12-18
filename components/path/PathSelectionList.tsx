@@ -11,14 +11,25 @@ import { cn } from "@/lib/utils";
 import { updateCurrentPath } from "@/lib/actions/course";
 import { toast } from "sonner";
 import * as React from "react";
+import { useTranslations } from "next-intl";
 
 interface PathSelectionListProps {
   paths: CurriculumPath[];
 }
 
 export function PathSelectionList({ paths }: PathSelectionListProps) {
+  const t = useTranslations("path.card");
   const router = useRouter();
   const [loadingId, setLoadingId] = React.useState<string | null>(null);
+
+  const formatPrice = (price: number, currency: string = "IDR") => {
+    return new Intl.NumberFormat(currency === "IDR" ? "id-ID" : "en-US", {
+      style: "currency",
+      currency: currency,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
 
   const handleSelect = async (path: CurriculumPath) => {
     try {
@@ -69,7 +80,7 @@ export function PathSelectionList({ paths }: PathSelectionListProps) {
                 </div>
               )}
             </div>
-            <CardContent className="p-4">
+            <CardContent className="p-4 flex flex-col flex-1 h-[calc(100%-160px)]">
               <CardTitle className="flex items-center gap-2 mb-2">
                 <span className="text-2xl">{path.emoji}</span>
                 <span className="font-bold text-lg">{path.course}</span>
@@ -82,25 +93,55 @@ export function PathSelectionList({ paths }: PathSelectionListProps) {
                 {path.studentsCount && (
                   <div className="flex items-center gap-1">
                     <Users className="w-3 h-3" />
-                    <span>{path.studentsCount.toLocaleString()} Students</span>
+                    <span>
+                      {path.studentsCount.toLocaleString()} {t("students")}
+                    </span>
                   </div>
                 )}
                 <div className="flex items-center gap-1">
-                  <span>{path.units.length} Units</span>
+                  <span>
+                    {path.units.length} {t("units")}
+                  </span>
                 </div>
               </div>
 
-              <Button
-                variant="green"
-                className="w-full"
-                disabled={isLoading || isLocked}
-              >
-                {isLoading
-                  ? "SELECTING..."
-                  : isLocked
-                    ? "LOCKED"
-                    : "SELECT PATH"}
-              </Button>
+              {/* Pricing Section & Action Button */}
+              <div className="mt-auto flex items-end justify-between gap-4">
+                <div className="flex flex-col">
+                  {path.price && path.price > 0 ? (
+                    <>
+                      {path.originalPrice &&
+                        path.originalPrice > path.price && (
+                          <span className="text-xs text-neutral-400 line-through">
+                            {formatPrice(path.originalPrice, path.currency)}
+                          </span>
+                        )}
+                      <span className="text-lg font-bold text-neutral-800 dark:text-neutral-100">
+                        {formatPrice(path.price, path.currency)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-lg font-bold text-emerald-600 dark:text-emerald-500">
+                      {t("free")}
+                    </span>
+                  )}
+                </div>
+
+                <Button
+                  variant={path.price && path.price > 0 ? "blue" : "green"}
+                  size="sm"
+                  disabled={isLoading || isLocked}
+                  className="px-6 font-bold uppercase tracking-wide"
+                >
+                  {isLoading
+                    ? t("selecting")
+                    : isLocked
+                      ? t("locked")
+                      : path.price && path.price > 0
+                        ? t("seeInside")
+                        : t("myChoice")}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         );
