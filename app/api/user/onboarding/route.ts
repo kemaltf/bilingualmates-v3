@@ -5,15 +5,8 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      language,
-      source,
-      goal,
-      level,
-      path,
-      dailyGoal,
-      notifications,
-    } = body;
+    const { language, source, goal, level, path, dailyGoal, notifications } =
+      body;
 
     const cookieStore = await cookies();
     const supabase = createServerClient(

@@ -2,12 +2,12 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { AlertOctagon, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { createLoginSchema } from "@/lib/zod-rules";
@@ -102,100 +102,107 @@ export default function LoginPage() {
 
   return (
     <div className={cn("min-h-screen flex items-center justify-center px-4")}>
-      <div className="w-full max-w-[440px]">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+      <div className="w-full max-w-[440px] space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="space-y-2 text-center">
+          <h1 className="text-2xl font-bold text-slate-700 dark:text-slate-200">
+            {t("title")}
+          </h1>
+        </div>
+
+        <div className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <Controller
+              control={control}
+              name="identifier"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder={t("fields.identifier.placeholder")}
+                  prefix={<User className="size-4" />}
+                  status={errors.identifier ? "incorrect" : "idle"}
+                  helperText={errors.identifier?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder={t("fields.password.placeholder")}
+                  type="password"
+                  prefix={<Lock className="size-4" />}
+                  status={errors.password ? "incorrect" : "idle"}
+                  helperText={errors.password?.message}
+                />
+              )}
+            />
+
+            <div className="flex justify-end">
+              <Link
+                href="/forgot-password"
+                className="text-xs font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 uppercase tracking-wider"
+              >
+                {t("forgotPassword")}
+              </Link>
+            </div>
+
+            {error && (
+              <div className="text-sm text-rose-600 flex items-center gap-2 justify-center bg-rose-50 dark:bg-rose-900/20 p-2 rounded-lg">
+                <AlertOctagon className="size-4" />
+                <span>{error}</span>
+              </div>
+            )}
+
             <Button
-              variant="blue"
-              size="md"
-              onClick={signInWithGoogle}
+              variant="green"
+              size="lg"
+              className="w-full"
               disabled={loading}
             >
-              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
-                <path
-                  d="M21.35 11.1h-9.4v2.82h5.4c-.23 1.4-1.64 4.1-5.4 4.1-3.26 0-5.93-2.7-5.93-6.03s2.67-6.03 5.93-6.03c1.86 0 3.1.78 3.82 1.45l2.62-2.54C17.5 3.3 15.3 2.4 12.95 2.4 7.96 2.4 3.94 6.4 3.94 11.4s4.02 9 9.01 9c5.2 0 8.64-3.65 8.64-8.8 0-.6-.07-1.06-.24-1.5Z"
-                  fill="currentColor"
-                />
-              </svg>
-              <span>{t("google")}</span>
+              {loading ? "..." : t("submit")}
             </Button>
+          </form>
 
-            <div className="flex items-center gap-4">
-              <div className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
-              <span className="text-xs text-neutral-500 dark:text-neutral-400">
-                {t("or")}
-              </span>
-              <div className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
-            </div>
+          <div className="flex items-center gap-4">
+            <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+            <span className="text-xs uppercase text-slate-500 dark:text-slate-400 font-bold">
+              {t("or")}
+            </span>
+            <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+          </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <Controller
-                control={control}
-                name="identifier"
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    value={value}
-                    onChange={onChange}
-                    placeholder={t("fields.identifier.placeholder")}
-                    prefix={<User className="size-4" />}
-                    status={errors.identifier ? "incorrect" : "idle"}
-                    helperText={errors.identifier?.message}
-                  />
-                )}
-              />
+          <Button
+            variant="ghost"
+            size="lg"
+            className="w-full border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+            onClick={signInWithGoogle}
+            disabled={loading}
+          >
+            <Image
+              src="/svg/google.svg"
+              alt="Google"
+              width={20}
+              height={20}
+              className="mr-2"
+            />
+            <span>{t("google")}</span>
+          </Button>
 
-              <Controller
-                control={control}
-                name="password"
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    value={value}
-                    onChange={onChange}
-                    placeholder={t("fields.password.placeholder")}
-                    type="password"
-                    prefix={<Lock className="size-4" />}
-                    status={errors.password ? "incorrect" : "idle"}
-                    helperText={errors.password?.message}
-                  />
-                )}
-              />
-
-              <div className="flex justify-end">
-                <Link
-                  href="/forgot-password"
-                  className="text-xs font-bold text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300 uppercase"
-                >
-                  {t("forgotPassword")}
-                </Link>
-              </div>
-
-              {error && (
-                <div className="text-sm text-rose-600 flex items-center gap-2">
-                  <AlertOctagon className="size-4" />
-                  <span>{error}</span>
-                </div>
-              )}
-              <div className="flex justify-end">
-                <Button
-                  variant="green"
-                  size="md"
-                  disabled={loading}
-                  label={t("submit")}
-                />
-              </div>
-            </form>
-
-            <div className="text-sm text-neutral-600 dark:text-neutral-400">
-              {t("noAccount")}{" "}
-              <a href="/register" className="underline">
-                {t("register")}
-              </a>
-            </div>
-          </CardContent>
-        </Card>
+          <div className="text-sm text-center text-slate-600 dark:text-slate-400 font-bold">
+            {t("noAccount")}{" "}
+            <Link
+              href="/register"
+              className="text-sky-500 hover:text-sky-600 uppercase tracking-wide ml-1"
+            >
+              {t("register")}
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
