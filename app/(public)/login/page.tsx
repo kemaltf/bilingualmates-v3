@@ -9,12 +9,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createLoginSchema } from "@/lib/zod-rules";
 
 export default function LoginPage() {
   const t = useTranslations("auth.login");
   const tVal = useTranslations("auth.validation");
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -58,7 +60,7 @@ export default function LoginPage() {
       }
 
       if (data.url) {
-        window.location.href = data.url;
+        router.push(data.url);
       }
     } catch (e: unknown) {
       const message =
@@ -90,7 +92,7 @@ export default function LoginPage() {
         throw new Error(data.error || t("error") || "Login gagal");
       }
 
-      if (typeof window !== "undefined") window.location.assign("/learn");
+      router.push("/learn");
     } catch (e: unknown) {
       const message =
         e instanceof Error ? e.message : t("error") || "Login gagal";
