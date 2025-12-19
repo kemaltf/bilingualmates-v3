@@ -29,8 +29,8 @@ export function PasswordStrength({ password }: Props) {
                 ? strength <= 2
                   ? "bg-red-500"
                   : strength === 3
-                  ? "bg-yellow-500"
-                  : "bg-green-500"
+                    ? "bg-yellow-500"
+                    : "bg-green-500"
                 : "bg-gray-200 dark:bg-slate-700"
             }`}
           />
