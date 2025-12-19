@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AlertOctagon, Lock, User } from "lucide-react";
+import { AlertOctagon, Lock, User, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -101,7 +101,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={cn("min-h-screen flex items-center justify-center px-4")}>
+    <div
+      className={cn(
+        "min-h-screen flex items-center justify-center px-4 relative"
+      )}
+    >
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-4 left-4 md:top-8 md:left-8 text-slate-500 dark:text-slate-400"
+        asChild
+      >
+        <Link href="/">
+          <X className="size-6" />
+        </Link>
+      </Button>
       <div className="w-full max-w-[440px] space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold text-slate-700 dark:text-slate-200">

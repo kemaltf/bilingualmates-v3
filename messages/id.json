@@ -123,10 +123,10 @@
     },
     "forgotPassword": {
       "title": "Lupa Password",
-      "submit": "KIRIM TAUTAN RESET",
+      "submit": "KIRIM KODE OTP",
       "backToLogin": "Kembali ke Login",
-      "success": "Jika akun dengan email tersebut ada, kami telah mengirimkan tautan reset password.",
-      "error": "Gagal mengirim tautan reset",
+      "success": "Jika akun dengan email tersebut ada, kami telah mengirimkan kode OTP.",
+      "error": "Gagal mengirim kode OTP",
       "fields": {
         "email": {
           "label": "Email",

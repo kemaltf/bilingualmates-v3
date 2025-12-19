@@ -11,6 +11,7 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createUpdatePasswordSchema } from "@/lib/zod-rules";
+import { PasswordStrength } from "@/components/ui/password-strength";
 
 export default function UpdatePasswordPage() {
   const t = useTranslations("auth.updatePassword");
@@ -33,6 +34,7 @@ export default function UpdatePasswordPage() {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<UpdatePasswordValues>({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
@@ -40,6 +42,8 @@ export default function UpdatePasswordPage() {
       confirmPassword: "",
     },
   });
+
+  const password = watch("password");
 
   const onSubmit = async (values: UpdatePasswordValues) => {
     setMessage(null);
@@ -122,6 +126,8 @@ export default function UpdatePasswordPage() {
                   )}
                 />
               </div>
+
+              <PasswordStrength password={password} />
 
               <div className="space-y-2">
                 <label className="text-sm font-bold text-neutral-700 dark:text-neutral-300">

@@ -6,6 +6,8 @@ import { OtpVerificationStep } from "@/app/(onboarding)/get-started/_components/
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 type Step = "account" | "otp";
 
@@ -22,7 +24,21 @@ export default function RegisterPage() {
   const [accountData, setAccountData] = React.useState<AccountData>({});
 
   return (
-    <div className={cn("min-h-screen flex items-center justify-center px-4")}>
+    <div
+      className={cn(
+        "min-h-screen flex items-center justify-center px-4 relative"
+      )}
+    >
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-4 left-4 md:top-8 md:left-8 text-slate-500 dark:text-slate-400"
+        asChild
+      >
+        <Link href="/">
+          <X className="size-6" />
+        </Link>
+      </Button>
       <div className="w-full max-w-[480px]">
         {step === "account" && (
           <>

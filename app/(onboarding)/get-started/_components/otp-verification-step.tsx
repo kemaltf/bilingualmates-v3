@@ -13,6 +13,14 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { verifyOtpAction, resendOtpAction } from "@/app/actions/auth";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalFooter,
+} from "@/components/ui/modal";
 
 type Props = {
   email: string;
@@ -29,6 +37,7 @@ export function OtpVerificationStep({
 }: Props) {
   const t = useTranslations("onboarding.otp");
   const [serverError, setServerError] = React.useState<string | null>(null);
+  const [showResendModal, setShowResendModal] = React.useState(false);
 
   const otpSchema = z.object({
     otp: z
@@ -76,7 +85,7 @@ export function OtpVerificationStep({
       if (result.error) {
         setServerError(result.error);
       } else {
-        alert(t("resent"));
+        setShowResendModal(true);
       }
     } catch (e: unknown) {
       console.error(e);
@@ -157,6 +166,22 @@ export function OtpVerificationStep({
       <Button variant="ghost" onClick={onBack} className="text-slate-400">
         {t("back")}
       </Button>
+
+      <Modal open={showResendModal} onOpenChange={setShowResendModal}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>{t("resent")}</ModalTitle>
+            <ModalDescription>
+              {t("description")} <span className="font-semibold">{email}</span>
+            </ModalDescription>
+          </ModalHeader>
+          <ModalFooter>
+            <Button variant="green" onClick={() => setShowResendModal(false)}>
+              OK
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

@@ -123,10 +123,10 @@
     },
     "forgotPassword": {
       "title": "Forgot Password",
-      "submit": "SEND RESET LINK",
+      "submit": "SEND OTP CODE",
       "backToLogin": "Back to Login",
-      "success": "If an account with that email exists, we have sent a password reset link.",
-      "error": "Failed to send reset link",
+      "success": "If an account with that email exists, we have sent an OTP code.",
+      "error": "Failed to send OTP code",
       "fields": {
         "email": {
           "label": "Email",
