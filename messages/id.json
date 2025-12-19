@@ -123,10 +123,10 @@
     },
     "forgotPassword": {
       "title": "Lupa Password",
-      "submit": "KIRIM TAUTAN RESET",
+      "submit": "KIRIM KODE OTP",
       "backToLogin": "Kembali ke Login",
-      "success": "Jika akun dengan email tersebut ada, kami telah mengirimkan tautan reset password.",
-      "error": "Gagal mengirim tautan reset",
+      "success": "Jika akun dengan email tersebut ada, kami telah mengirimkan kode OTP.",
+      "error": "Gagal mengirim kode OTP",
       "fields": {
         "email": {
           "label": "Email",
@@ -305,6 +305,21 @@
         "nicknamePlaceholder": "Pak Budi"
       },
       "continue": "LANJUTKAN"
+    },
+    "otp": {
+      "title": "Cek email kamu",
+      "description": "Kami mengirimkan kode verifikasi ke",
+      "placeholder": "Masukkan kode 6 digit",
+      "submit": "Verifikasi Akun",
+      "resend": "Kirim Ulang",
+      "resendPrompt": "Tidak menerima kode?",
+      "back": "Kembali",
+      "resent": "Kode dikirim ulang!",
+      "error": "Verifikasi gagal",
+      "validation": {
+        "length": "Kode harus 6 digit",
+        "numeric": "Hanya boleh angka"
+      }
     },
     "account": {
       "title": "Buat akun Anda"

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { email, redirectTo } = await request.json();
+    const { email } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: "Email wajib diisi" }, { status: 400 });
@@ -28,9 +28,7 @@ export async function POST(request: Request) {
       }
     );
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectTo,
-    });
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });

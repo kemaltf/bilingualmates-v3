@@ -14,6 +14,7 @@ import { TrialIntroStep } from "./_components/trial-intro-step";
 import { TrialStep } from "./_components/trial-step";
 import { TrialCompletedStep } from "./_components/trial-completed-step";
 import { AccountForm } from "./_components/account-form";
+import { OtpVerificationStep } from "./_components/otp-verification-step";
 
 type Step =
   | "language"
@@ -28,6 +29,7 @@ type Step =
   | "trial_completed"
   | "profile"
   | "account"
+  | "otp"
   | "completed";
 
 type OnboardingData = {
@@ -61,6 +63,26 @@ export default function GetStartedPage() {
   const nextStep = (next: Step, prog: number) => {
     setStep(next);
     setProgress(prog);
+  };
+
+  const saveOnboardingData = async () => {
+    try {
+      await fetch("/api/user/onboarding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          language: data.language,
+          source: data.source,
+          goal: data.goal,
+          level: data.level,
+          path: data.path,
+          dailyGoal: data.dailyGoal,
+          notifications: data.notifications,
+        }),
+      });
+    } catch (e) {
+      console.error("Failed to save onboarding data", e);
+    }
   };
 
   const renderStep = () => {
@@ -190,25 +212,35 @@ export default function GetStartedPage() {
                     username: accData.username,
                     email: accData.email,
                     password: accData.password,
-                    // Pass onboarding data
-                    language: data.language,
-                    source: data.source,
-                    goal: data.goal,
-                    level: data.level,
-                    path: data.path,
-                    dailyGoal: data.dailyGoal,
-                    notifications: data.notifications,
                   }),
                 });
                 const res = await response.json();
                 if (!response.ok) throw new Error(res.error);
 
-                // Redirect to learn
-                window.location.href = "/learn";
+                if (res.isEmailConfirmationRequired) {
+                  nextStep("otp", 100);
+                } else {
+                  // Save data and redirect to learn
+                  await saveOnboardingData();
+                  window.location.href = "/learn";
+                }
               } catch (e) {
                 alert(e instanceof Error ? e.message : "Registration failed");
               }
             }}
+          />
+        );
+
+      case "otp":
+        return (
+          <OtpVerificationStep
+            email={data.account?.email || ""}
+            password={data.account?.password}
+            onVerify={async () => {
+              await saveOnboardingData();
+              window.location.href = "/learn";
+            }}
+            onBack={() => nextStep("account", 95)}
           />
         );
 
@@ -247,7 +279,10 @@ export default function GetStartedPage() {
         nextStep("trial_completed", 90);
         break;
       case "account":
-        nextStep("profile", 95);
+        nextStep("trial_completed", 90);
+        break;
+      case "otp":
+        nextStep("account", 95);
         break;
       default:
         router.push("/");

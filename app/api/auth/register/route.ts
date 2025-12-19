@@ -6,16 +6,7 @@ import { registerBaseSchema } from "@/lib/zod-rules";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      password,
-      language,
-      source,
-      goal,
-      level,
-      path,
-      dailyGoal,
-      notifications,
-    } = body;
+    const { password } = body;
     let { email, username } = body;
 
     // Debug logging
@@ -89,15 +80,21 @@ export async function POST(request: Request) {
 
     const origin = request.headers.get("origin");
 
-    const { data, error } = await supabase.auth.signUp({
+    // Use signInWithOtp for registration as requested.
+    // Note: The password field is currently ignored for the initial creation in this flow,
+    // because signInWithOtp is primarily for passwordless/magic-link.
+    // However, the user account will be created if it doesn't exist (shouldCreateUser: true).
+    // The password should be set after verification if required.
+    const { data, error } = await supabase.auth.signInWithOtp({
       email,
-      password,
       options: {
+        shouldCreateUser: true,
         data: {
           username,
           full_name: username,
         },
-        emailRedirectTo: origin ? `${origin}/auth/callback` : undefined,
+        // Removed emailRedirectTo to encourage OTP code delivery instead of Magic Link.
+        // Ensure your Supabase "Magic Link" email template uses {{ .Token }} only.
       },
     });
 
@@ -105,10 +102,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    // Check if email confirmation is required
-    const isEmailConfirmationRequired = data.user && !data.session;
-
-    return NextResponse.json({ success: true, isEmailConfirmationRequired });
+    // In signInWithOtp flow, we don't get a session immediately unless it's SMS.
+    // So email confirmation (or OTP verification) is always required.
+    return NextResponse.json({
+      success: true,
+      isEmailConfirmationRequired: true,
+    });
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : "Terjadi kesalahan server";
