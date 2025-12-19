@@ -306,6 +306,21 @@
       },
       "continue": "LANJUTKAN"
     },
+    "otp": {
+      "title": "Cek email kamu",
+      "description": "Kami mengirimkan kode verifikasi ke",
+      "placeholder": "Masukkan kode 6 digit",
+      "submit": "Verifikasi Akun",
+      "resend": "Kirim Ulang",
+      "resendPrompt": "Tidak menerima kode?",
+      "back": "Kembali",
+      "resent": "Kode dikirim ulang!",
+      "error": "Verifikasi gagal",
+      "validation": {
+        "length": "Kode harus 6 digit",
+        "numeric": "Hanya boleh angka"
+      }
+    },
     "account": {
       "title": "Buat akun Anda"
     }

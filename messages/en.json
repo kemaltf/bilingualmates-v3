@@ -305,6 +305,21 @@
       },
       "continue": "CONTINUE"
     },
+    "otp": {
+      "title": "Check your email",
+      "description": "We sent a verification code to",
+      "placeholder": "Enter 6-digit code",
+      "submit": "Verify Account",
+      "resend": "Resend",
+      "resendPrompt": "Didn't receive the code?",
+      "back": "Back",
+      "resent": "Code resent!",
+      "error": "Verification failed",
+      "validation": {
+        "length": "Code must be 6 digits",
+        "numeric": "Must be numbers only"
+      }
+    },
     "account": {
       "title": "Create your account"
     }
