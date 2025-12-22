@@ -130,81 +130,72 @@ export function VerticalPathTrack({
     <div className={cn("relative", className)}>
       <div className="space-y-10">
         {units.map((u, unitIdx) => (
-          <React.Fragment key={u.id}>
-            {unitIdx > 0 && (
-              <div className="relative flex items-center justify-center py-4 my-6">
-                <div
-                  className="absolute inset-0 flex items-center"
-                  ref={(el) => {
-                    dividerRefs.current[unitIdx] = el;
-                  }}
-                >
-                  <div className="w-full border-t-2 border-border" />
-                </div>
-              </div>
-            )}
-            <section
-              key={u.id}
+          <section
+            key={u.id}
+            ref={(el) => {
+              unitRefs.current[u.id] = el;
+            }}
+            data-unit-id={u.id}
+            className="scroll-mt-24"
+          >
+            <div
+              className="relative flex items-center justify-center py-4 mb-8"
               ref={(el) => {
-                unitRefs.current[u.id] = el;
+                if (unitIdx > 0) dividerRefs.current[unitIdx] = el;
               }}
-              data-unit-id={u.id}
-              className="scroll-mt-24"
             >
-              <div className="relative flex items-center justify-center py-4 mb-8">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t-2 border-border" />
-                </div>
-                <div className="relative bg-background px-4">
-                  <span className="text-lg font-bold text-muted-foreground">
-                    {u.title}
-                  </span>
-                </div>
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t-2 border-border" />
               </div>
-
-              <div className="flex flex-col items-center gap-6 max-w-sm mx-auto w-full">
-                {u.nodes.map((n, idx) => {
-                  const isCurrent = n.id === currentLessonId;
-                  const showJumpHere =
-                    idx === 0 &&
-                    n.status !== "locked" &&
-                    !u.nodes.every((node) => node.status === "completed") &&
-                    onUnitTest;
-
-                  const colIndex = nodePositions[n.id] ?? 1;
-
-                  return (
-                    <LessonNodeItem
-                      key={n.id}
-                      node={n}
-                      unit={u}
-                      index={idx}
-                      colIndex={colIndex}
-                      isCurrent={isCurrent}
-                      showJumpHere={!!showJumpHere}
-                      isActive={activeNodeId === n.id}
-                      isOpen={openNodeId === n.id}
-                      onOpenToggle={() =>
-                        setOpenNodeId(openNodeId === n.id ? null : n.id)
-                      }
-                      onActivate={() => setActiveNodeId(n.id)}
-                      onDeactivate={() => setActiveNodeId(null)}
-                      showComplete={showComplete}
-                      setShowComplete={setShowComplete}
-                      onUnitTest={onUnitTest}
-                      inlinePlayer={inlinePlayer}
-                      brandColor={brandColor}
-                      isMobile={isMobile}
-                    />
-                  );
-                })}
-                <UnitBadgeItem
-                  unit={u}
-                  colIndex={nodePositions[`badge-${u.id}`] ?? 1}
-                />
+              <div className="relative bg-background px-4">
+                <span className="text-lg font-bold text-muted-foreground">
+                  {u.title}
+                </span>
               </div>
-            </section>
-          </React.Fragment>
+            </div>
+
+            <div className="flex flex-col items-center gap-6 max-w-sm mx-auto w-full">
+              {u.nodes.map((n, idx) => {
+                const isCurrent = n.id === currentLessonId;
+                const showJumpHere =
+                  idx === 0 &&
+                  n.status !== "locked" &&
+                  !u.nodes.every((node) => node.status === "completed") &&
+                  onUnitTest;
+
+                const colIndex = nodePositions[n.id] ?? 1;
+
+                return (
+                  <LessonNodeItem
+                    key={n.id}
+                    node={n}
+                    unit={u}
+                    index={idx}
+                    colIndex={colIndex}
+                    isCurrent={isCurrent}
+                    showJumpHere={!!showJumpHere}
+                    isActive={activeNodeId === n.id}
+                    isOpen={openNodeId === n.id}
+                    onOpenToggle={() =>
+                      setOpenNodeId(openNodeId === n.id ? null : n.id)
+                    }
+                    onActivate={() => setActiveNodeId(n.id)}
+                    onDeactivate={() => setActiveNodeId(null)}
+                    showComplete={showComplete}
+                    setShowComplete={setShowComplete}
+                    onUnitTest={onUnitTest}
+                    inlinePlayer={inlinePlayer}
+                    brandColor={brandColor}
+                    isMobile={isMobile}
+                  />
+                );
+              })}
+              <UnitBadgeItem
+                unit={u}
+                colIndex={nodePositions[`badge-${u.id}`] ?? 1}
+              />
+            </div>
+          </section>
         ))}
       </div>
     </div>
