@@ -68,7 +68,6 @@ interface LessonNodeItemProps {
 export function LessonNodeItem({
   node: n,
   unit: u,
-  index: idx,
   colIndex,
   isCurrent,
   showJumpHere,
@@ -82,7 +81,6 @@ export function LessonNodeItem({
   onUnitTest,
   inlinePlayer,
   brandColor,
-  isMobile,
 }: LessonNodeItemProps) {
   return (
     <div
