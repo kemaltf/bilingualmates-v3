@@ -2,27 +2,27 @@
 import * as React from "react";
 import { VerticalPathTrack } from "./VerticalPathTrack";
 import { LearnHubHeader } from "./LearnHubHeader";
-import { paths } from "@/lib/learn/mock";
 
 import {
   brandColorToBg,
   brandColorToButtonVariant,
 } from "@/lib/ui/design-tokens";
-import { useSearchParams } from "next/navigation";
+import { PathProvider, usePath } from "./PathContext";
 
 export interface LearnHubPageProps {
   initialPathId?: string;
 }
 
 export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
-  const searchParams = useSearchParams();
-  const selectedParam = searchParams.get("pathId");
-  const fallback = initialPathId ?? paths[0]?.id ?? null;
-  const selected = selectedParam ?? fallback;
-  const path = React.useMemo(
-    () => paths.find((p) => p.id === selected) ?? null,
-    [selected]
+  return (
+    <PathProvider initialPathId={initialPathId}>
+      <LearnHubContent />
+    </PathProvider>
   );
+}
+
+function LearnHubContent() {
+  const { currentPath: path } = usePath();
 
   const [currentUnitIndex, setCurrentUnitIndex] = React.useState(0);
   const [dividerEls, setDividerEls] = React.useState<
@@ -58,7 +58,8 @@ export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
     };
   }, [dividerEls]);
 
-  const unitBrandColor = path?.units[currentUnitIndex]?.brandColor ?? "sky";
+  const currentUnit = path?.units[currentUnitIndex];
+  const unitBrandColor = currentUnit?.brandColor ?? "sky";
   const headerColor = brandColorToBg[unitBrandColor];
   const chooseVariant = brandColorToButtonVariant[unitBrandColor];
 
@@ -66,7 +67,8 @@ export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
     <main className="max-w-[640px] mx-auto">
       <LearnHubHeader
         ref={headerRef}
-        courseTitle={path ? path.course : "Course"}
+        sectionTitle={currentUnit ? currentUnit.title : "Loading..."}
+        description={currentUnit?.description}
         headerColor={headerColor}
         chooseVariant={chooseVariant}
       />

@@ -28,7 +28,7 @@ export default async function PathPage() {
     courses.find((c) => c.id === currentCourseId) || courses[0];
 
   return (
-    <main className="w-full max-w-[1024px] mx-auto py-8">
+    <main className="w-full max-w-[1024px] mx-auto">
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-4 text-sm text-neutral-500 font-medium">
           <span>{t("selector.label")}</span>

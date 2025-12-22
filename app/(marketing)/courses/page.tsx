@@ -9,7 +9,8 @@ export default function PublicCoursePage() {
           Available Language Courses
         </h1>
         <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-          Choose from our selection of comprehensive language courses designed to take you from beginner to fluent.
+          Choose from our selection of comprehensive language courses designed
+          to take you from beginner to fluent.
         </p>
       </div>
 

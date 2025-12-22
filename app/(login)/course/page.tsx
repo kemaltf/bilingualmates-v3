@@ -22,7 +22,7 @@ export default async function CoursePage() {
   const currentCourseId = profile?.current_course_id || courses[0].id;
 
   return (
-    <div className="max-w-[1024px] mx-auto py-8">
+    <div className="max-w-[1024px] mx-auto">
       <h1 className="text-2xl font-bold mb-2 text-neutral-700 dark:text-neutral-200">
         Language Courses{" "}
       </h1>
