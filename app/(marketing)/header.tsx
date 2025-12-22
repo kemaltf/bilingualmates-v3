@@ -14,10 +14,10 @@ export const Header = () => {
           </h1>
           <div className="hidden lg:flex gap-x-6 ml-8 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">
             <Link
-              href="/pricing"
+              href="/courses"
               className="hover:text-slate-700 dark:hover:text-slate-200 transition"
             >
-              Pricing
+              Courses
             </Link>
             <Link
               href="/blog"

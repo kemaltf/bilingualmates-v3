@@ -57,15 +57,15 @@ export const MobileMenu = () => {
         </SheetHeader>
         <div className="flex flex-col gap-y-6 mt-8">
           <div className="flex flex-col gap-y-2">
-            <Link href="/pricing" onClick={() => setOpen(false)}>
-              <Button
-                variant="ghost"
-                className="w-full justify-start gap-3 text-lg font-semibold text-slate-600 dark:text-slate-300"
-              >
-                <CreditCard className="h-5 w-5" />
-                Pricing
-              </Button>
-            </Link>
+            <Link href="/courses" onClick={() => setOpen(false)}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-3 text-lg font-semibold text-slate-600 dark:text-slate-300"
+                >
+                  <BookOpen className="h-5 w-5" />
+                  Courses
+                </Button>
+              </Link>
             <Link href="/blog" onClick={() => setOpen(false)}>
               <Button
                 variant="ghost"

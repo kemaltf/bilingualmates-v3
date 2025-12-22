@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 };
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 
 export default async function RootLayout({
   children,
@@ -52,6 +53,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <TooltipProvider>{children}</TooltipProvider>
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>

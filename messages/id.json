@@ -22,7 +22,11 @@
     "profile": "Profil",
     "more": "Lainnya",
     "settings": "Pengaturan",
-    "logout": "Keluar"
+    "logout": "Keluar",
+    "language": {
+      "myCourses": "Kursus Saya",
+      "addNew": "Tambah Kursus Baru"
+    }
   },
   "path": {
     "promo": {
@@ -56,6 +60,19 @@
       "enroll": "DAFTAR KURSUS",
       "gift": "BELI SEBAGAI HADIAH",
       "testimonials": "Apa Kata Siswa"
+    }
+  },
+  "course": {
+    "selector": {
+      "label": "Bahasa Saat Ini:",
+      "buttonDefault": "Pilih Bahasa",
+      "modalTitle": "Pilih Bahasa",
+      "listTitle": "Kursus Bahasa",
+      "listDescription": "Pilih bahasa yang ingin Anda pelajari. Anda dapat beralih kapan saja."
+    },
+    "path": {
+      "title": "Jalur Pembelajaran {title}",
+      "description": "Pilih yang relevan untuk perjalanan {title} Anda. Anda dapat beralih kapan saja."
     }
   },
   "auth": {
