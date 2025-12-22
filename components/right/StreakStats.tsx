@@ -26,7 +26,7 @@ export function StreakStats({ stats }: StreakStatsProps) {
           <span className="font-bold text-orange-500">{stats.streakDays}</span>
         </div>
       </HoverCardTrigger>
-      <HoverCardContent className="w-80 p-6" align="center">
+      <HoverCardContent className="w-80 p-6 z-[70]" align="center">
         <div className="flex flex-col items-center text-center gap-4">
           <div className="flex items-center justify-center w-full">
             <div className="w-32 h-32">
