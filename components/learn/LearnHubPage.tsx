@@ -8,7 +8,6 @@ import {
   brandColorToButtonVariant,
 } from "@/lib/ui/design-tokens";
 import { PathProvider, usePath } from "./PathContext";
-import { cn } from "@/lib/utils";
 
 export interface LearnHubPageProps {
   initialPathId?: string;
@@ -24,9 +23,9 @@ export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
 
 function LearnHubContent() {
   const { currentPath: path } = usePath();
-  const [activeSectionId, setActiveSectionId] = React.useState<string | null>(
-    null
-  );
+  const [activeSectionId, setActiveSectionId] = React.useState<
+    string | undefined
+  >();
 
   React.useEffect(() => {
     if (path?.sections?.length && !activeSectionId) {
@@ -86,28 +85,13 @@ function LearnHubContent() {
         description={activeSection?.description}
         headerColor={headerColor}
         chooseVariant={chooseVariant}
+        path={path}
+        activeSectionId={activeSectionId}
+        onSelectSection={setActiveSectionId}
       />
 
       {path && (
         <section className="mt-6">
-          {path.sections.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto pb-4 mb-4 px-3 md:px-0 no-scrollbar">
-              {path.sections.map((sec) => (
-                <button
-                  key={sec.id}
-                  onClick={() => setActiveSectionId(sec.id)}
-                  className={cn(
-                    "px-4 py-2 rounded-full border-2 text-sm font-bold whitespace-nowrap transition-colors",
-                    activeSection?.id === sec.id
-                      ? "bg-slate-800 text-white border-slate-800"
-                      : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
-                  )}
-                >
-                  {sec.title}
-                </button>
-              ))}
-            </div>
-          )}
           <VerticalPathTrack
             units={activeUnits}
             onDividerRefs={setDividerEls}
