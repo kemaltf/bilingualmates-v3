@@ -11,7 +11,7 @@ type Props = {
 export const OnboardingLayout = ({ children, progress, onBack }: Props) => {
   return (
     <div className="min-h-screen flex flex-col relative">
-      <header className="absolute top-0 left-0 right-0 z-10 h-16 w-full px-6 flex items-center gap-x-4 max-w-[1024px] mx-auto">
+      <header className="h-16 w-full px-6 flex items-center gap-x-4 max-w-[1024px] mx-auto z-10">
         {onBack ? (
           <Button
             variant="ghost"
@@ -39,7 +39,7 @@ export const OnboardingLayout = ({ children, progress, onBack }: Props) => {
           />
         </div>
       </header>
-      <main className="flex-1 w-full max-w-[1024px] mx-auto p-6 flex flex-col">
+      <main className="flex-1 w-full max-w-[1024px] mx-auto p-6 mb-16 flex flex-col">
         {children}
       </main>
     </div>

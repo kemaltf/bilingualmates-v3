@@ -7,15 +7,12 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { User, Mail, Lock } from "lucide-react";
-import {
-  createRegisterSchema,
-  calculatePasswordStrength,
-  checkPasswordRequirements,
-} from "@/lib/zod-rules";
+import { createRegisterSchema } from "@/lib/zod-rules";
 import * as z from "zod";
 
 import Image from "next/image";
 import { PasswordStrength } from "@/components/ui/password-strength";
+import router from "next/router";
 
 type RegisterSchemaType = ReturnType<typeof createRegisterSchema>;
 type RegisterValues = z.infer<RegisterSchemaType>;
@@ -54,8 +51,6 @@ export function AccountForm({ onRegister, onboardingData }: Props) {
   });
 
   const password = watch("password");
-  const strength = calculatePasswordStrength(password);
-  const requirements = checkPasswordRequirements(password);
 
   const onSubmit = async (data: RegisterValues) => {
     setLoading(true);
@@ -90,7 +85,7 @@ export function AccountForm({ onRegister, onboardingData }: Props) {
       }
 
       if (data.url) {
-        window.location.href = data.url;
+        router.push(data.url);
       }
     } catch (e: unknown) {
       console.error(e);

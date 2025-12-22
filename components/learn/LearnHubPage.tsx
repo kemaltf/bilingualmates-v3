@@ -2,27 +2,41 @@
 import * as React from "react";
 import { VerticalPathTrack } from "./VerticalPathTrack";
 import { LearnHubHeader } from "./LearnHubHeader";
-import { paths } from "@/lib/learn/mock";
 
 import {
   brandColorToBg,
   brandColorToButtonVariant,
 } from "@/lib/ui/design-tokens";
-import { useSearchParams } from "next/navigation";
+import { PathProvider, usePath } from "./PathContext";
 
 export interface LearnHubPageProps {
   initialPathId?: string;
 }
 
 export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
-  const searchParams = useSearchParams();
-  const selectedParam = searchParams.get("pathId");
-  const fallback = initialPathId ?? paths[0]?.id ?? null;
-  const selected = selectedParam ?? fallback;
-  const path = React.useMemo(
-    () => paths.find((p) => p.id === selected) ?? null,
-    [selected]
+  return (
+    <PathProvider initialPathId={initialPathId}>
+      <LearnHubContent />
+    </PathProvider>
   );
+}
+
+function LearnHubContent() {
+  const { currentPath: path } = usePath();
+  const [activeSectionId, setActiveSectionId] = React.useState<
+    string | undefined
+  >();
+
+  React.useEffect(() => {
+    if (path?.sections?.length && !activeSectionId) {
+      setActiveSectionId(path.sections[0].id);
+    }
+  }, [path, activeSectionId]);
+
+  const activeSection =
+    path?.sections?.find((s) => s.id === activeSectionId) ||
+    path?.sections?.[0];
+  const activeUnits = activeSection?.units ?? [];
 
   const [currentUnitIndex, setCurrentUnitIndex] = React.useState(0);
   const [dividerEls, setDividerEls] = React.useState<
@@ -58,7 +72,8 @@ export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
     };
   }, [dividerEls]);
 
-  const unitBrandColor = path?.units[currentUnitIndex]?.brandColor ?? "sky";
+  const currentUnit = activeUnits[currentUnitIndex];
+  const unitBrandColor = currentUnit?.brandColor ?? "sky";
   const headerColor = brandColorToBg[unitBrandColor];
   const chooseVariant = brandColorToButtonVariant[unitBrandColor];
 
@@ -66,15 +81,19 @@ export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
     <main className="max-w-[640px] mx-auto">
       <LearnHubHeader
         ref={headerRef}
-        courseTitle={path ? path.course : "Course"}
+        sectionTitle={activeSection ? activeSection.title : "Loading..."}
+        description={activeSection?.description}
         headerColor={headerColor}
         chooseVariant={chooseVariant}
+        path={path}
+        activeSectionId={activeSectionId}
+        onSelectSection={setActiveSectionId}
       />
 
       {path && (
         <section className="mt-6">
           <VerticalPathTrack
-            path={path}
+            units={activeUnits}
             onDividerRefs={setDividerEls}
             brandColor={unitBrandColor}
           />

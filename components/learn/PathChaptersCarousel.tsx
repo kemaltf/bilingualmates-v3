@@ -23,6 +23,10 @@ export function PathChaptersCarousel({
     el.scrollBy({ left: dx, behavior: "smooth" });
   };
 
+  const units = React.useMemo(() => {
+    return path.sections ? path.sections.flatMap((s) => s.units) : [];
+  }, [path]);
+
   return (
     <div className={cn("relative", className)}>
       <div className="flex justify-between mb-2">
@@ -41,7 +45,7 @@ export function PathChaptersCarousel({
       </div>
       <div ref={ref} className="w-full overflow-x-auto">
         <div className="flex gap-4 py-3">
-          {path.units.map((u) => {
+          {units.map((u) => {
             const completed = u.nodes.every((n) => n.status === "completed");
             const inProgress =
               u.nodes.some((n) => n.status === "in_progress") && !completed;

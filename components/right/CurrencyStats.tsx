@@ -23,7 +23,7 @@ export function CurrencyStats({ stats }: CurrencyStatsProps) {
             <span className="font-bold text-yellow-500">{stats.xp}</span>
           </div>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="z-[70]">
           <p className="font-bold">XP</p>
         </TooltipContent>
       </Tooltip>
@@ -35,7 +35,7 @@ export function CurrencyStats({ stats }: CurrencyStatsProps) {
             <span className="font-bold text-neutral-700">{stats.level}</span>
           </div>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="z-[70]">
           <p className="font-bold">Level</p>
         </TooltipContent>
       </Tooltip>

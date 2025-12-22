@@ -13,22 +13,32 @@ import { toast } from "sonner";
 interface CourseSelectionListProps {
   courses: Course[];
   currentCourseId: string | null;
+  isPublic?: boolean;
+  onSelect?: () => void;
 }
 
 export function CourseSelectionList({
   courses,
   currentCourseId,
+  isPublic = false,
+  onSelect,
 }: CourseSelectionListProps) {
   const router = useRouter();
   const [loadingId, setLoadingId] = React.useState<string | null>(null);
 
   const handleSelect = async (course: Course) => {
+    if (isPublic) {
+      router.push("/login");
+      return;
+    }
+
     if (course.id === currentCourseId) return;
 
     try {
       setLoadingId(course.id);
       await updateCurrentCourse(course.id);
       toast.success(`Course changed to ${course.title}`);
+      onSelect?.();
       router.push("/path");
       router.refresh();
     } catch (error) {
@@ -39,7 +49,7 @@ export function CourseSelectionList({
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {courses.map((course) => {
         const isActive = course.id === currentCourseId;
         const isLoading = loadingId === course.id;

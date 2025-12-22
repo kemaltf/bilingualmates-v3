@@ -26,15 +26,14 @@ export default async function PathDetailPage({
   }
 
   // Create a sample path for preview (first 5 nodes of first unit)
-  const samplePath: CurriculumPath = {
-    ...path,
-    units: [
-      {
-        ...path.units[0],
-        nodes: path.units[0].nodes.slice(0, 5),
-      },
-    ],
-  };
+  const firstSection = path.sections[0];
+  const firstUnit = firstSection.units[0];
+  const sampleUnits = [
+    {
+      ...firstUnit,
+      nodes: firstUnit.nodes.slice(0, 5),
+    },
+  ];
 
   return (
     <div className="space-y-8">
@@ -102,7 +101,7 @@ export default async function PathDetailPage({
         </h2>
         <div className="bg-white dark:bg-neutral-800 rounded-2xl border-2 border-slate-100 dark:border-neutral-700 p-4 relative">
           <VerticalPathTrack
-            path={samplePath}
+            units={sampleUnits}
             className="pointer-events-auto"
             inlinePlayer={true}
           />

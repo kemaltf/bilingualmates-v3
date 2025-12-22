@@ -22,7 +22,11 @@
     "profile": "Profile",
     "more": "More",
     "settings": "Settings",
-    "logout": "Log out"
+    "logout": "Log out",
+    "language": {
+      "myCourses": "My Courses",
+      "addNew": "Add New Course"
+    }
   },
   "path": {
     "promo": {
@@ -56,6 +60,19 @@
       "enroll": "ENROLL COURSE",
       "gift": "BUY AS A GIFT",
       "testimonials": "What Students Say"
+    }
+  },
+  "course": {
+    "selector": {
+      "label": "Current Language:",
+      "buttonDefault": "Select Language",
+      "modalTitle": "Select Language",
+      "listTitle": "Language Courses",
+      "listDescription": "Choose the language you want to learn. You can switch anytime."
+    },
+    "path": {
+      "title": "{title} Learning Paths",
+      "description": "Choose what's relevant for your {title} journey. You can switch anytime."
     }
   },
   "auth": {
