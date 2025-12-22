@@ -132,7 +132,7 @@ const LearnHubHeader = React.forwardRef<HTMLElement, LearnHubHeaderProps>(
     return (
       <section
         className={cn(
-          "sticky top-15 md:top-3 z-20 rounded-2xl p-3 md:p-4 shadow",
+          "sticky top-15 md:top-3 z-[60] rounded-2xl p-3 md:p-4 shadow",
           headerColor
         )}
         ref={ref}
@@ -153,7 +153,9 @@ const LearnHubHeader = React.forwardRef<HTMLElement, LearnHubHeaderProps>(
                   <SheetTrigger asChild>
                     <TooltipTrigger asChild>{MapTrigger}</TooltipTrigger>
                   </SheetTrigger>
-                  <TooltipContent side="left">Course Map</TooltipContent>
+                  <TooltipContent side="left" className="z-[70]">
+                    Course Map
+                  </TooltipContent>
                 </Tooltip>
 
                 <SheetContent
@@ -172,7 +174,9 @@ const LearnHubHeader = React.forwardRef<HTMLElement, LearnHubHeaderProps>(
                   <ModalTrigger asChild>
                     <TooltipTrigger asChild>{MapTrigger}</TooltipTrigger>
                   </ModalTrigger>
-                  <TooltipContent side="left">Course Map</TooltipContent>
+                  <TooltipContent side="left" className="z-[70]">
+                    Course Map
+                  </TooltipContent>
                 </Tooltip>
 
                 <ModalContent className="max-w-screen-md w-full h-[85vh] p-0 overflow-hidden flex flex-col">
