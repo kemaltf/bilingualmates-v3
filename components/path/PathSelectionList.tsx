@@ -48,7 +48,10 @@ export function PathSelectionList({ paths }: PathSelectionListProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {paths.map((path) => {
-        const isLocked = path.units.every((u) =>
+        const units = path.sections
+          ? path.sections.flatMap((s) => s.units)
+          : [];
+        const isLocked = units.every((u) =>
           u.nodes.every((n) => n.status === "locked")
         );
         const isLoading = loadingId === path.id;
@@ -100,7 +103,7 @@ export function PathSelectionList({ paths }: PathSelectionListProps) {
                 )}
                 <div className="flex items-center gap-1">
                   <span>
-                    {path.units.length} {t("units")}
+                    {units.length} {t("units")}
                   </span>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import type { CurriculumPath, Unit, LessonNode } from "@/lib/learn/types";
+import type { Unit, LessonNode } from "@/lib/learn/types";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -52,7 +52,7 @@ const PREVIEW_QUESTIONS: QuizQuestion[] = [
 ];
 
 export interface VerticalPathTrackProps {
-  path: CurriculumPath;
+  units: Unit[];
   onSelectNode?: (node: LessonNode) => void;
   onUnitTest?: (unit: Unit) => void;
   onUnitRefs?: (
@@ -65,7 +65,7 @@ export interface VerticalPathTrackProps {
 }
 
 export function VerticalPathTrack({
-  path,
+  units,
   onUnitTest,
   onUnitRefs,
   onDividerRefs,
@@ -84,7 +84,7 @@ export function VerticalPathTrack({
 
   React.useEffect(() => {
     if (!onUnitRefs) return;
-    const items = path.units
+    const items = units
       .map((u) => {
         const el = unitRefs.current[u.id];
         if (!el) return null;
@@ -92,7 +92,7 @@ export function VerticalPathTrack({
       })
       .filter(Boolean) as { id: string; title: string; el: HTMLElement }[];
     onUnitRefs(items);
-  }, [path, onUnitRefs]);
+  }, [units, onUnitRefs]);
 
   React.useEffect(() => {
     if (!onDividerRefs) return;
@@ -105,12 +105,12 @@ export function VerticalPathTrack({
       })
       .filter(Boolean) as { index: number; el: HTMLElement }[];
     onDividerRefs(items);
-  }, [path, onDividerRefs]);
+  }, [units, onDividerRefs]);
 
   return (
     <div className={cn("relative", className)}>
       <div className="space-y-10">
-        {path.units.map((u, unitIdx) => (
+        {units.map((u, unitIdx) => (
           <React.Fragment key={u.id}>
             {unitIdx > 0 && (
               <div className="my-6">

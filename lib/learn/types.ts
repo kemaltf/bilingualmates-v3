@@ -32,6 +32,7 @@ import type { BrandColor } from "@/lib/ui/design-tokens";
 export interface Unit {
   id: string;
   title: string;
+  description?: string;
   sequence: number;
   nodes: LessonNode[];
   badge?: UnitBadge;
@@ -46,13 +47,21 @@ export interface Course {
   paths: CurriculumPath[];
 }
 
+export interface Section {
+  id: string;
+  title: string;
+  description?: string;
+  sequence: number;
+  units: Unit[];
+}
+
 export interface CurriculumPath {
   id: string;
   course: string;
   emoji?: string;
   color?: string;
   imageUrl?: string;
-  units: Unit[];
+  sections: Section[];
   price?: number;
   currency?: string;
   description?: string;

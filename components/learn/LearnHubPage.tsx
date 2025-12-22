@@ -8,6 +8,7 @@ import {
   brandColorToButtonVariant,
 } from "@/lib/ui/design-tokens";
 import { PathProvider, usePath } from "./PathContext";
+import { cn } from "@/lib/utils";
 
 export interface LearnHubPageProps {
   initialPathId?: string;
@@ -23,6 +24,20 @@ export function LearnHubPage({ initialPathId }: LearnHubPageProps) {
 
 function LearnHubContent() {
   const { currentPath: path } = usePath();
+  const [activeSectionId, setActiveSectionId] = React.useState<string | null>(
+    null
+  );
+
+  React.useEffect(() => {
+    if (path?.sections?.length && !activeSectionId) {
+      setActiveSectionId(path.sections[0].id);
+    }
+  }, [path, activeSectionId]);
+
+  const activeSection =
+    path?.sections?.find((s) => s.id === activeSectionId) ||
+    path?.sections?.[0];
+  const activeUnits = activeSection?.units ?? [];
 
   const [currentUnitIndex, setCurrentUnitIndex] = React.useState(0);
   const [dividerEls, setDividerEls] = React.useState<
@@ -58,7 +73,7 @@ function LearnHubContent() {
     };
   }, [dividerEls]);
 
-  const currentUnit = path?.units[currentUnitIndex];
+  const currentUnit = activeUnits[currentUnitIndex];
   const unitBrandColor = currentUnit?.brandColor ?? "sky";
   const headerColor = brandColorToBg[unitBrandColor];
   const chooseVariant = brandColorToButtonVariant[unitBrandColor];
@@ -67,16 +82,34 @@ function LearnHubContent() {
     <main className="max-w-[640px] mx-auto">
       <LearnHubHeader
         ref={headerRef}
-        sectionTitle={currentUnit ? currentUnit.title : "Loading..."}
-        description={currentUnit?.description}
+        sectionTitle={activeSection ? activeSection.title : "Loading..."}
+        description={activeSection?.description}
         headerColor={headerColor}
         chooseVariant={chooseVariant}
       />
 
       {path && (
         <section className="mt-6">
+          {path.sections.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto pb-4 mb-4 px-3 md:px-0 no-scrollbar">
+              {path.sections.map((sec) => (
+                <button
+                  key={sec.id}
+                  onClick={() => setActiveSectionId(sec.id)}
+                  className={cn(
+                    "px-4 py-2 rounded-full border-2 text-sm font-bold whitespace-nowrap transition-colors",
+                    activeSection?.id === sec.id
+                      ? "bg-slate-800 text-white border-slate-800"
+                      : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                  )}
+                >
+                  {sec.title}
+                </button>
+              ))}
+            </div>
+          )}
           <VerticalPathTrack
-            path={path}
+            units={activeUnits}
             onDividerRefs={setDividerEls}
             brandColor={unitBrandColor}
           />

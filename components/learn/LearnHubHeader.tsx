@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -19,10 +18,7 @@ export interface LearnHubHeaderProps {
 }
 
 const LearnHubHeader = React.forwardRef<HTMLElement, LearnHubHeaderProps>(
-  function LearnHubHeader(
-    { sectionTitle, description, headerColor, chooseVariant },
-    ref
-  ) {
+  function LearnHubHeader({ sectionTitle, description, headerColor }, ref) {
     return (
       <section
         className={cn(

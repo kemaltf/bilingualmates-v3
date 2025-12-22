@@ -8,7 +8,7 @@ import React from "react";
 
 export default function Page() {
   const totalXp = paths
-    .flatMap((p) => p.units.flatMap((u) => u.nodes))
+    .flatMap((p) => p.sections.flatMap((s) => s.units.flatMap((u) => u.nodes)))
     .filter((n) => n.status !== "locked")
     .reduce((acc, n) => acc + n.xpReward, 0);
   const totalStreak = 5;

@@ -192,9 +192,11 @@ export default function Page() {
 
   function getFinishMeta(id: string): LessonFinishMeta | undefined {
     for (const p of paths) {
-      for (const u of p.units) {
-        const n = u.nodes.find((x) => x.id === id);
-        if (n?.finish) return n.finish;
+      for (const s of p.sections) {
+        for (const u of s.units) {
+          const n = u.nodes.find((x) => x.id === id);
+          if (n?.finish) return n.finish;
+        }
       }
     }
     return undefined;

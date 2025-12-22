@@ -16,10 +16,9 @@ export default async function PathRightSidebar({
     return null;
   }
 
-  const totalLessons = path.units.reduce(
-    (acc, unit) => acc + unit.nodes.length,
-    0
-  );
+  const totalLessons = path.sections
+    .flatMap((s) => s.units)
+    .reduce((acc, unit) => acc + unit.nodes.length, 0);
 
   return (
     <>

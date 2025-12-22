@@ -11,7 +11,7 @@ export default function SuccessPage() {
   const pathId = params?.pathId;
   const path = paths.find((p) => p.id === pathId);
 
-  const firstLessonId = path?.units[0]?.nodes[0]?.id;
+  const firstLessonId = path?.sections?.[0]?.units?.[0]?.nodes?.[0]?.id;
 
   React.useEffect(() => {
     // Auto-redirect after 3 seconds
