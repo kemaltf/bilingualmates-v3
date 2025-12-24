@@ -161,7 +161,7 @@ export default function ClientLayout({
             !isFullWidth && showMobileStats ? "pt-20 md:pt-3" : "pt-3",
             isFullWidth
               ? "max-w-[1024px] mx-auto"
-              : "grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-8"
+              : "grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-6"
           )}
         >
           <div className="min-w-0">{children}</div>

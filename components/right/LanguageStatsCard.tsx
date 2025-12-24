@@ -19,15 +19,15 @@ export function LanguageStatsCard({
   return (
     <Card
       className={cn(
-        "flex items-center justify-between p-4 fixed top-0 inset-x-0 z-[60] rounded-none border-x-0 border-t-0 md:rounded-xl md:border-2 md:static bg-white dark:bg-neutral-900 md:bg-white md:dark:bg-neutral-900",
+        "flex items-center justify-between p-4 fixed top-0 inset-x-0 z-[80] rounded-none border-x-0 border-t-0 md:rounded-xl md:border-2 md:static bg-white dark:bg-neutral-900 md:bg-white md:dark:bg-neutral-900",
         className
       )}
     >
-      <div className="flex items-center gap-3">
+      <div className="contents md:flex md:items-center md:gap-3">
         <LanguageSelector stats={stats} />
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="contents md:flex md:items-center md:gap-4">
         <StreakStats stats={stats} />
         <CurrencyStats stats={stats} />
       </div>
