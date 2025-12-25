@@ -4,6 +4,7 @@ import * as React from "react";
 import type { TheoryQuestion } from "@/lib/quiz/types";
 import { cn } from "@/lib/utils";
 import { MediaRenderer } from "../media-renderer";
+import { MarkdownText } from "../markdown-text";
 
 interface TheoryQuestionCardProps {
   question: TheoryQuestion;
@@ -33,7 +34,7 @@ export function TheoryQuestionCard({ question }: TheoryQuestionCardProps) {
                     key={index}
                     className="prose dark:prose-invert max-w-none text-neutral-700 dark:text-neutral-300 leading-relaxed text-lg"
                   >
-                    <div dangerouslySetInnerHTML={{ __html: block.html! }} />
+                    <MarkdownText text={block.html!} />
                   </div>
                 );
               case "image":

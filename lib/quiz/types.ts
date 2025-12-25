@@ -24,6 +24,7 @@ export interface MCOption {
   id: string;
   content: MediaContent;
   clickSoundUrl?: string;
+  feedback?: string;
 }
 
 export interface MCQuestion {

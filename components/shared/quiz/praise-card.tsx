@@ -3,14 +3,21 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Trophy, ArrowRight, RefreshCcw, Sparkles, TrendingUp } from "lucide-react";
+import {
+  Trophy,
+  ArrowRight,
+  RefreshCcw,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
+import { MarkdownText } from "../markdown-text";
 
-export type PraiseType = 
-  | "encouragement" 
-  | "recovery" 
-  | "momentum" 
-  | "celebration" 
-  | "identity" 
+export type PraiseType =
+  | "encouragement"
+  | "recovery"
+  | "momentum"
+  | "celebration"
+  | "identity"
   | "soft-upsell";
 
 interface PraiseCardProps {
@@ -18,7 +25,10 @@ interface PraiseCardProps {
   onContinue: () => void;
 }
 
-const PRAISE_CONFIG: Record<PraiseType, { title: string; message: string; icon: React.ReactNode; color: string }> = {
+const PRAISE_CONFIG: Record<
+  PraiseType,
+  { title: string; message: string; icon: React.ReactNode; color: string }
+> = {
   encouragement: {
     title: "You’re doing great!",
     message: "Keep going, you're on a roll!",
@@ -80,9 +90,11 @@ export function PraiseCard({ type, onContinue }: PraiseCardProps) {
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold tracking-tight">{config.title}</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            <MarkdownText text={config.title} />
+          </h2>
           <p className="text-neutral-500 dark:text-neutral-400 font-medium">
-            {config.message}
+            <MarkdownText text={config.message} />
           </p>
         </div>
 

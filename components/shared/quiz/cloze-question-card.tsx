@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import type { MediaContent, ClozeBlankSpec } from "@/lib/quiz/types";
 import { OptionButton } from "@/components/ui/option-button";
 import { MediaRenderer } from "../media-renderer";
+import { MarkdownText } from "../markdown-text";
 
 export interface ClozeQuestionProps {
   prompt: MediaContent;
@@ -139,7 +140,7 @@ export default function ClozeQuestionCard({
           if (seg.kind === "text") {
             return (
               <span key={`t-${idx}`} className="align-baseline">
-                {seg.text}
+                <MarkdownText text={seg.text} />
               </span>
             );
           }

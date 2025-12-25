@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import type { MCQuestion } from "@/lib/quiz/types";
 import { MediaRenderer } from "../../media-renderer";
 import { MCOptionButton } from "./mc-option-button";
+import { getOptionButtonVariant } from "@/components/ui/option-button";
 
 export interface MCQuestionCardProps {
   question: MCQuestion;
@@ -29,6 +30,12 @@ export function MCQuestionCard({
   labelStyle = "numeric",
 }: MCQuestionCardProps) {
   usePronunciationOnCorrect(question, selectedOptionId);
+  const feedback = locked
+    ? selectedOptionId === question.correctOptionId
+      ? "correct"
+      : "incorrect"
+    : "idle";
+
   return (
     <div className={cn("flex flex-col gap-6", className)}>
       <div className={cn("w-full", questionClassName)}>
@@ -52,6 +59,13 @@ export function MCQuestionCard({
               labelStyle === "numeric" ? 1 + idx : String.fromCharCode(97 + idx)
             }
             showLabel={showOptionLabel}
+            variant={getOptionButtonVariant({
+              optionId: opt.id,
+              selectedId: selectedOptionId,
+              locked: !!locked,
+              feedback,
+              answerKey: question.correctOptionId,
+            })}
           />
         ))}
       </div>

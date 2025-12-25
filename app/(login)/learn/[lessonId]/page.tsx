@@ -285,7 +285,7 @@ export default function Page() {
   }
 
   return (
-    <main className="w-full max-w-[860px] mx-auto px-0 py-4">
+    <main className="w-full max-w-[860px] mx-auto px-0">
       {entering ? (
         <div className="flex min-h-[80vh] items-center justify-center flex-col gap-2 text-center">
           <LottiePlayer src="/manrunning.json" className="h-52 w-52" />
@@ -313,6 +313,7 @@ export default function Page() {
           attemptId={`attempt-${lessonId}`}
           onComplete={(payload) => setAttempt(payload)}
           footerVariant="sticky"
+          onClose={() => router.push("/learn")}
         />
       )}
     </main>

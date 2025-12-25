@@ -13,6 +13,7 @@ import {
 import { Volume2, Play, Pause, RotateCcw } from "lucide-react";
 // removed shadcn Select; using native select for speed control
 import type { MediaContent } from "@/lib/quiz/types";
+import { MarkdownText } from "./markdown-text";
 
 export interface MediaRendererProps {
   /** The media content to display (text, image, audio, video). */
@@ -54,7 +55,11 @@ export function MediaRenderer({
 
   switch (content.kind) {
     case "text":
-      return <p className={cn(textClasses, className)}>{content.text}</p>;
+      return (
+        <div className={cn(textClasses, className)}>
+          <MarkdownText text={content.text ?? ""} />
+        </div>
+      );
     case "image":
       return (
         <div className={cn("rounded-xl overflow-hidden", className)}>
@@ -64,7 +69,7 @@ export function MediaRenderer({
               alt={content.alt ?? ""}
               width={800}
               height={600}
-              className="h-auto w-full object-cover"
+              className="h-auto w-full object-contain"
               unoptimized
             />
           )}
@@ -83,9 +88,7 @@ export function MediaRenderer({
             url={content.url}
             autoPlay={autoPlay}
             text={
-              content.text ? (
-                <span dangerouslySetInnerHTML={{ __html: content.text }} />
-              ) : undefined
+              content.text ? <MarkdownText text={content.text} /> : undefined
             }
             translation={content.translation}
           />
@@ -555,7 +558,12 @@ export function VideoPlayer({
 
   return (
     <div className="relative">
-      <div className="relative aspect-video overflow-hidden bg-black">
+      <div
+        className={cn(
+          "relative overflow-hidden bg-black",
+          videoId ? "aspect-video" : ""
+        )}
+      >
         {videoId ? (
           <div className="ytmb-holder absolute inset-0">
             <div ref={containerRef} className="absolute inset-0" />
@@ -566,7 +574,7 @@ export function VideoPlayer({
             src={content.url}
             playsInline
             controls={false}
-            className="absolute inset-0 w-full h-full object-contain"
+            className="w-full h-auto block"
             onLoadedMetadata={() => {
               setReady(true);
               if (htmlRef.current) {

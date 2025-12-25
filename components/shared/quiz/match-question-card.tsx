@@ -34,6 +34,7 @@ function MatchButton({
   onClick,
   showLabel = true,
   feedbackVariant,
+  hotkey,
 }: {
   item: MatchItem;
   label?: string;
@@ -42,6 +43,7 @@ function MatchButton({
   onClick: () => void;
   showLabel?: boolean;
   feedbackVariant?: "option-correct" | "option-incorrect" | undefined;
+  hotkey?: string | number;
 }) {
   const variant = matched
     ? (feedbackVariant ?? "option-disabled")
@@ -59,6 +61,7 @@ function MatchButton({
       }}
       label={label}
       showLabel={showLabel}
+      hotkey={hotkey}
       className={cn(
         "w-full h-auto justify-start text-left rounded-2xl px-4 py-3"
       )}
@@ -76,7 +79,7 @@ export function MatchQuestionCard({
   onCreateMatch,
   className,
   questionClassName,
-  containerClassName = "md:grid-cols-2",
+  containerClassName = "grid-cols-2",
   showLabels = true,
   leftTitle,
   rightTitle,
@@ -117,11 +120,13 @@ export function MatchQuestionCard({
                   p.rightId === matchedPair.rightId
               );
             const selected = selectedLeft === item.id;
+            const label = (idx + 1).toString();
             return (
               <MatchButton
                 key={item.id}
                 item={item}
-                label={String.fromCharCode(65 + idx)}
+                label={label}
+                hotkey={label}
                 selected={selected}
                 matched={matched}
                 feedbackVariant={
@@ -161,12 +166,13 @@ export function MatchQuestionCard({
                   p.leftId === matchedPair.leftId &&
                   p.rightId === matchedPair.rightId
               );
-            const label = String(idx + 1);
+            const label = String(leftItems.length + idx + 1);
             return (
               <MatchButton
                 key={item.id}
                 item={item}
                 label={label}
+                hotkey={label}
                 matched={matched}
                 feedbackVariant={
                   matched && hasCorrect

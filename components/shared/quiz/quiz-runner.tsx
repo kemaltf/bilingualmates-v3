@@ -153,8 +153,22 @@ export function QuizRunner({
     ((controller.index + 1) / questions.length) * 100
   );
 
+  if (praiseType) {
+    return <PraiseCard type={praiseType} onContinue={handlePraiseContinue} />;
+  }
+
   return (
     <div className={cn("w-full space-y-4", className)}>
+      {showConfetti && (
+        <div className="fixed inset-0 z-50 pointer-events-none flex items-end justify-center">
+          <LottiePlayer
+            src="/confetti big.json"
+            className="w-full h-full object-cover"
+            fitWidth
+            loop={false}
+          />
+        </div>
+      )}
       {!hideHeader && (
         <div className="flex items-center justify-between">
           <Button
@@ -262,22 +276,30 @@ export function QuizRunner({
               <div className="max-w-[980px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
                 <div className="flex items-center gap-3">
                   {controller.feedback === "correct" && !isTheory && (
-                    <LottiePlayer
-                      src="/confetti.json"
-                      className="h-16 w-16"
-                      loop={false}
-                    />
-                  )}
-                  {controller.feedback !== "idle" && !isTheory && (
-                    <div className="flex flex-col items-start gap-1">
-                      <div className="text-sm font-extrabold">
-                        {controller.feedback === "correct"
-                          ? praise(q.id)
-                          : "Coba lagi"}
+                    <div className="flex items-center gap-3">
+                      <LottiePlayer
+                        src="/confetti.json"
+                        className="h-16 w-16"
+                        loop={false}
+                      />
+                      <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+                        {praise(q.id)}
                       </div>
-                      <Button variant="text" size="sm">
-                        <AlertOctagon className="size-4" /> LAPORKAN
-                      </Button>
+                    </div>
+                  )}
+                  {controller.feedback === "incorrect" && !isTheory && (
+                    <div className="flex items-center gap-3">
+                      <div className="bg-white rounded-full p-2 shadow-sm">
+                        <AlertOctagon className="h-8 w-8 text-rose-500" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-xl font-bold text-rose-600 dark:text-rose-400">
+                          Incorrect
+                        </span>
+                        <span className="text-sm text-rose-600/80 dark:text-rose-400/80">
+                          {getIncorrectFeedback(q, controller.answers[q.id])}
+                        </span>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -312,4 +334,37 @@ export function QuizRunner({
         ))}
     </div>
   );
+}
+
+function getCorrectAnswerText(q: QuizQuestion): string {
+  if (q.kind === "mcq") {
+    const correctOpt = q.options.find((o) => o.id === q.correctOptionId);
+    if (correctOpt?.content.kind === "text")
+      return correctOpt.content.text ?? "";
+    return "See above";
+  }
+  if (q.kind === "cloze") {
+    // Join answers
+    if (q.correctAnswers) {
+      return Object.values(q.correctAnswers).join(", ");
+    }
+    return "See above";
+  }
+  if (q.kind === "short_text") {
+    return Array.isArray(q.correctAnswers)
+      ? (q.correctAnswers[0] ?? "")
+      : (q.correctAnswers ?? "");
+  }
+  // For match/reorder, usually just showing the solution state is enough or complex to stringify
+  return "Solution shown above";
+}
+
+function getIncorrectFeedback(q: QuizQuestion, answer: unknown): string {
+  if (q.kind === "mcq" && typeof answer === "string") {
+    const selectedOption = q.options.find((o) => o.id === answer);
+    if (selectedOption?.feedback) {
+      return selectedOption.feedback;
+    }
+  }
+  return `Correct answer: ${getCorrectAnswerText(q)}`;
 }

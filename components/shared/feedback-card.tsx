@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import type { MediaContent } from "@/lib/quiz/types";
 import { MediaRenderer } from "./media-renderer";
+import { MarkdownText } from "./markdown-text";
 
 type FeedbackStatus = "correct" | "incorrect" | "info";
 
@@ -54,18 +55,22 @@ export function FeedbackCard({
         <div className="flex-shrink-0">{iconByStatus(status)}</div>
         <div className="flex-1 space-y-1">
           {title && (
-            <CardTitle className="text-card-foreground">{title}</CardTitle>
+            <CardTitle className="text-card-foreground">
+              <MarkdownText text={title} />
+            </CardTitle>
           )}
           {message && (
             <CardDescription className="text-muted-foreground">
-              {message}
+              <MarkdownText text={message} />
             </CardDescription>
           )}
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
         {explanation && (
-          <div className="text-sm text-muted-foreground">{explanation}</div>
+          <div className="text-sm text-muted-foreground">
+            <MarkdownText text={explanation} />
+          </div>
         )}
         {media && (
           <div className="mt-1">

@@ -1,7 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
 import type { MCOption } from "@/lib/quiz/types";
-import { OptionButton } from "@/components/ui/option-button";
+import {
+  OptionButton,
+  type OptionButtonVariant,
+} from "@/components/ui/option-button";
 import { MediaRenderer } from "../../media-renderer";
 
 export interface MCOptionButtonProps {
@@ -14,6 +17,7 @@ export interface MCOptionButtonProps {
   label?: string | number;
   hotkey?: string | number;
   showLabel?: boolean;
+  variant?: OptionButtonVariant;
 }
 
 export function MCOptionButton({
@@ -25,8 +29,10 @@ export function MCOptionButton({
   label,
   hotkey,
   showLabel = true,
+  variant: propVariant,
 }: MCOptionButtonProps) {
-  const variant = isSelected ? "option-selected" : "option-default";
+  const variant =
+    propVariant ?? (isSelected ? "option-selected" : "option-default");
   const isAudio = option.content.kind === "audio";
   const playSound = (url?: string) => {
     if (!url) return;
