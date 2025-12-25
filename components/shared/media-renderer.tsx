@@ -61,6 +61,17 @@ export function MediaRenderer({
         </div>
       );
     case "audio":
+      if (content.text) {
+        return (
+          <div className={cn("w-full", className)}>
+            <TextAudioPlayer
+              audioUrl={content.url ?? ""}
+              text={<span dangerouslySetInnerHTML={{ __html: content.text }} />}
+              translation={content.translation}
+            />
+          </div>
+        );
+      }
       return (
         <div
           className={cn(
@@ -88,6 +99,80 @@ export function MediaRenderer({
     default:
       return null;
   }
+}
+
+function TextAudioPlayer({
+  audioUrl,
+  text,
+  translation,
+  className,
+}: {
+  audioUrl: string;
+  text: React.ReactNode;
+  translation?: React.ReactNode;
+  className?: string;
+}) {
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!audioRef.current) {
+      audioRef.current = new Audio(audioUrl);
+      audioRef.current.onended = () => setIsPlaying(false);
+      audioRef.current.onpause = () => setIsPlaying(false);
+    }
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => setIsPlaying(false));
+      setIsPlaying(true);
+    }
+  };
+
+  React.useEffect(() => {
+    return () => {
+      if (audioRef.current) audioRef.current.pause();
+    };
+  }, []);
+
+  return (
+    <button
+      type="button"
+      className={cn(
+        "flex items-start gap-4 p-3 w-full text-left rounded-xl transition-all duration-200",
+        "hover:bg-neutral-100 dark:hover:bg-neutral-800",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500",
+        isPlaying && "bg-sky-50 dark:bg-sky-900/20",
+        className
+      )}
+      onClick={togglePlay}
+    >
+      <div className="flex-shrink-0 mt-0.5">
+        <div
+          className={cn(
+            "w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-sm",
+            isPlaying
+              ? "bg-sky-500 text-white"
+              : "bg-sky-100 text-sky-600 dark:bg-sky-900/50 dark:text-sky-400"
+          )}
+        >
+          <Volume2 className={cn("size-5", isPlaying && "animate-pulse")} />
+        </div>
+      </div>
+      <div className="flex-1 space-y-1">
+        <div className="text-lg font-medium text-neutral-900 dark:text-neutral-100 leading-snug">
+          {text}
+        </div>
+        {translation && (
+          <div className="text-base text-neutral-500 dark:text-neutral-400 font-normal">
+            {translation}
+          </div>
+        )}
+      </div>
+    </button>
+  );
 }
 
 function AudioPlayer({

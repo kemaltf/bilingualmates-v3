@@ -6,6 +6,18 @@ import { Button } from "@/components/ui/button";
 
 const sampleQuestions: QuizQuestion[] = [
   {
+    kind: "theory",
+    id: "theory-intro",
+    title: "Learning Tip: Genders",
+    content: "<p>In German, nouns have genders. <b>Der</b> (masculine), <b>Die</b> (feminine), and <b>Das</b> (neutral). Keep an eye out for these!</p>",
+    media: [{ kind: "image", url: "https://picsum.photos/800/400", caption: "Genders illustration" }],
+    audioSamples: [
+      { audioUrl: "https://www.w3schools.com/html/horse.mp3", text: "Der Tisch <span class='text-neutral-400'>(The table)</span>", translation: "Masculine" },
+      { audioUrl: "https://www.w3schools.com/html/horse.mp3", text: "Die Katze <span class='text-neutral-400'>(The cat)</span>", translation: "Feminine" }
+    ],
+    buttonLabel: "Got it!"
+  },
+  {
     kind: "mcq",
     id: "q-mc-1",
     prompt: { kind: "text", text: "Choose the correct translation for 'Halo'" },

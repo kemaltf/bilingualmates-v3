@@ -63,6 +63,7 @@ export function QuizRunner({
   const [showConfetti, setShowConfetti] = React.useState(false);
 
   const { isLocked, checkAnswer, nextQuestion } = controller;
+  const isTheory = q.kind === "theory";
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -163,11 +164,17 @@ export function QuizRunner({
         <div className="flex items-center justify-end gap-3 px-4">
           {controller.feedback === "idle" ? (
             <Button
-              variant="blue"
+              variant={isTheory ? "green" : "blue"}
               size="md"
               disabled={!controller.canCheck || controller.isLocked}
               onClick={controller.checkAnswer}
-              label="Check"
+              label={
+                isTheory
+                  ? q.kind === "theory" && q.buttonLabel
+                    ? q.buttonLabel
+                    : "Lanjutkan"
+                  : "Check"
+              }
             />
           ) : (
             <Button
@@ -183,10 +190,10 @@ export function QuizRunner({
           <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
             <div className="max-w-[980px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
               <div className="flex items-center gap-3">
-                {controller.feedback === "correct" && (
+                {controller.feedback === "correct" && !isTheory && (
                   <LottiePlayer src="/confetti.json" className="h-16 w-16" />
                 )}
-                {controller.feedback !== "idle" && (
+                {controller.feedback !== "idle" && !isTheory && (
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-sm font-extrabold">
                       {controller.feedback === "correct"
@@ -203,11 +210,17 @@ export function QuizRunner({
                 {controller.feedback !== "idle" && <></>}
                 {controller.feedback === "idle" ? (
                   <Button
-                    variant="blue"
+                    variant={isTheory ? "green" : "blue"}
                     size="md"
                     disabled={!controller.canCheck || controller.isLocked}
                     onClick={controller.checkAnswer}
-                    label="PERIKSA"
+                    label={
+                      isTheory
+                        ? q.kind === "theory" && q.buttonLabel
+                          ? q.buttonLabel
+                          : "LANJUTKAN"
+                        : "PERIKSA"
+                    }
                   />
                 ) : (
                   <Button
