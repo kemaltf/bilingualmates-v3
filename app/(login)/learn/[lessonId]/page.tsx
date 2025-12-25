@@ -37,7 +37,29 @@ export default function Page() {
     const t = setTimeout(() => setEntering(false), 800);
     return () => clearTimeout(t);
   }, []);
-  const sample: QuizQuestion[] = React.useMemo(() => {
+  const questions: QuizQuestion[] = React.useMemo(() => {
+    // 1. Try to find the node in mock paths
+    let foundNode = null;
+    for (const p of paths) {
+      for (const s of p.sections) {
+        for (const u of s.units) {
+          for (const n of u.nodes) {
+            if (n.id === lessonId) {
+              foundNode = n;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    if (foundNode?.quizQuestions && foundNode.quizQuestions.length > 0) {
+      return isSample
+        ? foundNode.quizQuestions.slice(0, 2)
+        : foundNode.quizQuestions;
+    }
+
+    // 2. Fallback to sample questions if not found in mock
     const all: QuizQuestion[] = [
       {
         kind: "mcq",
@@ -77,7 +99,7 @@ export default function Page() {
   }, [lessonId, isSample]);
 
   const memoryItems: MemoryItem[] = React.useMemo(() => {
-    return sample
+    return questions
       .filter(
         (q): q is Extract<QuizQuestion, { kind: "mcq" }> => q.kind === "mcq"
       )
@@ -94,7 +116,7 @@ export default function Page() {
         examples: ["Example sentence 1", "Example sentence 2"],
         color: getBrandColorByIndex(idx),
       }));
-  }, [sample]);
+  }, [questions]);
 
   const readingSections: ReadingSection[] = [
     {
@@ -177,11 +199,11 @@ export default function Page() {
       (payload?.answers ?? []).map((a) => [a.questionId, a.rawAnswer])
     );
     let correct = 0;
-    for (const q of sample) {
+    for (const q of questions) {
       const raw = ansById.get(q.id);
       if (evaluate(q, raw)) correct++;
     }
-    const total = sample.length;
+    const total = questions.length;
     const accuracyPct = Math.round((correct / Math.max(1, total)) * 100);
     const xp = correct * 10;
     const ms = payload?.clientTotalTimeMs ?? 0;
@@ -286,7 +308,7 @@ export default function Page() {
         />
       ) : (
         <QuizRunner
-          questions={sample}
+          questions={questions}
           lessonId={lessonId}
           attemptId={`attempt-${lessonId}`}
           onComplete={(payload) => setAttempt(payload)}

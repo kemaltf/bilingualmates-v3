@@ -1,6 +1,11 @@
 "use client";
 import * as React from "react";
 import type { QuizQuestion, SubmitAttemptPayload } from "@/lib/quiz/types";
+import {
+  PraiseCard,
+  type PraiseType,
+} from "@/components/shared/quiz/praise-card";
+import { useQuizSound } from "@/hooks/use-quiz-sound";
 import { useQuizController } from "@/hooks/use-quiz-controller";
 import { QuestionRenderer } from "./question-renderer";
 import { FeedbackCard } from "@/components/shared/feedback-card";
@@ -62,25 +67,85 @@ export function QuizRunner({
   const value = controller.answers[q.id];
   const [showConfetti, setShowConfetti] = React.useState(false);
 
+  // Sound & Praise State
+  const sounds = useQuizSound();
+  const [praiseType, setPraiseType] = React.useState<PraiseType | null>(null);
+  const [consecutiveCorrect, setConsecutiveCorrect] = React.useState(0);
+  const [consecutiveWrong, setConsecutiveWrong] = React.useState(0);
+
   const { isLocked, checkAnswer, nextQuestion } = controller;
   const isTheory = q.kind === "theory";
+
+  // Handle Next Question with Praise Logic
+  const handleNext = () => {
+    // 1. Check for Lesson Complete (Celebration)
+    if (controller.isLast) {
+      setPraiseType("celebration");
+      sounds.playCelebration();
+      return;
+    }
+
+    // 2. Check for Intermediate Praise
+    if (consecutiveCorrect >= 3) {
+      setPraiseType("encouragement");
+      sounds.playTransition();
+      setConsecutiveCorrect(0); // Reset after triggering
+      return;
+    }
+
+    if (consecutiveWrong >= 2) {
+      setPraiseType("recovery");
+      sounds.playTransition();
+      setConsecutiveWrong(0); // Reset after triggering
+      return;
+    }
+
+    // 3. Normal flow
+    nextQuestion();
+  };
+
+  const handlePraiseContinue = () => {
+    setPraiseType(null);
+    nextQuestion();
+  };
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
+        if (praiseType) {
+          handlePraiseContinue();
+          return;
+        }
+
         if (!isLocked) checkAnswer();
-        else nextQuestion();
+        else handleNext();
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [isLocked, checkAnswer, nextQuestion]);
+  }, [
+    isLocked,
+    checkAnswer,
+    nextQuestion,
+    praiseType,
+    consecutiveCorrect,
+    consecutiveWrong,
+  ]);
 
   React.useEffect(() => {
     if (controller.feedback === "correct") {
+      sounds.playCorrect();
+      setConsecutiveCorrect((prev) => prev + 1);
+      setConsecutiveWrong(0);
       setShowConfetti(true);
       const t = setTimeout(() => setShowConfetti(false), 1500);
       return () => clearTimeout(t);
+    } else if (controller.feedback === "incorrect") {
+      sounds.playIncorrect();
+      setConsecutiveWrong((prev) => prev + 1);
+      setConsecutiveCorrect(0);
+    } else {
+      setShowConfetti(false);
     }
   }, [controller.feedback]);
 
@@ -135,15 +200,19 @@ export function QuizRunner({
       )}
 
       <div className="max-w-[720px] mx-auto">
-        <QuestionRenderer
-          question={q}
-          locked={controller.isLocked}
-          value={value}
-          onAnswerChange={(val) => controller.setAnswer(q.id, val)}
-        />
+        {praiseType ? (
+          <PraiseCard type={praiseType} onContinue={handlePraiseContinue} />
+        ) : (
+          <QuestionRenderer
+            question={q}
+            locked={controller.isLocked}
+            value={value}
+            onAnswerChange={(val) => controller.setAnswer(q.id, val)}
+          />
+        )}
       </div>
 
-      {controller.feedback !== "idle" && q.explanation && (
+      {controller.feedback !== "idle" && q.explanation && !praiseType && (
         <FeedbackCard
           status={feedbackToCardStatus(controller.feedback)}
           explanation={q.explanation}
@@ -156,85 +225,91 @@ export function QuizRunner({
             src="/confetti big.json"
             className="w-screen"
             fitWidth
+            loop={false}
           />
         </div>
       )}
 
-      {footerVariant === "inline" ? (
-        <div className="flex items-center justify-end gap-3 px-4">
-          {controller.feedback === "idle" ? (
-            <Button
-              variant={isTheory ? "green" : "blue"}
-              size="md"
-              disabled={!controller.canCheck || controller.isLocked}
-              onClick={controller.checkAnswer}
-              label={
-                isTheory
-                  ? q.kind === "theory" && q.buttonLabel
-                    ? q.buttonLabel
-                    : "Lanjutkan"
-                  : "Check"
-              }
-            />
-          ) : (
-            <Button
-              variant="green"
-              size="md"
-              onClick={controller.nextQuestion}
-              label={controller.isLast ? "Finish" : "Next"}
-            />
-          )}
-        </div>
-      ) : (
-        <div className="fixed bottom-0 inset-x-0 z-50">
-          <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
-            <div className="max-w-[980px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
-              <div className="flex items-center gap-3">
-                {controller.feedback === "correct" && !isTheory && (
-                  <LottiePlayer src="/confetti.json" className="h-16 w-16" />
-                )}
-                {controller.feedback !== "idle" && !isTheory && (
-                  <div className="flex flex-col items-start gap-1">
-                    <div className="text-sm font-extrabold">
-                      {controller.feedback === "correct"
-                        ? praise(q.id)
-                        : "Coba lagi"}
+      {!praiseType &&
+        (footerVariant === "inline" ? (
+          <div className="flex items-center justify-end gap-3 px-4">
+            {controller.feedback === "idle" ? (
+              <Button
+                variant={isTheory ? "green" : "blue"}
+                size="md"
+                disabled={!controller.canCheck || controller.isLocked}
+                onClick={controller.checkAnswer}
+                label={
+                  isTheory
+                    ? q.kind === "theory" && q.buttonLabel
+                      ? q.buttonLabel
+                      : "Lanjutkan"
+                    : "Check"
+                }
+              />
+            ) : (
+              <Button
+                variant="green"
+                size="md"
+                onClick={handleNext}
+                label={controller.isLast ? "Finish" : "Next"}
+              />
+            )}
+          </div>
+        ) : (
+          <div className="fixed bottom-0 inset-x-0 z-50">
+            <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
+              <div className="max-w-[980px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
+                <div className="flex items-center gap-3">
+                  {controller.feedback === "correct" && !isTheory && (
+                    <LottiePlayer
+                      src="/confetti.json"
+                      className="h-16 w-16"
+                      loop={false}
+                    />
+                  )}
+                  {controller.feedback !== "idle" && !isTheory && (
+                    <div className="flex flex-col items-start gap-1">
+                      <div className="text-sm font-extrabold">
+                        {controller.feedback === "correct"
+                          ? praise(q.id)
+                          : "Coba lagi"}
+                      </div>
+                      <Button variant="text" size="sm">
+                        <AlertOctagon className="size-4" /> LAPORKAN
+                      </Button>
                     </div>
-                    <Button variant="text" size="sm">
-                      <AlertOctagon className="size-4" /> LAPORKAN
-                    </Button>
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center gap-3 ml-auto">
-                {controller.feedback !== "idle" && <></>}
-                {controller.feedback === "idle" ? (
-                  <Button
-                    variant={isTheory ? "green" : "blue"}
-                    size="md"
-                    disabled={!controller.canCheck || controller.isLocked}
-                    onClick={controller.checkAnswer}
-                    label={
-                      isTheory
-                        ? q.kind === "theory" && q.buttonLabel
-                          ? q.buttonLabel
-                          : "LANJUTKAN"
-                        : "PERIKSA"
-                    }
-                  />
-                ) : (
-                  <Button
-                    variant="green"
-                    size="md"
-                    onClick={controller.nextQuestion}
-                    label={controller.isLast ? "SELESAI" : "LANJUTKAN"}
-                  />
-                )}
+                  )}
+                </div>
+                <div className="flex items-center gap-3 ml-auto">
+                  {controller.feedback !== "idle" && <></>}
+                  {controller.feedback === "idle" ? (
+                    <Button
+                      variant={isTheory ? "green" : "blue"}
+                      size="md"
+                      disabled={!controller.canCheck || controller.isLocked}
+                      onClick={controller.checkAnswer}
+                      label={
+                        isTheory
+                          ? q.kind === "theory" && q.buttonLabel
+                            ? q.buttonLabel
+                            : "LANJUTKAN"
+                          : "PERIKSA"
+                      }
+                    />
+                  ) : (
+                    <Button
+                      variant="green"
+                      size="md"
+                      onClick={handleNext}
+                      label={controller.isLast ? "SELESAI" : "LANJUTKAN"}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        ))}
     </div>
   );
 }

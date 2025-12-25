@@ -40,7 +40,12 @@ export default function FinishSummary({
     <div className={cn("w-full max-w-[760px] mx-auto", className)}>
       {showConfetti && (
         <div className="fixed inset-x-0 top-0 z-40 pointer-events-none">
-          <LottiePlayer src="/confetti big.json" className="w-full" fitWidth />
+          <LottiePlayer
+            src="/confetti big.json"
+            className="w-full"
+            fitWidth
+            loop={false}
+          />
         </div>
       )}
       <div className="flex min-h-[75vh] items-center justify-center flex-col gap-2 text-center">

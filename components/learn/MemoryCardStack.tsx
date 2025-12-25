@@ -126,9 +126,11 @@ export default function MemoryCardStack({
       {showConfetti && (
         <div className="fixed inset-x-0 bottom-0 z-40 pointer-events-none translate-y-6">
           <LottiePlayer
+            key={index}
             src="/confetti big.json"
             className="w-screen"
             fitWidth
+            loop={false}
           />
         </div>
       )}

@@ -70,6 +70,167 @@ const englishPaths: CurriculumPath[] = [
                 status: "completed",
                 xpReward: 10,
                 durationSec: 80,
+                quizQuestions: [
+                  {
+                    kind: "theory",
+                    id: "n1-theory-1",
+                    title: "Formal vs Informal",
+                    content: `
+                      <p>In English, choosing the right greeting depends on who you are talking to.</p>
+                      <div class="grid grid-cols-2 gap-4 my-4">
+                        <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
+                          <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Formal</h3>
+                          <p>Used with strangers, elders, or in business.</p>
+                          <ul class="list-disc list-inside mt-2 text-sm">
+                            <li>Hello</li>
+                            <li>Good morning</li>
+                            <li>How do you do?</li>
+                          </ul>
+                        </div>
+                        <div class="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl">
+                          <h3 class="font-bold text-indigo-600 dark:text-indigo-400">Informal</h3>
+                          <p>Used with friends and family.</p>
+                          <ul class="list-disc list-inside mt-2 text-sm">
+                            <li>Hi</li>
+                            <li>Hey</li>
+                            <li>What's up?</li>
+                          </ul>
+                        </div>
+                      </div>
+                    `,
+                    buttonLabel: "Let's Practice",
+                    audioSamples: [
+                      {
+                        text: "Hello, good morning.",
+                        translation: "Halo, selamat pagi (Formal)",
+                        audioUrl: "/audio/hello_formal.mp3",
+                      },
+                      {
+                        text: "Hey, what's up?",
+                        translation: "Hei, apa kabar? (Informal)",
+                        audioUrl: "/audio/hey_informal.mp3",
+                      },
+                    ],
+                  },
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Which of these is a **formal** greeting?",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: { kind: "text", text: "Hey there!" },
+                      },
+                      {
+                        id: "opt2",
+                        content: { kind: "text", text: "Good afternoon" },
+                      },
+                      {
+                        id: "opt3",
+                        content: { kind: "text", text: "What's up?" },
+                      },
+                      { id: "opt4", content: { kind: "text", text: "Yo!" } },
+                    ],
+                    correctOptionId: "opt2",
+                  },
+                  {
+                    kind: "match",
+                    id: "n1-match-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Match the greeting to the situation",
+                    },
+                    leftItems: [
+                      {
+                        id: "l1",
+                        content: { kind: "text", text: "Good morning" },
+                      },
+                      {
+                        id: "l2",
+                        content: { kind: "text", text: "Good afternoon" },
+                      },
+                      {
+                        id: "l3",
+                        content: { kind: "text", text: "Good evening" },
+                      },
+                      {
+                        id: "l4",
+                        content: { kind: "text", text: "Good night" },
+                      },
+                    ],
+                    rightItems: [
+                      {
+                        id: "r1",
+                        content: { kind: "text", text: "Before 12 PM" },
+                      },
+                      {
+                        id: "r2",
+                        content: { kind: "text", text: "12 PM - 5 PM" },
+                      },
+                      {
+                        id: "r3",
+                        content: { kind: "text", text: "After 5 PM" },
+                      },
+                      {
+                        id: "r4",
+                        content: { kind: "text", text: "Before sleeping" },
+                      },
+                    ],
+                    correctPairs: [
+                      { leftId: "l1", rightId: "r1" },
+                      { leftId: "l2", rightId: "r2" },
+                      { leftId: "l3", rightId: "r3" },
+                      { leftId: "l4", rightId: "r4" },
+                    ],
+                  },
+                  {
+                    kind: "reorder",
+                    id: "n1-reorder-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Arrange the words to form a polite greeting",
+                    },
+                    tokens: ["Hello", "how", "are", "you", "today?"],
+                    correctOrder: ["Hello", "how", "are", "you", "today?"],
+                  },
+                  {
+                    kind: "cloze",
+                    id: "n1-cloze-1",
+                    prompt: { kind: "text", text: "Complete the dialogue" },
+                    segments: [
+                      { kind: "text", text: "A: Hello, my name " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b1", options: ["is", "am"] },
+                      },
+                      { kind: "text", text: " John.\nB: Hi John, I " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b2", options: ["is", "am"] },
+                      },
+                      { kind: "text", text: " Sarah. Nice to " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b3", options: ["meet", "see"] },
+                      },
+                      { kind: "text", text: " you." },
+                    ],
+                    correctAnswers: { b1: "is", b2: "am", b3: "meet" },
+                  },
+                  {
+                    kind: "short_text",
+                    id: "n1-st-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Translate 'Selamat pagi' to English",
+                    },
+                    correctAnswers: ["Good morning", "Morning"],
+                    placeholder: "Type your answer...",
+                  },
+                ],
               },
               {
                 id: "n2",
@@ -78,6 +239,42 @@ const englishPaths: CurriculumPath[] = [
                 status: "in_progress",
                 xpReward: 10,
                 durationSec: 90,
+                quizQuestions: [
+                  {
+                    kind: "theory",
+                    id: "n2-theory-1",
+                    title: "The Alphabet",
+                    content:
+                      "<p>English has 26 letters. 5 vowels (A, E, I, O, U) and 21 consonants.</p>",
+                    buttonLabel: "Start Quiz",
+                  },
+                  {
+                    kind: "match",
+                    id: "n2-match-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Match uppercase and lowercase",
+                    },
+                    leftItems: [
+                      { id: "l1", content: { kind: "text", text: "A" } },
+                      { id: "l2", content: { kind: "text", text: "B" } },
+                      { id: "l3", content: { kind: "text", text: "D" } },
+                      { id: "l4", content: { kind: "text", text: "E" } },
+                    ],
+                    rightItems: [
+                      { id: "r1", content: { kind: "text", text: "a" } },
+                      { id: "r2", content: { kind: "text", text: "b" } },
+                      { id: "r3", content: { kind: "text", text: "d" } },
+                      { id: "r4", content: { kind: "text", text: "e" } },
+                    ],
+                    correctPairs: [
+                      { leftId: "l1", rightId: "r1" },
+                      { leftId: "l2", rightId: "r2" },
+                      { leftId: "l3", rightId: "r3" },
+                      { leftId: "l4", rightId: "r4" },
+                    ],
+                  },
+                ],
               },
               {
                 id: "ad-u1-1",
@@ -99,6 +296,28 @@ const englishPaths: CurriculumPath[] = [
                 status: "locked",
                 xpReward: 10,
                 durationSec: 85,
+                quizQuestions: [
+                  {
+                    kind: "short_text",
+                    id: "n3-st-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Write the number 12 in words",
+                    },
+                    correctAnswers: ["twelve"],
+                    placeholder: "e.g. one, two...",
+                  },
+                  {
+                    kind: "reorder",
+                    id: "n3-reorder-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Order from smallest to largest",
+                    },
+                    tokens: ["One", "Two", "Three", "Four", "Five"],
+                    correctOrder: ["One", "Two", "Three", "Four", "Five"],
+                  },
+                ],
               },
             ],
           },
@@ -117,6 +336,35 @@ const englishPaths: CurriculumPath[] = [
                 status: "locked",
                 xpReward: 10,
                 durationSec: 95,
+                quizQuestions: [
+                  {
+                    kind: "cloze",
+                    id: "n4-cloze-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Fill in the morning routine",
+                    },
+                    segments: [
+                      { kind: "text", text: "I " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b1", options: ["wake", "stand"] },
+                      },
+                      { kind: "text", text: " up at 6 AM. Then I " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b2", options: ["brush", "wash"] },
+                      },
+                      { kind: "text", text: " my teeth and " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b3", options: ["eat", "drink"] },
+                      },
+                      { kind: "text", text: " breakfast." },
+                    ],
+                    correctAnswers: { b1: "wake", b2: "brush", b3: "eat" },
+                  },
+                ],
               },
               {
                 id: "n5",
