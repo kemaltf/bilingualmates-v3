@@ -22,7 +22,17 @@ export function RightPanelRenderer({
     <div className={cn("flex flex-col gap-4", className)}>
       {sections.map((s, idx) => {
         if (s.kind === "language_stats")
-          return <LanguageStatsCard key={idx} stats={s.data} />;
+          return (
+            <>
+              {/* Mobile/Tablet: Fixed Sticky Header */}
+              <LanguageStatsCard
+                key={idx}
+                stats={s.data}
+                variant="mobile-header"
+                className="lg:hidden"
+              />
+            </>
+          );
 
         const content = (() => {
           if (s.kind === "missions")
