@@ -6,20 +6,23 @@ import type { LanguageStats } from "@/lib/right/types";
 import { cn } from "@/lib/utils";
 import { LanguageStatsContent } from "./LanguageStatsContent";
 
-export interface LanguageStatsCardProps {
+interface MobileLanguageStatsProps {
   stats: LanguageStats;
   className?: string;
 }
 
-export function LanguageStatsCard({
+export function MobileLanguageStats({
   stats,
   className,
-}: LanguageStatsCardProps) {
+}: MobileLanguageStatsProps) {
   return (
     <Card
       className={cn(
         "flex items-center justify-between p-3 md:p-4 bg-white dark:bg-neutral-900",
-        "rounded-xl border-2",
+        // Mobile (default): Fixed top, full width
+        // Tablet (md): Fixed top, but offset by sidebar width (16rem) to prevent overlap
+        "fixed top-0 left-0 right-0 md:left-[16rem] md:right-0 z-[40]",
+        "rounded-none border-x-0 border-t-0 border-b-2",
         className
       )}
     >

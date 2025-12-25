@@ -8,6 +8,7 @@ import { NotificationsCard } from "@/components/right/NotificationsCard";
 import { FollowsTabsCard } from "@/components/right/FollowsTabsCard";
 import { FindFriendsCard } from "@/components/right/FindFriendsCard";
 import { cn } from "@/lib/utils";
+import { MobileLanguageStats } from "../right/MobileLanguageStats";
 
 export interface RightPanelRendererProps {
   sections: RightSection[];
@@ -23,15 +24,14 @@ export function RightPanelRenderer({
       {sections.map((s, idx) => {
         if (s.kind === "language_stats")
           return (
-            <>
+            <React.Fragment key={idx}>
               {/* Mobile/Tablet: Fixed Sticky Header */}
-              <LanguageStatsCard
-                key={idx}
-                stats={s.data}
-                variant="mobile-header"
-                className="lg:hidden"
-              />
-            </>
+              <MobileLanguageStats stats={s.data} className="lg:hidden" />
+              {/* Desktop: Static Card in Sidebar */}
+              <div className="hidden lg:block">
+                <LanguageStatsCard stats={s.data} />
+              </div>
+            </React.Fragment>
           );
 
         const content = (() => {
