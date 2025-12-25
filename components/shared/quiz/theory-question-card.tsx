@@ -70,6 +70,7 @@ export function TheoryQuestionCard({ question }: TheoryQuestionCardProps) {
                         kind: block.kind,
                         url: block.url,
                         alt: block.caption,
+                        subtitles: block.subtitles,
                       }}
                       role="question"
                       className="w-full"

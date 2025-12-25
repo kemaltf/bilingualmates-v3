@@ -305,6 +305,8 @@ export function VideoPlayer({
   const [playing, setPlaying] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [speed, setSpeed] = React.useState<string>("1");
+  const [currentTime, setCurrentTime] = React.useState(0);
+  const [wasPlayingBeforeHold, setWasPlayingBeforeHold] = React.useState(false);
 
   const start = Math.max(0, content.startTimeSec ?? 0);
   const end = content.endTimeSec ?? 0;
@@ -404,6 +406,7 @@ export function VideoPlayer({
         const p = playerRef.current;
         if (p && ready) {
           const t = p.getCurrentTime?.() ?? 0;
+          setCurrentTime(t);
           const segLen =
             end > start
               ? end - start
@@ -421,6 +424,7 @@ export function VideoPlayer({
         const v = htmlRef.current;
         if (v && ready) {
           const t = v.currentTime ?? 0;
+          setCurrentTime(t);
           const segLen =
             end > start
               ? end - start
@@ -519,6 +523,36 @@ export function VideoPlayer({
     }
   };
 
+  const activeSubtitle = content.subtitles?.find(
+    (s) => currentTime >= s.start && currentTime <= s.end
+  );
+
+  const handleSubtitlePress = (e: React.PointerEvent) => {
+    e.preventDefault();
+    if (playing) {
+      setWasPlayingBeforeHold(true);
+      if (videoId) {
+        playerRef.current?.pauseVideo?.();
+      } else {
+        htmlRef.current?.pause();
+      }
+      setPlaying(false);
+    }
+  };
+
+  const handleSubtitleRelease = (e: React.PointerEvent) => {
+    e.preventDefault();
+    if (wasPlayingBeforeHold) {
+      if (videoId) {
+        playerRef.current?.playVideo?.();
+      } else {
+        htmlRef.current?.play().catch(() => {});
+      }
+      setPlaying(true);
+      setWasPlayingBeforeHold(false);
+    }
+  };
+
   return (
     <div className="relative">
       <div className="relative aspect-video overflow-hidden bg-black">
@@ -551,7 +585,7 @@ export function VideoPlayer({
             onError={() => onError?.()}
           />
         )}
-        {!playing && (
+        {!playing && !wasPlayingBeforeHold && (
           <div
             className="absolute inset-0 z-10 bg-black cursor-pointer"
             onClick={toggle}
@@ -651,6 +685,18 @@ export function VideoPlayer({
           </div>
         </div>
       </div>
+      {activeSubtitle && (
+        <div
+          className="mt-4 p-4 rounded-xl bg-neutral-100 dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 text-center cursor-pointer select-none active:scale-[0.98] transition-transform"
+          onPointerDown={handleSubtitlePress}
+          onPointerUp={handleSubtitleRelease}
+          onPointerLeave={handleSubtitleRelease}
+        >
+          <p className="text-lg font-medium text-neutral-800 dark:text-neutral-200">
+            {activeSubtitle.text}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

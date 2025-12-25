@@ -1,5 +1,11 @@
 export type MediaKind = "text" | "audio" | "image" | "video";
 
+export interface Subtitle {
+  start: number;
+  end: number;
+  text: string;
+}
+
 export interface MediaContent {
   kind: MediaKind;
   text?: string;
@@ -11,6 +17,7 @@ export interface MediaContent {
   startTimeSec?: number;
   endTimeSec?: number;
   translation?: string;
+  subtitles?: Subtitle[];
 }
 
 export interface MCOption {
@@ -102,7 +109,7 @@ export interface TextAudioPair {
 export type TheoryBlock =
   | { kind: "text"; html: string }
   | { kind: "image"; url: string; caption?: string }
-  | { kind: "video"; url: string; caption?: string }
+  | { kind: "video"; url: string; caption?: string; subtitles?: Subtitle[] }
   | { kind: "audio"; samples: TextAudioPair[] };
 
 export interface TheoryQuestion {

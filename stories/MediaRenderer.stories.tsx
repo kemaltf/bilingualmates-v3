@@ -11,6 +11,7 @@ type Args = {
   transcript?: string;
   startTimeSec?: number;
   endTimeSec?: number;
+  subtitles?: { start: number; end: number; text: string }[];
   autoPlay?: boolean;
   className?: string;
   onStartLoop?: () => void;
@@ -32,6 +33,7 @@ function Demo(args: Args) {
     transcript,
     startTimeSec,
     endTimeSec,
+    subtitles,
     autoPlay,
     className,
     onStartLoop,
@@ -61,6 +63,7 @@ function Demo(args: Args) {
         transcript,
         startTimeSec,
         endTimeSec,
+        subtitles,
       }}
     />
   );
@@ -85,6 +88,7 @@ const meta: Meta<typeof Demo> = {
     startTimeSec: { control: "number" },
     endTimeSec: { control: "number" },
     autoPlay: { control: "boolean" },
+    subtitles: { control: "object" },
     className: { control: "text" },
     onStartLoop: { action: "startLoop" },
     onEndLoop: { action: "endLoop" },
@@ -101,42 +105,26 @@ const meta: Meta<typeof Demo> = {
 export default meta;
 type Story = StoryObj<typeof Demo>;
 
-export const TextQuestion: Story = {
+export const TextOnly: Story = {
   args: {
-    role: "question",
     kind: "text",
-    text: "Listen and choose the correct translation.",
   },
 };
 
-export const TextOption: Story = {
-  args: { role: "option", kind: "text", text: "Hello" },
-};
-
-export const Image: Story = {
+export const ImageContent: Story = {
   args: {
-    role: "question",
     kind: "image",
-    url: "https://picsum.photos/seed/duo/800/600",
-    alt: "Sample",
+    url: "https://images.unsplash.com/photo-1546527868-ccb7ee7dfa6a?q=80&w=2070&auto=format&fit=crop",
+    alt: "A cute puppy",
   },
 };
 
-export const Audio: Story = {
+export const AudioContent: Story = {
   args: {
     role: "question",
     kind: "audio",
     url: "https://www.w3schools.com/html/horse.mp3",
-  },
-};
-
-export const AudioWithText: Story = {
-  args: {
-    role: "question",
-    kind: "audio",
-    url: "https://www.w3schools.com/html/horse.mp3",
-    text: "Ich treffe meine Freunde <span class='text-sky-500 font-bold'>jede</span> Woche.",
-    translation: "I meet my friends every week.",
+    text: "Horse sound",
   },
 };
 
@@ -149,46 +137,40 @@ export const AutoPlayAudio: Story = {
   },
 };
 
-export const Video: Story = {
+export const AudioWithTranslation: Story = {
   args: {
     role: "question",
-    kind: "video",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-  },
-};
-
-export const SegmentLoop: Story = {
-  args: {
-    role: "question",
-    kind: "video",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-    transcript: "Looping a short segment.",
-    startTimeSec: 2,
-    endTimeSec: 5,
-  },
-};
-
-export const OptionImage: Story = {
-  args: {
-    role: "option",
-    kind: "image",
-    url: "https://picsum.photos/seed/duo-option/400/300",
-    alt: "Option",
-  },
-};
-
-export const OptionAudio: Story = {
-  args: {
-    role: "option",
     kind: "audio",
     url: "https://www.w3schools.com/html/horse.mp3",
+    text: "What sound is this?",
+    translation: "Suara apa ini?",
   },
 };
 
-export const OptionVideo: Story = {
+export const VideoContent: Story = {
   args: {
-    role: "option",
     kind: "video",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
+    url: "https://www.youtube.com/watch?v=LXb3EKWsInQ",
+    startTimeSec: 10,
+    endTimeSec: 20,
+  },
+};
+
+export const VideoWithSubtitles: Story = {
+  args: {
+    kind: "video",
+    url: "https://www.youtube.com/watch?v=LXb3EKWsInQ", // 4K Video
+    startTimeSec: 0,
+    endTimeSec: 0,
+    subtitles: [
+      { start: 0, end: 5, text: "This is a stunning view of nature." },
+      { start: 5, end: 10, text: "Look at the vibrant colors." },
+      {
+        start: 10,
+        end: 15,
+        text: "Press and hold this text to pause the video!",
+      },
+      { start: 15, end: 20, text: "Release to resume playing." },
+    ],
   },
 };
