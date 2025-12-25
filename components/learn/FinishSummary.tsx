@@ -4,6 +4,7 @@ import LottiePlayer from "@/components/shared/LottiePlayer";
 import FinishStatsGrid from "@/components/learn/FinishStatsGrid";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useQuizSound } from "@/hooks/use-quiz-sound";
 
 export interface FinishStats {
   xp: number;
@@ -32,17 +33,20 @@ export default function FinishSummary({
   className,
 }: Props) {
   const [showConfetti, setShowConfetti] = React.useState(true);
+  const sounds = useQuizSound();
+
   React.useEffect(() => {
+    sounds.playCelebration();
     const t = setTimeout(() => setShowConfetti(false), 1500);
     return () => clearTimeout(t);
-  }, []);
+  }, [sounds]);
   return (
     <div className={cn("w-full max-w-[760px] mx-auto", className)}>
       {showConfetti && (
-        <div className="fixed inset-x-0 top-0 z-40 pointer-events-none">
+        <div className="fixed inset-0 z-50 pointer-events-none flex items-end justify-center">
           <LottiePlayer
             src="/confetti big.json"
-            className="w-full"
+            className="w-full h-full object-cover"
             fitWidth
             loop={false}
           />

@@ -13,6 +13,15 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LottiePlayer from "@/components/shared/LottiePlayer";
 import { AlertOctagon } from "lucide-react";
+import Image from "next/image";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalFooter,
+} from "@/components/ui/modal";
 
 export interface QuizRunnerProps {
   questions: QuizQuestion[];
@@ -66,6 +75,7 @@ export function QuizRunner({
   const q = controller.question;
   const value = controller.answers[q.id];
   const [showConfetti, setShowConfetti] = React.useState(false);
+  const [showExitModal, setShowExitModal] = React.useState(false);
 
   // Sound & Praise State
   const sounds = useQuizSound();
@@ -78,14 +88,7 @@ export function QuizRunner({
 
   // Handle Next Question with Praise Logic
   const handleNext = () => {
-    // 1. Check for Lesson Complete (Celebration)
-    if (controller.isLast) {
-      setPraiseType("celebration");
-      sounds.playCelebration();
-      return;
-    }
-
-    // 2. Check for Intermediate Praise
+    // 1. Check for Intermediate Praise
     if (consecutiveCorrect >= 3) {
       setPraiseType("encouragement");
       sounds.playTransition();
@@ -100,7 +103,7 @@ export function QuizRunner({
       return;
     }
 
-    // 3. Normal flow
+    // 2. Normal flow
     nextQuestion();
   };
 
@@ -149,9 +152,27 @@ export function QuizRunner({
     }
   }, [controller.feedback]);
 
+  React.useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = ""; // Chrome requires returnValue to be set
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
+
   const progress = Math.round(
     ((controller.index + 1) / questions.length) * 100
   );
+
+  const handleExitConfirm = () => {
+    setShowExitModal(false);
+    if (onClose) {
+      onClose();
+    } else if (typeof window !== "undefined") {
+      window.history.back();
+    }
+  };
 
   if (praiseType) {
     return <PraiseCard type={praiseType} onContinue={handlePraiseContinue} />;
@@ -159,6 +180,45 @@ export function QuizRunner({
 
   return (
     <div className={cn("w-full space-y-4", className)}>
+      <Modal open={showExitModal} onOpenChange={setShowExitModal}>
+        <ModalContent className="max-w-sm w-full p-6 flex flex-col items-center text-center gap-6 border-none rounded-3xl z-[200] bg-white dark:bg-neutral-900">
+          <div className="relative w-32 h-32 mt-2">
+            <Image
+              src="/mascot-sad.svg"
+              alt="Sad Mascot"
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          <div className="space-y-2 w-full">
+            <ModalTitle className="text-2xl font-black text-neutral-700 dark:text-neutral-200">
+              Wait, don&apos;t go!
+            </ModalTitle>
+            <ModalDescription className="text-lg font-bold text-neutral-500 dark:text-neutral-400">
+              😱 You’re losing your progress!!!
+            </ModalDescription>
+          </div>
+
+          <div className="w-full space-y-3">
+            <Button
+              variant="blue"
+              size="lg"
+              className="w-full uppercase tracking-widest font-bold border-b-4 active:border-b-0"
+              onClick={() => setShowExitModal(false)}
+              label="KEEP LEARNING"
+            />
+            <Button
+              variant="text"
+              size="lg"
+              className="w-full uppercase tracking-widest font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30"
+              onClick={handleExitConfirm}
+              label="END SESSION"
+            />
+          </div>
+        </ModalContent>
+      </Modal>
+
       {showConfetti && (
         <div className="fixed inset-0 z-50 pointer-events-none flex items-end justify-center">
           <LottiePlayer
@@ -175,13 +235,7 @@ export function QuizRunner({
             variant="text"
             size="icon-sm"
             aria-label="Close"
-            onClick={() => {
-              if (onClose) {
-                onClose();
-              } else if (typeof window !== "undefined") {
-                window.history.back();
-              }
-            }}
+            onClick={() => setShowExitModal(true)}
           >
             {/* icon */}
             <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
