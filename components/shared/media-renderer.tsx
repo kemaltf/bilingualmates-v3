@@ -15,15 +15,25 @@ import { Volume2, Play, Pause, RotateCcw } from "lucide-react";
 import type { MediaContent } from "@/lib/quiz/types";
 
 export interface MediaRendererProps {
+  /** The media content to display (text, image, audio, video). */
   content: MediaContent;
+  /** Context where this component is used: "question" (main content) or "option" (choice). */
   role?: "question" | "option";
+  /** Additional CSS classes. */
   className?: string;
-  autoPlayTrigger?: number;
+  /** Whether to automatically play the media on mount. Defaults to false. */
+  autoPlay?: boolean;
+  /** Callback when video loop starts. */
   onStartLoop?: () => void;
+  /** Callback when video loop ends. */
   onEndLoop?: () => void;
+  /** Callback when media starts playing. */
   onPlay?: () => void;
+  /** Callback when media pauses. */
   onPause?: () => void;
+  /** Callback when media is ready. */
   onReady?: () => void;
+  /** Callback when media encounters an error. */
   onError?: () => void;
 }
 
@@ -31,7 +41,7 @@ export function MediaRenderer({
   content,
   role = "question",
   className,
-  autoPlayTrigger,
+  autoPlay,
   onStartLoop,
   onEndLoop,
   onPlay,
@@ -61,25 +71,24 @@ export function MediaRenderer({
         </div>
       );
     case "audio":
-      if (content.text) {
-        return (
-          <div className={cn("w-full", className)}>
-            <TextAudioPlayer
-              audioUrl={content.url ?? ""}
-              text={<span dangerouslySetInnerHTML={{ __html: content.text }} />}
-              translation={content.translation}
-            />
-          </div>
-        );
-      }
       return (
         <div
           className={cn(
-            isQuestion ? "w-full flex justify-center" : "",
+            "w-full",
+            !content.text && isQuestion ? "flex justify-center" : "",
             className
           )}
         >
-          <AudioPlayer url={content.url} autoPlayTrigger={autoPlayTrigger} />
+          <AudioPlayer
+            url={content.url}
+            autoPlay={autoPlay}
+            text={
+              content.text ? (
+                <span dangerouslySetInnerHTML={{ __html: content.text }} />
+              ) : undefined
+            }
+            translation={content.translation}
+          />
         </div>
       );
     case "video":
@@ -101,88 +110,18 @@ export function MediaRenderer({
   }
 }
 
-function TextAudioPlayer({
-  audioUrl,
-  text,
-  translation,
-  className,
-}: {
-  audioUrl: string;
-  text: React.ReactNode;
-  translation?: React.ReactNode;
-  className?: string;
-}) {
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const audioRef = React.useRef<HTMLAudioElement | null>(null);
-
-  const togglePlay = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!audioRef.current) {
-      audioRef.current = new Audio(audioUrl);
-      audioRef.current.onended = () => setIsPlaying(false);
-      audioRef.current.onpause = () => setIsPlaying(false);
-    }
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => setIsPlaying(false));
-      setIsPlaying(true);
-    }
-  };
-
-  React.useEffect(() => {
-    return () => {
-      if (audioRef.current) audioRef.current.pause();
-    };
-  }, []);
-
-  return (
-    <button
-      type="button"
-      className={cn(
-        "flex items-start gap-4 p-3 w-full text-left rounded-xl transition-all duration-200",
-        "hover:bg-neutral-100 dark:hover:bg-neutral-800",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500",
-        isPlaying && "bg-sky-50 dark:bg-sky-900/20",
-        className
-      )}
-      onClick={togglePlay}
-    >
-      <div className="flex-shrink-0 mt-0.5">
-        <div
-          className={cn(
-            "w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-sm",
-            isPlaying
-              ? "bg-sky-500 text-white"
-              : "bg-sky-100 text-sky-600 dark:bg-sky-900/50 dark:text-sky-400"
-          )}
-        >
-          <Volume2 className={cn("size-5", isPlaying && "animate-pulse")} />
-        </div>
-      </div>
-      <div className="flex-1 space-y-1">
-        <div className="text-lg font-medium text-neutral-900 dark:text-neutral-100 leading-snug">
-          {text}
-        </div>
-        {translation && (
-          <div className="text-base text-neutral-500 dark:text-neutral-400 font-normal">
-            {translation}
-          </div>
-        )}
-      </div>
-    </button>
-  );
-}
-
 function AudioPlayer({
   url,
   className,
-  autoPlayTrigger,
+  autoPlay,
+  text,
+  translation,
 }: {
   url?: string;
   className?: string;
-  autoPlayTrigger?: number;
+  autoPlay?: boolean;
+  text?: React.ReactNode;
+  translation?: React.ReactNode;
 }) {
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = React.useState(false);
@@ -191,6 +130,8 @@ function AudioPlayer({
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
+    if (text) return; // Skip resize observer if in text mode
+
     const el = containerRef.current;
     if (!el) return;
     const ro = new ResizeObserver((entries) => {
@@ -201,7 +142,7 @@ function AudioPlayer({
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [text]);
 
   const bars = React.useMemo(() => {
     return Array.from({ length: barCount }, (_, i) => {
@@ -211,7 +152,8 @@ function AudioPlayer({
     });
   }, [barCount]);
 
-  const toggle = () => {
+  const toggle = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     if (!audioRef.current) return;
     if (playing) {
       audioRef.current.pause();
@@ -223,10 +165,10 @@ function AudioPlayer({
   };
 
   React.useEffect(() => {
-    if (!audioRef.current || !autoPlayTrigger) return;
+    if (!audioRef.current || !autoPlay) return;
     audioRef.current.play();
     setPlaying(true);
-  }, [autoPlayTrigger]);
+  }, [autoPlay]);
 
   const onTimeUpdate = () => {
     const a = audioRef.current;
@@ -238,6 +180,51 @@ function AudioPlayer({
     0,
     Math.min(bars.length, Math.round(progress * bars.length))
   );
+
+  if (text && translation) {
+    return (
+      <button
+        type="button"
+        className={cn(
+          "flex items-start gap-4 p-3 w-full text-left rounded-xl transition-all duration-200",
+          "hover:bg-neutral-100 dark:hover:bg-neutral-800",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500",
+          playing && "bg-sky-50 dark:bg-sky-900/20",
+          className
+        )}
+        onClick={toggle}
+      >
+        <div className="flex-shrink-0 mt-0.5">
+          <div
+            className={cn(
+              "w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-sm",
+              playing
+                ? "bg-sky-500 text-white"
+                : "bg-sky-100 text-sky-600 dark:bg-sky-900/50 dark:text-sky-400"
+            )}
+          >
+            <Volume2 className={cn("size-5", playing && "animate-pulse")} />
+          </div>
+        </div>
+        <div className="flex-1 space-y-1">
+          <div className="text-lg font-medium text-neutral-900 dark:text-neutral-100 leading-snug">
+            {text}
+          </div>
+          {translation && (
+            <div className="text-base text-neutral-500 dark:text-neutral-400 font-normal">
+              {translation}
+            </div>
+          )}
+        </div>
+        <audio
+          ref={audioRef}
+          src={url}
+          onEnded={() => setPlaying(false)}
+          onPause={() => setPlaying(false)}
+        />
+      </button>
+    );
+  }
 
   return (
     <div className={cn("flex items-center gap-3 w-full", className)}>
@@ -274,6 +261,7 @@ function AudioPlayer({
           setPlaying(false);
           setProgress(0);
         }}
+        onPause={() => setPlaying(false)}
       />
     </div>
   );
@@ -533,7 +521,7 @@ export function VideoPlayer({
 
   return (
     <div className="relative">
-      <div className="relative aspect-video overflow-hidden">
+      <div className="relative aspect-video overflow-hidden bg-black">
         {videoId ? (
           <div className="ytmb-holder absolute inset-0">
             <div ref={containerRef} className="absolute inset-0" />
@@ -544,7 +532,7 @@ export function VideoPlayer({
             src={content.url}
             playsInline
             controls={false}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-contain"
             onLoadedMetadata={() => {
               setReady(true);
               if (htmlRef.current) {
@@ -586,13 +574,14 @@ export function VideoPlayer({
             </div>
           </div>
         )}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/70 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/80 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20" />
         {content.transcript && (
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 max-w-[85%] rounded-xl bg-black/30 backdrop-blur px-3 py-2 text-white text-sm z-20">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 max-w-[85%] rounded-xl bg-black/40 backdrop-blur-md px-4 py-2 text-white text-sm z-20 shadow-lg border border-white/10">
             {content.transcript}
           </div>
         )}
-        <div className="absolute inset-x-0 bottom-2 flex flex-wrap items-center gap-3 px-3 z-20">
+        <div className="absolute inset-x-0 bottom-0 pb-4 pt-10 px-4 flex flex-wrap items-center gap-3 z-30">
           <div className="order-1">
             <Button
               variant="blue"

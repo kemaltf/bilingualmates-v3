@@ -5,12 +5,13 @@ type Args = {
   role: "question" | "option";
   kind: "text" | "audio" | "image" | "video";
   text?: string;
+  translation?: string;
   url?: string;
   alt?: string;
   transcript?: string;
   startTimeSec?: number;
   endTimeSec?: number;
-  autoPlayTrigger?: number;
+  autoPlay?: boolean;
   className?: string;
   onStartLoop?: () => void;
   onEndLoop?: () => void;
@@ -25,12 +26,13 @@ function Demo(args: Args) {
     role,
     kind,
     text,
+    translation,
     url,
     alt,
     transcript,
     startTimeSec,
     endTimeSec,
-    autoPlayTrigger,
+    autoPlay,
     className,
     onStartLoop,
     onEndLoop,
@@ -43,14 +45,23 @@ function Demo(args: Args) {
     <MediaRenderer
       role={role}
       className={className}
-      autoPlayTrigger={autoPlayTrigger}
+      autoPlay={autoPlay}
       onStartLoop={onStartLoop}
       onEndLoop={onEndLoop}
       onPlay={onPlay}
       onPause={onPause}
       onReady={onReady}
       onError={onError}
-      content={{ kind, text, url, alt, transcript, startTimeSec, endTimeSec }}
+      content={{
+        kind,
+        text,
+        translation,
+        url,
+        alt,
+        transcript,
+        startTimeSec,
+        endTimeSec,
+      }}
     />
   );
 }
@@ -65,7 +76,7 @@ const meta: Meta<typeof Demo> = {
     url: "",
     alt: "",
     transcript: "",
-    autoPlayTrigger: undefined,
+    autoPlay: false,
     className: "",
   },
   argTypes: {
@@ -73,7 +84,7 @@ const meta: Meta<typeof Demo> = {
     kind: { control: "radio", options: ["text", "audio", "image", "video"] },
     startTimeSec: { control: "number" },
     endTimeSec: { control: "number" },
-    autoPlayTrigger: { control: "number" },
+    autoPlay: { control: "boolean" },
     className: { control: "text" },
     onStartLoop: { action: "startLoop" },
     onEndLoop: { action: "endLoop" },
@@ -116,6 +127,25 @@ export const Audio: Story = {
     role: "question",
     kind: "audio",
     url: "https://www.w3schools.com/html/horse.mp3",
+  },
+};
+
+export const AudioWithText: Story = {
+  args: {
+    role: "question",
+    kind: "audio",
+    url: "https://www.w3schools.com/html/horse.mp3",
+    text: "Ich treffe meine Freunde <span class='text-sky-500 font-bold'>jede</span> Woche.",
+    translation: "I meet my friends every week.",
+  },
+};
+
+export const AutoPlayAudio: Story = {
+  args: {
+    role: "question",
+    kind: "audio",
+    url: "https://www.w3schools.com/html/horse.mp3",
+    autoPlay: true,
   },
 };
 

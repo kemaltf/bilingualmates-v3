@@ -49,6 +49,7 @@ export function TheoryQuestionCard({ question }: TheoryQuestionCardProps) {
                         alt: block.caption,
                       }}
                       role="question"
+                      autoPlay={false}
                       className="w-full max-h-[500px] object-cover"
                     />
                     {block.caption && (
