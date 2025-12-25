@@ -78,6 +78,7 @@ export default function Page() {
           { id: "c", content: { kind: "text", text: "A static image" } },
         ],
         correctOptionId: "a",
+        explanation: "Video clips are short segments of video.",
       },
       {
         kind: "mcq",
@@ -93,6 +94,8 @@ export default function Page() {
           { id: "c", content: { kind: "text", text: "Thanks" } },
         ],
         correctOptionId: "a",
+        explanation:
+          "'Hello' is the standard greeting in English. 'Goodbye' means 'Selamat tinggal' and 'Thanks' means 'Terima kasih'.",
       },
     ];
     return isSample ? all.slice(0, 2) : all;

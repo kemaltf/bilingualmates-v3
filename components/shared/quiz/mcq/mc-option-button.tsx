@@ -6,6 +6,7 @@ import {
   type OptionButtonVariant,
 } from "@/components/ui/option-button";
 import { MediaRenderer } from "../../media-renderer";
+import { useQuizSound } from "@/hooks/use-quiz-sound";
 
 export interface MCOptionButtonProps {
   option: MCOption;
@@ -34,6 +35,8 @@ export function MCOptionButton({
   const variant =
     propVariant ?? (isSelected ? "option-selected" : "option-default");
   const isAudio = option.content.kind === "audio";
+  const sounds = useQuizSound();
+
   const playSound = (url?: string) => {
     if (!url) return;
     try {
@@ -43,6 +46,7 @@ export function MCOptionButton({
   };
 
   const handleClick = () => {
+    sounds.playTap();
     onSelect();
     const soundUrl =
       option.clickSoundUrl ??

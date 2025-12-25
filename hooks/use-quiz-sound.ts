@@ -3,6 +3,9 @@ import { useCallback, useEffect, useRef } from "react";
 const SOUNDS = {
   correct: ["/sfx/CORRECT 2_01.mp3", "/sfx/CORRECT 5_01.mp3"],
   pop: "/sfx/POP.mp3",
+  tap: "/sfx/popp.mp3",
+  alert: "/sfx/alert.mp3",
+  failed: "/sfx/failed.mp3",
   incorrect: "/sfx/INCORRECT 8_01.mp3",
   transition: "/sfx/TRANSITION_01.mp3",
   celebration: "/sfx/SUCCESS 5_01.mp3",
@@ -23,6 +26,9 @@ export function useQuizSound() {
 
     SOUNDS.correct.forEach(preload);
     preload(SOUNDS.pop);
+    preload(SOUNDS.tap);
+    preload(SOUNDS.alert);
+    preload(SOUNDS.failed);
     preload(SOUNDS.incorrect);
     preload(SOUNDS.transition);
     preload(SOUNDS.celebration);
@@ -46,6 +52,9 @@ export function useQuizSound() {
   }, []);
 
   const playCorrect = useCallback(() => {
+    // User requested POP.mp3 for correct answer in previous turn
+    // We can use playPop() for that or just map playCorrect to it if desired.
+    // For now keeping original behavior but adding playTap etc.
     const src =
       SOUNDS.correct[Math.floor(Math.random() * SOUNDS.correct.length)];
     playSound(src);
@@ -53,6 +62,18 @@ export function useQuizSound() {
 
   const playPop = useCallback(() => {
     playSound(SOUNDS.pop);
+  }, [playSound]);
+
+  const playTap = useCallback(() => {
+    playSound(SOUNDS.tap);
+  }, [playSound]);
+
+  const playAlert = useCallback(() => {
+    playSound(SOUNDS.alert);
+  }, [playSound]);
+
+  const playFailed = useCallback(() => {
+    playSound(SOUNDS.failed);
   }, [playSound]);
 
   const playIncorrect = useCallback(() => {
@@ -70,6 +91,9 @@ export function useQuizSound() {
   return {
     playCorrect,
     playPop,
+    playTap,
+    playAlert,
+    playFailed,
     playIncorrect,
     playTransition,
     playCelebration,

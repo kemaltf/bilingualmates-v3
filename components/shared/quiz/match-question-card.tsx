@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import type { MatchQuestion, MatchItem } from "@/lib/quiz/types";
 import { OptionButton } from "@/components/ui/option-button";
 import { MediaRenderer } from "../media-renderer";
+import { useQuizSound } from "@/hooks/use-quiz-sound";
 
 export interface MatchQuestionCardProps {
   question: MatchQuestion;
@@ -35,6 +36,7 @@ function MatchButton({
   showLabel = true,
   feedbackVariant,
   hotkey,
+  onTap,
 }: {
   item: MatchItem;
   label?: string;
@@ -44,6 +46,7 @@ function MatchButton({
   showLabel?: boolean;
   feedbackVariant?: "option-correct" | "option-incorrect" | undefined;
   hotkey?: string | number;
+  onTap?: () => void;
 }) {
   const variant = matched
     ? (feedbackVariant ?? "option-disabled")
@@ -55,6 +58,7 @@ function MatchButton({
       variant={variant}
       disabled={matched}
       onClick={() => {
+        onTap?.();
         const soundUrl = item.clickSoundUrl ?? item.content.pronunciationUrl;
         if (soundUrl) playSound(soundUrl);
         onClick();
@@ -88,6 +92,7 @@ export function MatchQuestionCard({
   const [selectedLeft, setSelectedLeft] = React.useState<string | null>(null);
   const leftItems = question.leftItems;
   const rightItems = question.rightItems;
+  const sounds = useQuizSound();
 
   return (
     <div className={cn("flex flex-col gap-6", className)}>
@@ -129,6 +134,7 @@ export function MatchQuestionCard({
                 hotkey={label}
                 selected={selected}
                 matched={matched}
+                onTap={sounds.playTap}
                 feedbackVariant={
                   matched && hasCorrect
                     ? isCorrect
@@ -174,6 +180,7 @@ export function MatchQuestionCard({
                 label={label}
                 hotkey={label}
                 matched={matched}
+                onTap={sounds.playTap}
                 feedbackVariant={
                   matched && hasCorrect
                     ? isCorrect
@@ -184,6 +191,7 @@ export function MatchQuestionCard({
                 onClick={() => {
                   if (matched || locked) return;
                   if (!selectedLeft) return;
+                  sounds.playPop();
                   onCreateMatch(selectedLeft, item.id);
                   setSelectedLeft(null);
                 }}

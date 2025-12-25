@@ -135,6 +135,8 @@ const englishPaths: CurriculumPath[] = [
                       { id: "opt4", content: { kind: "text", text: "Yo!" } },
                     ],
                     correctOptionId: "opt2",
+                    explanation:
+                      "Good afternoon is a formal greeting used from 12 PM to 5 PM. 'Hey', 'What's up', and 'Yo' are informal.",
                   },
                   {
                     kind: "match",
@@ -185,6 +187,8 @@ const englishPaths: CurriculumPath[] = [
                       { leftId: "l3", rightId: "r3" },
                       { leftId: "l4", rightId: "r4" },
                     ],
+                    explanation:
+                      "Greetings depend on the time of day: Morning (AM), Afternoon (12-5 PM), Evening (5 PM+), and Night (only when leaving/sleeping).",
                   },
                   {
                     kind: "reorder",
@@ -195,6 +199,8 @@ const englishPaths: CurriculumPath[] = [
                     },
                     tokens: ["Hello", "how", "are", "you", "today?"],
                     correctOrder: ["Hello", "how", "are", "you", "today?"],
+                    explanation:
+                      "The standard word order for this question is: Greeting + Question word (How) + Verb (are) + Subject (you) + Time (today).",
                   },
                   {
                     kind: "cloze",

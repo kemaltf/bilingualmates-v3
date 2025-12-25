@@ -8,20 +8,12 @@ import {
 import { useQuizSound } from "@/hooks/use-quiz-sound";
 import { useQuizController } from "@/hooks/use-quiz-controller";
 import { QuestionRenderer } from "./question-renderer";
-import { FeedbackCard } from "@/components/shared/feedback-card";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LottiePlayer from "@/components/shared/LottiePlayer";
-import { AlertOctagon } from "lucide-react";
-import Image from "next/image";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalDescription,
-  ModalFooter,
-} from "@/components/ui/modal";
+import { QuizExitModal } from "./quiz-exit-modal";
+import { QuizHeader } from "./quiz-header";
+import { QuizFooter } from "./quiz-footer";
+import { useAudioPrefetch } from "@/hooks/use-audio-prefetch";
 
 export interface QuizRunnerProps {
   questions: QuizQuestion[];
@@ -34,20 +26,6 @@ export interface QuizRunnerProps {
   className?: string;
   footerVariant?: "inline" | "sticky";
   hideHeader?: boolean;
-}
-
-function feedbackToCardStatus(
-  fb: "idle" | "correct" | "incorrect"
-): "correct" | "incorrect" | "info" {
-  if (fb === "correct") return "correct";
-  if (fb === "incorrect") return "incorrect";
-  return "info";
-}
-
-function praise(id: string) {
-  const variants = ["Great job!", "Nice work!", "Well done!", "Awesome!"];
-  const sum = Array.from(id).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-  return variants[sum % variants.length];
 }
 
 export function QuizRunner({
@@ -85,6 +63,9 @@ export function QuizRunner({
 
   const { isLocked, checkAnswer, nextQuestion } = controller;
   const isTheory = q.kind === "theory";
+
+  // Prefetch audio content
+  useAudioPrefetch(questions);
 
   // Handle Next Question with Praise Logic
   const handleNext = () => {
@@ -180,44 +161,12 @@ export function QuizRunner({
 
   return (
     <div className={cn("w-full space-y-4", className)}>
-      <Modal open={showExitModal} onOpenChange={setShowExitModal}>
-        <ModalContent className="max-w-sm w-full p-6 flex flex-col items-center text-center gap-6 border-none rounded-3xl z-[200] bg-white dark:bg-neutral-900">
-          <div className="relative w-32 h-32 mt-2">
-            <Image
-              src="/mascot-sad.svg"
-              alt="Sad Mascot"
-              fill
-              className="object-contain"
-            />
-          </div>
-
-          <div className="space-y-2 w-full">
-            <ModalTitle className="text-2xl font-black text-neutral-700 dark:text-neutral-200">
-              Wait, don&apos;t go!
-            </ModalTitle>
-            <ModalDescription className="text-lg font-bold text-neutral-500 dark:text-neutral-400">
-              😱 You’re losing your progress!!!
-            </ModalDescription>
-          </div>
-
-          <div className="w-full space-y-3">
-            <Button
-              variant="blue"
-              size="lg"
-              className="w-full uppercase tracking-widest font-bold border-b-4 active:border-b-0"
-              onClick={() => setShowExitModal(false)}
-              label="KEEP LEARNING"
-            />
-            <Button
-              variant="text"
-              size="lg"
-              className="w-full uppercase tracking-widest font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-              onClick={handleExitConfirm}
-              label="END SESSION"
-            />
-          </div>
-        </ModalContent>
-      </Modal>
+      <QuizExitModal
+        open={showExitModal}
+        onOpenChange={setShowExitModal}
+        onConfirm={handleExitConfirm}
+        onCancel={() => setShowExitModal(false)}
+      />
 
       {showConfetti && (
         <div className="fixed inset-0 z-50 pointer-events-none flex items-end justify-center">
@@ -229,42 +178,14 @@ export function QuizRunner({
           />
         </div>
       )}
+
       {!hideHeader && (
-        <div className="flex items-center justify-between">
-          <Button
-            variant="text"
-            size="icon-sm"
-            aria-label="Close"
-            onClick={() => setShowExitModal(true)}
-          >
-            {/* icon */}
-            <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
-              <path
-                d="M18 6L6 18"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <path
-                d="M6 6L18 18"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </Button>
-          <div className="flex items-center gap-3">
-            <div className="text-sm font-semibold hidden md:block">
-              Question {controller.index + 1} of {questions.length}
-            </div>
-            <div className="w-56 h-2 bg-neutral-200 rounded-full overflow-hidden">
-              <div
-                className="h-2 bg-sky-500"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-        </div>
+        <QuizHeader
+          currentIndex={controller.index}
+          totalQuestions={questions.length}
+          progress={progress}
+          onClose={() => setShowExitModal(true)}
+        />
       )}
 
       <div className="max-w-[720px] mx-auto">
@@ -280,12 +201,7 @@ export function QuizRunner({
         )}
       </div>
 
-      {controller.feedback !== "idle" && q.explanation && !praiseType && (
-        <FeedbackCard
-          status={feedbackToCardStatus(controller.feedback)}
-          explanation={q.explanation}
-        />
-      )}
+      <div className="h-32 sm:h-40" />
 
       {showConfetti && (
         <div className="fixed inset-x-0 bottom-0 z-40 pointer-events-none translate-y-6">
@@ -298,127 +214,21 @@ export function QuizRunner({
         </div>
       )}
 
-      {!praiseType &&
-        (footerVariant === "inline" ? (
-          <div className="flex items-center justify-end gap-3 px-4">
-            {controller.feedback === "idle" ? (
-              <Button
-                variant={isTheory ? "green" : "blue"}
-                size="md"
-                disabled={!controller.canCheck || controller.isLocked}
-                onClick={controller.checkAnswer}
-                label={
-                  isTheory
-                    ? q.kind === "theory" && q.buttonLabel
-                      ? q.buttonLabel
-                      : "Lanjutkan"
-                    : "Check"
-                }
-              />
-            ) : (
-              <Button
-                variant="green"
-                size="md"
-                onClick={handleNext}
-                label={controller.isLast ? "Finish" : "Next"}
-              />
-            )}
-          </div>
-        ) : (
-          <div className="fixed bottom-0 inset-x-0 z-50">
-            <div className="bg-white border-t dark:bg-neutral-900 dark:border-neutral-800">
-              <div className="max-w-[980px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
-                <div className="flex items-center gap-3">
-                  {controller.feedback === "correct" && !isTheory && (
-                    <div className="flex items-center gap-3">
-                      <LottiePlayer
-                        src="/confetti.json"
-                        className="h-16 w-16"
-                        loop={false}
-                      />
-                      <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
-                        {praise(q.id)}
-                      </div>
-                    </div>
-                  )}
-                  {controller.feedback === "incorrect" && !isTheory && (
-                    <div className="flex items-center gap-3">
-                      <div className="bg-white rounded-full p-2 shadow-sm">
-                        <AlertOctagon className="h-8 w-8 text-rose-500" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-xl font-bold text-rose-600 dark:text-rose-400">
-                          Incorrect
-                        </span>
-                        <span className="text-sm text-rose-600/80 dark:text-rose-400/80">
-                          {getIncorrectFeedback(q, controller.answers[q.id])}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center gap-3 ml-auto">
-                  {controller.feedback !== "idle" && <></>}
-                  {controller.feedback === "idle" ? (
-                    <Button
-                      variant={isTheory ? "green" : "blue"}
-                      size="md"
-                      disabled={!controller.canCheck || controller.isLocked}
-                      onClick={controller.checkAnswer}
-                      label={
-                        isTheory
-                          ? q.kind === "theory" && q.buttonLabel
-                            ? q.buttonLabel
-                            : "LANJUTKAN"
-                          : "PERIKSA"
-                      }
-                    />
-                  ) : (
-                    <Button
-                      variant="green"
-                      size="md"
-                      onClick={handleNext}
-                      label={controller.isLast ? "SELESAI" : "LANJUTKAN"}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+      {!praiseType && (
+        <QuizFooter
+          variant={footerVariant}
+          status={controller.feedback}
+          question={q}
+          userAnswer={value}
+          explanation={q.explanation}
+          isLocked={controller.isLocked}
+          isLast={controller.isLast}
+          canCheck={controller.canCheck}
+          isTheory={isTheory}
+          onCheck={controller.checkAnswer}
+          onNext={handleNext}
+        />
+      )}
     </div>
   );
-}
-
-function getCorrectAnswerText(q: QuizQuestion): string {
-  if (q.kind === "mcq") {
-    const correctOpt = q.options.find((o) => o.id === q.correctOptionId);
-    if (correctOpt?.content.kind === "text")
-      return correctOpt.content.text ?? "";
-    return "See above";
-  }
-  if (q.kind === "cloze") {
-    // Join answers
-    if (q.correctAnswers) {
-      return Object.values(q.correctAnswers).join(", ");
-    }
-    return "See above";
-  }
-  if (q.kind === "short_text") {
-    return Array.isArray(q.correctAnswers)
-      ? (q.correctAnswers[0] ?? "")
-      : (q.correctAnswers ?? "");
-  }
-  // For match/reorder, usually just showing the solution state is enough or complex to stringify
-  return "Solution shown above";
-}
-
-function getIncorrectFeedback(q: QuizQuestion, answer: unknown): string {
-  if (q.kind === "mcq" && typeof answer === "string") {
-    const selectedOption = q.options.find((o) => o.id === answer);
-    if (selectedOption?.feedback) {
-      return selectedOption.feedback;
-    }
-  }
-  return `Correct answer: ${getCorrectAnswerText(q)}`;
 }
