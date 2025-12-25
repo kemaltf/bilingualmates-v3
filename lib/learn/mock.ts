@@ -71,6 +71,7 @@ const englishPaths: CurriculumPath[] = [
                 xpReward: 10,
                 durationSec: 80,
                 quizQuestions: [
+                  // --- 1. THEORY: Rich Content (HTML/Markdown + Audio) ---
                   {
                     kind: "theory",
                     id: "n1-theory-1",
@@ -112,6 +113,8 @@ const englishPaths: CurriculumPath[] = [
                       },
                     ],
                   },
+
+                  // --- 2. MCQ: Text Prompt, Text Options (Standard) ---
                   {
                     kind: "mcq",
                     id: "n1-mcq-1",
@@ -136,8 +139,99 @@ const englishPaths: CurriculumPath[] = [
                     ],
                     correctOptionId: "opt2",
                     explanation:
-                      "Good afternoon is a formal greeting used from 12 PM to 5 PM. 'Hey', 'What's up', and 'Yo' are informal.",
+                      "Good afternoon is formal. The others are casual.",
                   },
+
+                  // --- 3. MCQ: Image Prompt (Visual Question) ---
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-image-prompt",
+                    prompt: {
+                      kind: "image",
+                      url: "https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&w=600&q=80",
+                      alt: "A person waving hand",
+                      text: "What is this person doing?",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: { kind: "text", text: "Sleeping" },
+                      },
+                      {
+                        id: "opt2",
+                        content: { kind: "text", text: "Waving Hello" },
+                      },
+                      { id: "opt3", content: { kind: "text", text: "Eating" } },
+                      {
+                        id: "opt4",
+                        content: { kind: "text", text: "Running" },
+                      },
+                    ],
+                    correctOptionId: "opt2",
+                    explanation:
+                      "The person is waving their hand to say hello.",
+                  },
+
+                  // --- 4. MCQ: Audio Prompt (Listening Question) ---
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-audio-prompt",
+                    prompt: {
+                      kind: "audio",
+                      url: "/audio/good_morning.mp3", // Ensure this file exists or mock it
+                      text: "Listen and choose the correct meaning.",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: { kind: "text", text: "Selamat Malam" },
+                      },
+                      {
+                        id: "opt2",
+                        content: { kind: "text", text: "Selamat Pagi" },
+                      },
+                      {
+                        id: "opt3",
+                        content: { kind: "text", text: "Selamat Siang" },
+                      },
+                    ],
+                    correctOptionId: "opt2",
+                    explanation:
+                      "The audio says 'Good Morning', which means Selamat Pagi.",
+                  },
+
+                  // --- 5. MCQ: Text Prompt, Image Options (Visual Selection) ---
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-image-options",
+                    prompt: {
+                      kind: "text",
+                      text: "Which image shows a **Teacher**?",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=300&q=80",
+                          alt: "Teacher",
+                        },
+                      },
+                      {
+                        id: "opt2",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1581578731117-10d52143b1e8?auto=format&fit=crop&w=300&q=80",
+                          alt: "Engineer",
+                        },
+                      },
+                    ],
+                    correctOptionId: "opt1",
+                    explanation:
+                      "The first image shows a person teaching in a classroom.",
+                  },
+
+                  // --- 6. MATCH: Text to Text (Associations) ---
                   {
                     kind: "match",
                     id: "n1-match-1",
@@ -187,9 +281,46 @@ const englishPaths: CurriculumPath[] = [
                       { leftId: "l3", rightId: "r3" },
                       { leftId: "l4", rightId: "r4" },
                     ],
-                    explanation:
-                      "Greetings depend on the time of day: Morning (AM), Afternoon (12-5 PM), Evening (5 PM+), and Night (only when leaving/sleeping).",
+                    explanation: "Greetings change based on the time of day.",
                   },
+
+                  // --- 7. MATCH: Text to Image (Visual Vocabulary) ---
+                  {
+                    kind: "match",
+                    id: "n1-match-images",
+                    prompt: {
+                      kind: "text",
+                      text: "Match the word to the picture",
+                    },
+                    leftItems: [
+                      { id: "l1", content: { kind: "text", text: "Cat" } },
+                      { id: "l2", content: { kind: "text", text: "Dog" } },
+                    ],
+                    rightItems: [
+                      {
+                        id: "r1",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=100&q=80",
+                          alt: "Cat",
+                        },
+                      },
+                      {
+                        id: "r2",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=100&q=80",
+                          alt: "Dog",
+                        },
+                      },
+                    ],
+                    correctPairs: [
+                      { leftId: "l1", rightId: "r1" },
+                      { leftId: "l2", rightId: "r2" },
+                    ],
+                  },
+
+                  // --- 8. REORDER: Sentence Building ---
                   {
                     kind: "reorder",
                     id: "n1-reorder-1",
@@ -199,9 +330,10 @@ const englishPaths: CurriculumPath[] = [
                     },
                     tokens: ["Hello", "how", "are", "you", "today?"],
                     correctOrder: ["Hello", "how", "are", "you", "today?"],
-                    explanation:
-                      "The standard word order for this question is: Greeting + Question word (How) + Verb (are) + Subject (you) + Time (today).",
+                    explanation: "Standard order: Greeting + Question.",
                   },
+
+                  // --- 9. CLOZE: Fill in the Blanks ---
                   {
                     kind: "cloze",
                     id: "n1-cloze-1",
@@ -226,6 +358,8 @@ const englishPaths: CurriculumPath[] = [
                     ],
                     correctAnswers: { b1: "is", b2: "am", b3: "meet" },
                   },
+
+                  // --- 10. SHORT TEXT: Typing Answer ---
                   {
                     kind: "short_text",
                     id: "n1-st-1",

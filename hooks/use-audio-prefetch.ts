@@ -68,7 +68,16 @@ export function useAudioPrefetch(questions: QuizQuestion[]) {
           console.log(
             `[AudioPrefetch] Prefetching ${uncachedUrls.length} files...`
           );
-          await cache.addAll(uncachedUrls);
+          // If addAll fails (e.g. one 404), it fails entirely.
+          // Better to try one by one or filter valid URLs first.
+          // For now, let's just log individual errors but try to cache all.
+          await Promise.allSettled(
+            uncachedUrls.map((url) =>
+              cache
+                .add(url)
+                .catch((e) => console.warn(`Failed to cache ${url}`, e))
+            )
+          );
           console.log(`[AudioPrefetch] Finished prefetching.`);
         } else {
           console.log(`[AudioPrefetch] All audio files already cached.`);
