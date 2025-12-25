@@ -6,6 +6,7 @@ import { ShortTextQuestionCard } from "./short-text-question-card";
 import ClozeQuestionCard from "./cloze-question-card";
 import { MatchQuestionCard } from "./match-question-card";
 import QuestionReorder from "./question-reorder";
+import { TheoryQuestionCard } from "./theory-question-card";
 
 export interface QuestionRendererProps {
   question: QuizQuestion;
@@ -67,6 +68,9 @@ export function QuestionRenderer({
         disabled={locked}
       />
     );
+  }
+  if (question.kind === "theory") {
+    return <TheoryQuestionCard question={question} />;
   }
   return (
     <ClozeQuestionCard

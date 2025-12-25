@@ -47,10 +47,12 @@ function isAnswered(q: QuizQuestion, val: unknown): boolean {
       Array.isArray(val) &&
       (val as { leftId: string; rightId: string }[]).length > 0
     );
+  if (q.kind === "theory") return true;
   return false;
 }
 
 function evaluate(q: QuizQuestion, val: unknown): boolean {
+  if (q.kind === "theory") return true;
   if (q.kind === "mcq") {
     return val === q.correctOptionId;
   }

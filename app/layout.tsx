@@ -31,6 +31,9 @@ export default async function RootLayout({
   const locale = await getLocale();
   const messages = await getMessages();
 
+  console.log("RootLayout locale:", locale);
+  console.log("RootLayout messages keys:", Object.keys(messages));
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>

@@ -1,9 +1,12 @@
 "use client";
 import { cn } from "@/lib/utils";
 import type { MCOption } from "@/lib/quiz/types";
-import { OptionButton } from "@/components/ui/option-button";
-import { useState } from "react";
+import {
+  OptionButton,
+  type OptionButtonVariant,
+} from "@/components/ui/option-button";
 import { MediaRenderer } from "../../media-renderer";
+import { useQuizSound } from "@/hooks/use-quiz-sound";
 
 export interface MCOptionButtonProps {
   option: MCOption;
@@ -15,6 +18,7 @@ export interface MCOptionButtonProps {
   label?: string | number;
   hotkey?: string | number;
   showLabel?: boolean;
+  variant?: OptionButtonVariant;
 }
 
 export function MCOptionButton({
@@ -26,10 +30,13 @@ export function MCOptionButton({
   label,
   hotkey,
   showLabel = true,
+  variant: propVariant,
 }: MCOptionButtonProps) {
-  const variant = isSelected ? "option-selected" : "option-default";
+  const variant =
+    propVariant ?? (isSelected ? "option-selected" : "option-default");
   const isAudio = option.content.kind === "audio";
-  const [playTrigger, setPlayTrigger] = useState(0);
+  const sounds = useQuizSound();
+
   const playSound = (url?: string) => {
     if (!url) return;
     try {
@@ -39,13 +46,15 @@ export function MCOptionButton({
   };
 
   const handleClick = () => {
+    sounds.playTap();
     onSelect();
-    const soundUrl = option.clickSoundUrl ?? option.content.pronunciationUrl;
+    const soundUrl =
+      option.clickSoundUrl ??
+      option.content.pronunciationUrl ??
+      (isAudio ? option.content.url : undefined);
     if (soundUrl) {
       playSound(soundUrl);
-      return;
     }
-    if (isAudio) setPlayTrigger((n) => n + 1);
   };
 
   return (
@@ -62,11 +71,7 @@ export function MCOptionButton({
       )}
     >
       <div className="flex items-center gap-3 w-full">
-        <MediaRenderer
-          content={option.content}
-          role="option"
-          autoPlayTrigger={playTrigger}
-        />
+        <MediaRenderer content={option.content} role="option" />
       </div>
     </OptionButton>
   );

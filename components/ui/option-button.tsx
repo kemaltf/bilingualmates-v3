@@ -13,7 +13,7 @@ const optionButtonVariants = cva(
         "option-selected":
           "bg-sky-100 border-sky-300 text-sky-800 shadow-[0_1px_0_0_#7dd3fc] translate-y-1 cursor-pointer focus-visible:ring-ring",
         "option-correct":
-          "bg-emerald-100 border-emerald-400 text-emerald-900 shadow-none cursor-default focus-visible:ring-ring",
+          "bg-emerald-100 border-emerald-400 text-emerald-900 shadow-none cursor-default focus-visible:ring-ring animate-lift",
         "option-incorrect":
           "bg-rose-100 border-rose-400 text-rose-900 shadow-none cursor-default focus-visible:ring-ring",
         "option-disabled":

@@ -5,10 +5,10 @@ import Image from "next/image";
 import { Check, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { courses } from "@/lib/learn/mock";
@@ -71,9 +71,9 @@ export function LanguageSelector({ stats }: LanguageSelectorProps) {
   }));
 
   return (
-    <HoverCard openDelay={200}>
-      <HoverCardTrigger asChild>
-        <div className="cursor-pointer">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="cursor-pointer outline-none">
           {stats.flagUrl ? (
             <div className="relative w-10 h-7 overflow-hidden rounded-md shadow-sm">
               <Image
@@ -89,8 +89,11 @@ export function LanguageSelector({ stats }: LanguageSelectorProps) {
             </span>
           )}
         </div>
-      </HoverCardTrigger>
-      <HoverCardContent className="w-80 p-0 overflow-hidden" align="start">
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className="w-80 p-0 overflow-hidden z-[100]"
+        align="start"
+      >
         <div className="flex flex-col">
           <div className="p-4 text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
             {t("myCourses")}
@@ -150,7 +153,7 @@ export function LanguageSelector({ stats }: LanguageSelectorProps) {
             />
           </div>
         </div>
-      </HoverCardContent>
-    </HoverCard>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

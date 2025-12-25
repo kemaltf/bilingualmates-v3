@@ -1,3 +1,5 @@
+import type { QuizQuestion } from "@/lib/quiz/types";
+
 export type NodeStatus = "completed" | "in_progress" | "locked";
 
 export type NodeKind = "lesson" | "ad";
@@ -19,6 +21,7 @@ export interface LessonNode {
   kind?: NodeKind;
   ad?: AdPayload;
   finish?: LessonFinishMeta;
+  quizQuestions?: QuizQuestion[];
 }
 
 export interface UnitBadge {

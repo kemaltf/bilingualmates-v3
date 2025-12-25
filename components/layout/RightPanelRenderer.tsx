@@ -22,7 +22,26 @@ export function RightPanelRenderer({
     <div className={cn("flex flex-col gap-4", className)}>
       {sections.map((s, idx) => {
         if (s.kind === "language_stats")
-          return <LanguageStatsCard key={idx} stats={s.data} />;
+          return (
+            <React.Fragment key={idx}>
+              {/* Mobile: Fixed Header */}
+              <LanguageStatsCard
+                stats={s.data}
+                variant="mobile"
+                className="md:hidden"
+              />
+              {/* Tablet: Sticky Header (Like LearnHubHeader) */}
+              <LanguageStatsCard
+                stats={s.data}
+                variant="tablet"
+                className="hidden md:block lg:hidden"
+              />
+              {/* Desktop: Static Card in Sidebar */}
+              <div className="hidden lg:block">
+                <LanguageStatsCard stats={s.data} />
+              </div>
+            </React.Fragment>
+          );
 
         const content = (() => {
           if (s.kind === "missions")

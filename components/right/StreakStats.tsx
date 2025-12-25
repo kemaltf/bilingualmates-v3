@@ -3,10 +3,10 @@
 import * as React from "react";
 import Image from "next/image";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import LottiePlayer from "@/components/shared/LottiePlayer";
 import type { LanguageStats } from "@/lib/right/types";
 
@@ -16,17 +16,17 @@ interface StreakStatsProps {
 
 export function StreakStats({ stats }: StreakStatsProps) {
   return (
-    <HoverCard openDelay={200}>
-      <HoverCardTrigger asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <div
-          className="flex items-center gap-1.5 cursor-pointer"
+          className="flex items-center gap-1.5 cursor-pointer outline-none"
           title="Streak"
         >
           <Image src="/svg/streak.svg" width={20} height={20} alt="Streak" />
           <span className="font-bold text-orange-500">{stats.streakDays}</span>
         </div>
-      </HoverCardTrigger>
-      <HoverCardContent className="w-80 p-6 z-[70]" align="center">
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80 p-6 z-[70]" align="center">
         <div className="flex flex-col items-center text-center gap-4">
           <div className="flex items-center justify-center w-full">
             <div className="w-32 h-32">
@@ -68,7 +68,7 @@ export function StreakStats({ stats }: StreakStatsProps) {
             </div>
           </div>
         </div>
-      </HoverCardContent>
-    </HoverCard>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

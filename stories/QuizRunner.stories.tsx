@@ -6,6 +6,24 @@ import { Button } from "@/components/ui/button";
 
 const sampleQuestions: QuizQuestion[] = [
   {
+    kind: "theory",
+    id: "q-theory-1",
+    content: "<p>Listen to these examples:</p>",
+    audioSamples: [
+      {
+        audioUrl: "https://www.w3schools.com/html/horse.mp3",
+        text: "Der Tisch <span class='text-neutral-400'>(The table)</span>",
+        translation: "Masculine",
+      },
+      {
+        audioUrl: "https://www.w3schools.com/html/horse.mp3",
+        text: "Die Katze <span class='text-neutral-400'>(The cat)</span>",
+        translation: "Feminine",
+      },
+    ],
+    buttonLabel: "Got it!",
+  },
+  {
     kind: "mcq",
     id: "q-mc-1",
     prompt: { kind: "text", text: "Choose the correct translation for 'Halo'" },
@@ -205,6 +223,159 @@ const sampleQuestions: QuizQuestion[] = [
   },
 ];
 
+const generalEnglishQuestions: QuizQuestion[] = [
+  // 1. THEORY: Introduction to Personal Pronouns
+  {
+    kind: "theory",
+    id: "ge-theory-1",
+    title: "Personal Pronouns",
+    content: `
+      <p>In English, we use pronouns to refer to people and things.</p>
+      <ul>
+        <li><strong>I</strong> am (Saya)</li>
+        <li><strong>You</strong> are (Kamu)</li>
+        <li><strong>He/She/It</strong> is (Dia)</li>
+      </ul>
+    `,
+    audioSamples: [
+      {
+        audioUrl: "https://www.w3schools.com/html/horse.mp3", // Placeholder
+        text: "I am a student.",
+        translation: "Saya adalah seorang murid.",
+      },
+    ],
+    buttonLabel: "Start Quiz",
+  },
+
+  // 2. MCQ (Text): Basic Grammar
+  {
+    kind: "mcq",
+    id: "ge-mcq-1",
+    prompt: {
+      kind: "text",
+      text: "Complete the sentence: 'She ___ my friend.'",
+    },
+    textPrompt: "Choose the correct verb",
+    options: [
+      { id: "opt-1", content: { kind: "text", text: "am" } },
+      { id: "opt-2", content: { kind: "text", text: "is" } },
+      { id: "opt-3", content: { kind: "text", text: "are" } },
+    ],
+    correctOptionId: "opt-2",
+    explanation: "For 'She', we use 'is'.",
+  },
+
+  // 3. MCQ (Audio): Listening
+  {
+    kind: "mcq",
+    id: "ge-mcq-audio",
+    prompt: {
+      kind: "audio",
+      url: "https://www.w3schools.com/html/horse.mp3", // Placeholder for "Good Morning"
+      text: "Listen to the greeting",
+    },
+    textPrompt: "What did you hear?",
+    options: [
+      { id: "opt-1", content: { kind: "text", text: "Good Morning" } },
+      { id: "opt-2", content: { kind: "text", text: "Good Night" } },
+      { id: "opt-3", content: { kind: "text", text: "Goodbye" } },
+    ],
+    correctOptionId: "opt-1",
+  },
+
+  // 4. MCQ (Image): Vocabulary
+  {
+    kind: "mcq",
+    id: "ge-mcq-image",
+    prompt: {
+      kind: "text",
+      text: "Which one is an Apple?",
+    },
+    options: [
+      {
+        id: "opt-1",
+        content: {
+          kind: "image",
+          url: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6", // Apple
+          alt: "Apple",
+        },
+      },
+      {
+        id: "opt-2",
+        content: {
+          kind: "image",
+          url: "https://images.unsplash.com/photo-1596363505729-4190a9506133", // Banana
+          alt: "Banana",
+        },
+      },
+    ],
+    correctOptionId: "opt-1",
+  },
+
+  // 5. MATCH: Colors
+  {
+    kind: "match",
+    id: "ge-match-1",
+    prompt: { kind: "text", text: "Match the colors" },
+    textPrompt: "English ↔ Indonesian",
+    leftItems: [
+      { id: "l-red", content: { kind: "text", text: "Red" } },
+      { id: "l-blue", content: { kind: "text", text: "Blue" } },
+      { id: "l-green", content: { kind: "text", text: "Green" } },
+    ],
+    rightItems: [
+      { id: "r-merah", content: { kind: "text", text: "Merah" } },
+      { id: "r-biru", content: { kind: "text", text: "Biru" } },
+      { id: "r-hijau", content: { kind: "text", text: "Hijau" } },
+    ],
+    correctPairs: [
+      { leftId: "l-red", rightId: "r-merah" },
+      { leftId: "l-blue", rightId: "r-biru" },
+      { leftId: "l-green", rightId: "r-hijau" },
+    ],
+  },
+
+  // 6. REORDER: Sentence Structure
+  {
+    kind: "reorder",
+    id: "ge-reorder-1",
+    prompt: { kind: "text", text: "Arrange the words to form a sentence" },
+    tokens: ["is", "This", "book", "my"],
+    correctSentence: "This is my book",
+    explanation: "Subject (This) + Verb (is) + Object (my book).",
+  },
+
+  // 7. CLOZE: Prepositions
+  {
+    kind: "cloze",
+    id: "ge-cloze-1",
+    prompt: { kind: "text", text: "Fill in the blanks" },
+    segments: [
+      { kind: "text", text: "The cat is " },
+      {
+        kind: "blank",
+        blank: {
+          id: "b1",
+          options: ["on", "in", "at"],
+          placeholder: "_",
+        },
+      },
+      { kind: "text", text: " the table." },
+    ],
+    correctAnswers: { b1: "on" },
+  },
+
+  // 8. SHORT TEXT: Translation
+  {
+    kind: "short_text",
+    id: "ge-st-1",
+    prompt: { kind: "text", text: "Translate to English: 'Terima kasih'" },
+    textPrompt: "Type your answer",
+    correctAnswers: ["thank you", "thanks"],
+    placeholder: "Type here...",
+  },
+];
+
 const meta: Meta<typeof QuizRunner> = {
   title: "Quiz/QuizRunner",
   component: QuizRunner,
@@ -248,6 +419,13 @@ export const Primary: Story = {
   args: {},
 };
 
+export const GeneralEnglishFull: Story = {
+  args: {
+    questions: generalEnglishQuestions,
+    lessonId: "lesson-general-english",
+  },
+};
+
 export const WithSubmitLogger: Story = {
   args: {
     onSubmitAnswer: (payload) => {
@@ -283,16 +461,18 @@ function FinishPreview(args: React.ComponentProps<typeof QuizRunner>) {
       </div>
     );
   }
+
   return (
     <QuizRunner
       {...args}
       onComplete={(payload) => {
+        args.onComplete?.(payload);
         setAttempt(payload);
       }}
     />
   );
 }
 
-export const FinishShowsJSON: Story = {
+export const InteractivePreview: Story = {
   render: (args) => <FinishPreview {...args} />,
 };

@@ -158,14 +158,18 @@ export default function ClientLayout({
         <div
           className={cn(
             "w-full px-4 pb-20 md:pb-3",
-            !isFullWidth && showMobileStats ? "pt-20 md:pt-3" : "pt-3",
+            !isFullWidth && showMobileStats ? "md:pt-0" : "pt-3",
             isFullWidth
               ? "max-w-[1024px] mx-auto"
-              : "grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-8"
+              : "grid grid-cols-1 lg:grid-cols-[minmax(0,640px)_360px] lg:justify-center gap-6"
           )}
         >
           <div className="min-w-0">{children}</div>
-          {!isFullWidth && <div className="lg:w-[360px]">{right}</div>}
+          {!isFullWidth && (
+            <div className="lg:w-[360px] order-first lg:order-none md:sticky md:top-0 md:z-40 md:h-fit">
+              {right}
+            </div>
+          )}
         </div>
         {!focusLesson && (
           <div className="fixed bottom-0 inset-x-0 z-100 md:hidden">

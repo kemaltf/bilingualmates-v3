@@ -67,6 +67,7 @@ export default function ReadingRunner({
   const next = () => {
     setFeedback("idle");
     setLocked(false);
+    setShowConfetti(false);
     setIndex((i) => {
       const ni = Math.min(sections.length - 1, i + 1);
       if (i === sections.length - 1) onComplete?.();
@@ -243,6 +244,7 @@ export default function ReadingRunner({
             src="/confetti big.json"
             className="w-screen"
             fitWidth
+            loop={false}
           />
         </div>
       )}
@@ -254,7 +256,11 @@ export default function ReadingRunner({
           <div className="flex items-center gap-3">
             {feedback === "correct" && (
               <div className="hidden sm:block">
-                <LottiePlayer src="/confetti.json" className="h-14 w-14" />
+                <LottiePlayer
+                  src="/confetti.json"
+                  className="h-14 w-14"
+                  loop={false}
+                />
               </div>
             )}
             {feedback !== "idle" && (

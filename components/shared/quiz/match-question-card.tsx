@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import type { MatchQuestion, MatchItem } from "@/lib/quiz/types";
 import { OptionButton } from "@/components/ui/option-button";
 import { MediaRenderer } from "../media-renderer";
+import { useQuizSound } from "@/hooks/use-quiz-sound";
 
 export interface MatchQuestionCardProps {
   question: MatchQuestion;
@@ -34,6 +35,8 @@ function MatchButton({
   onClick,
   showLabel = true,
   feedbackVariant,
+  hotkey,
+  onTap,
 }: {
   item: MatchItem;
   label?: string;
@@ -42,6 +45,8 @@ function MatchButton({
   onClick: () => void;
   showLabel?: boolean;
   feedbackVariant?: "option-correct" | "option-incorrect" | undefined;
+  hotkey?: string | number;
+  onTap?: () => void;
 }) {
   const variant = matched
     ? (feedbackVariant ?? "option-disabled")
@@ -53,12 +58,14 @@ function MatchButton({
       variant={variant}
       disabled={matched}
       onClick={() => {
+        onTap?.();
         const soundUrl = item.clickSoundUrl ?? item.content.pronunciationUrl;
         if (soundUrl) playSound(soundUrl);
         onClick();
       }}
       label={label}
       showLabel={showLabel}
+      hotkey={hotkey}
       className={cn(
         "w-full h-auto justify-start text-left rounded-2xl px-4 py-3"
       )}
@@ -76,7 +83,7 @@ export function MatchQuestionCard({
   onCreateMatch,
   className,
   questionClassName,
-  containerClassName = "md:grid-cols-2",
+  containerClassName = "grid-cols-2",
   showLabels = true,
   leftTitle,
   rightTitle,
@@ -85,6 +92,7 @@ export function MatchQuestionCard({
   const [selectedLeft, setSelectedLeft] = React.useState<string | null>(null);
   const leftItems = question.leftItems;
   const rightItems = question.rightItems;
+  const sounds = useQuizSound();
 
   return (
     <div className={cn("flex flex-col gap-6", className)}>
@@ -117,13 +125,16 @@ export function MatchQuestionCard({
                   p.rightId === matchedPair.rightId
               );
             const selected = selectedLeft === item.id;
+            const label = (idx + 1).toString();
             return (
               <MatchButton
                 key={item.id}
                 item={item}
-                label={String.fromCharCode(65 + idx)}
+                label={label}
+                hotkey={label}
                 selected={selected}
                 matched={matched}
+                onTap={sounds.playTap}
                 feedbackVariant={
                   matched && hasCorrect
                     ? isCorrect
@@ -161,13 +172,15 @@ export function MatchQuestionCard({
                   p.leftId === matchedPair.leftId &&
                   p.rightId === matchedPair.rightId
               );
-            const label = String(idx + 1);
+            const label = String(leftItems.length + idx + 1);
             return (
               <MatchButton
                 key={item.id}
                 item={item}
                 label={label}
+                hotkey={label}
                 matched={matched}
+                onTap={sounds.playTap}
                 feedbackVariant={
                   matched && hasCorrect
                     ? isCorrect
@@ -178,6 +191,7 @@ export function MatchQuestionCard({
                 onClick={() => {
                   if (matched || locked) return;
                   if (!selectedLeft) return;
+                  sounds.playPop();
                   onCreateMatch(selectedLeft, item.id);
                   setSelectedLeft(null);
                 }}

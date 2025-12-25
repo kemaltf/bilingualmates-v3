@@ -5,12 +5,14 @@ type Args = {
   role: "question" | "option";
   kind: "text" | "audio" | "image" | "video";
   text?: string;
+  translation?: string;
   url?: string;
   alt?: string;
   transcript?: string;
   startTimeSec?: number;
   endTimeSec?: number;
-  autoPlayTrigger?: number;
+  subtitles?: { start: number; end: number; text: string }[];
+  autoPlay?: boolean;
   className?: string;
   onStartLoop?: () => void;
   onEndLoop?: () => void;
@@ -25,12 +27,14 @@ function Demo(args: Args) {
     role,
     kind,
     text,
+    translation,
     url,
     alt,
     transcript,
     startTimeSec,
     endTimeSec,
-    autoPlayTrigger,
+    subtitles,
+    autoPlay,
     className,
     onStartLoop,
     onEndLoop,
@@ -43,14 +47,24 @@ function Demo(args: Args) {
     <MediaRenderer
       role={role}
       className={className}
-      autoPlayTrigger={autoPlayTrigger}
+      autoPlay={autoPlay}
       onStartLoop={onStartLoop}
       onEndLoop={onEndLoop}
       onPlay={onPlay}
       onPause={onPause}
       onReady={onReady}
       onError={onError}
-      content={{ kind, text, url, alt, transcript, startTimeSec, endTimeSec }}
+      content={{
+        kind,
+        text,
+        translation,
+        url,
+        alt,
+        transcript,
+        startTimeSec,
+        endTimeSec,
+        subtitles,
+      }}
     />
   );
 }
@@ -65,7 +79,7 @@ const meta: Meta<typeof Demo> = {
     url: "",
     alt: "",
     transcript: "",
-    autoPlayTrigger: undefined,
+    autoPlay: false,
     className: "",
   },
   argTypes: {
@@ -73,7 +87,8 @@ const meta: Meta<typeof Demo> = {
     kind: { control: "radio", options: ["text", "audio", "image", "video"] },
     startTimeSec: { control: "number" },
     endTimeSec: { control: "number" },
-    autoPlayTrigger: { control: "number" },
+    autoPlay: { control: "boolean" },
+    subtitles: { control: "object" },
     className: { control: "text" },
     onStartLoop: { action: "startLoop" },
     onEndLoop: { action: "endLoop" },
@@ -90,75 +105,72 @@ const meta: Meta<typeof Demo> = {
 export default meta;
 type Story = StoryObj<typeof Demo>;
 
-export const TextQuestion: Story = {
+export const TextOnly: Story = {
   args: {
-    role: "question",
     kind: "text",
-    text: "Listen and choose the correct translation.",
   },
 };
 
-export const TextOption: Story = {
-  args: { role: "option", kind: "text", text: "Hello" },
-};
-
-export const Image: Story = {
+export const ImageContent: Story = {
   args: {
-    role: "question",
     kind: "image",
-    url: "https://picsum.photos/seed/duo/800/600",
-    alt: "Sample",
+    url: "https://images.unsplash.com/photo-1546527868-ccb7ee7dfa6a?q=80&w=2070&auto=format&fit=crop",
+    alt: "A cute puppy",
   },
 };
 
-export const Audio: Story = {
+export const AudioContent: Story = {
   args: {
     role: "question",
     kind: "audio",
     url: "https://www.w3schools.com/html/horse.mp3",
+    text: "Horse sound",
   },
 };
 
-export const Video: Story = {
+export const AutoPlayAudio: Story = {
   args: {
     role: "question",
-    kind: "video",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-  },
-};
-
-export const SegmentLoop: Story = {
-  args: {
-    role: "question",
-    kind: "video",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-    transcript: "Looping a short segment.",
-    startTimeSec: 2,
-    endTimeSec: 5,
-  },
-};
-
-export const OptionImage: Story = {
-  args: {
-    role: "option",
-    kind: "image",
-    url: "https://picsum.photos/seed/duo-option/400/300",
-    alt: "Option",
-  },
-};
-
-export const OptionAudio: Story = {
-  args: {
-    role: "option",
     kind: "audio",
     url: "https://www.w3schools.com/html/horse.mp3",
+    autoPlay: true,
   },
 };
 
-export const OptionVideo: Story = {
+export const AudioWithTranslation: Story = {
   args: {
-    role: "option",
+    role: "question",
+    kind: "audio",
+    url: "https://www.w3schools.com/html/horse.mp3",
+    text: "What sound is this?",
+    translation: "Suara apa ini?",
+  },
+};
+
+export const VideoContent: Story = {
+  args: {
     kind: "video",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
+    url: "https://www.youtube.com/watch?v=LXb3EKWsInQ",
+    startTimeSec: 10,
+    endTimeSec: 20,
+  },
+};
+
+export const VideoWithSubtitles: Story = {
+  args: {
+    kind: "video",
+    url: "https://www.youtube.com/watch?v=LXb3EKWsInQ", // 4K Video
+    startTimeSec: 0,
+    endTimeSec: 0,
+    subtitles: [
+      { start: 0, end: 5, text: "This is a stunning view of nature." },
+      { start: 5, end: 10, text: "Look at the vibrant colors." },
+      {
+        start: 10,
+        end: 15,
+        text: "Press and hold this text to pause the video!",
+      },
+      { start: 15, end: 20, text: "Release to resume playing." },
+    ],
   },
 };

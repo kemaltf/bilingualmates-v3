@@ -1,5 +1,11 @@
 export type MediaKind = "text" | "audio" | "image" | "video";
 
+export interface Subtitle {
+  start: number;
+  end: number;
+  text: string;
+}
+
 export interface MediaContent {
   kind: MediaKind;
   text?: string;
@@ -10,12 +16,15 @@ export interface MediaContent {
   thumbnailUrl?: string;
   startTimeSec?: number;
   endTimeSec?: number;
+  translation?: string;
+  subtitles?: Subtitle[];
 }
 
 export interface MCOption {
   id: string;
   content: MediaContent;
   clickSoundUrl?: string;
+  feedback?: string;
 }
 
 export interface MCQuestion {
@@ -92,19 +101,54 @@ export interface ReorderQuestion {
   praiseKey?: string;
 }
 
-export type QuestionKind = "mcq" | "short_text" | "match" | "reorder" | "cloze";
+export interface TextAudioPair {
+  audioUrl: string;
+  text: string;
+  translation?: string;
+}
+
+export type TheoryBlock =
+  | { kind: "text"; html: string }
+  | { kind: "image"; url: string; caption?: string }
+  | { kind: "video"; url: string; caption?: string; subtitles?: Subtitle[] }
+  | { kind: "audio"; samples: TextAudioPair[] };
+
+export interface TheoryQuestion {
+  id: string;
+  title?: string;
+  content: string; // Markdown or HTML (Legacy, use blocks if possible)
+  media?: {
+    kind: "image" | "video";
+    url: string;
+    caption?: string;
+  }[];
+  audioSamples?: TextAudioPair[];
+  blocks?: TheoryBlock[]; // New field for flexible layout
+  buttonLabel?: string;
+  explanation?: string;
+  praiseKey?: string;
+}
+
+export type QuestionKind =
+  | "mcq"
+  | "short_text"
+  | "match"
+  | "reorder"
+  | "cloze"
+  | "theory";
 
 export type QuizQuestion =
   | ({ kind: "mcq" } & MCQuestion)
   | ({ kind: "short_text" } & STQuestion)
   | ({ kind: "match" } & MatchQuestion)
   | ({ kind: "reorder" } & ReorderQuestion)
-  | ({ kind: "cloze" } & ClozeQuestion);
+  | ({ kind: "cloze" } & ClozeQuestion)
+  | ({ kind: "theory" } & TheoryQuestion);
 
 export interface SubmitAnswerPayload {
   attemptId: string;
   questionId: string;
-  questionType: "mcq" | "short_text" | "reorder" | "cloze" | "match";
+  questionType: "mcq" | "short_text" | "reorder" | "cloze" | "match" | "theory";
   rawAnswer: unknown;
   clientTimeMs?: number;
 }

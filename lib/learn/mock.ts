@@ -70,6 +70,307 @@ const englishPaths: CurriculumPath[] = [
                 status: "completed",
                 xpReward: 10,
                 durationSec: 80,
+                quizQuestions: [
+                  // --- 1. THEORY: Rich Content (HTML/Markdown + Audio) ---
+                  {
+                    kind: "theory",
+                    id: "n1-theory-1",
+                    title: "Formal vs Informal",
+                    content: `
+                      <p>In English, choosing the right greeting depends on who you are talking to.</p>
+                      <div class="grid grid-cols-2 gap-4 my-4">
+                        <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
+                          <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Formal</h3>
+                          <p>Used with strangers, elders, or in business.</p>
+                          <ul class="list-disc list-inside mt-2 text-sm">
+                            <li>Hello</li>
+                            <li>Good morning</li>
+                            <li>How do you do?</li>
+                          </ul>
+                        </div>
+                        <div class="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl">
+                          <h3 class="font-bold text-indigo-600 dark:text-indigo-400">Informal</h3>
+                          <p>Used with friends and family.</p>
+                          <ul class="list-disc list-inside mt-2 text-sm">
+                            <li>Hi</li>
+                            <li>Hey</li>
+                            <li>What's up?</li>
+                          </ul>
+                        </div>
+                      </div>
+                    `,
+                    buttonLabel: "Let's Practice",
+                    audioSamples: [
+                      {
+                        text: "Hello, good morning.",
+                        translation: "Halo, selamat pagi (Formal)",
+                        audioUrl: "/audio/hello_formal.mp3",
+                      },
+                      {
+                        text: "Hey, what's up?",
+                        translation: "Hei, apa kabar? (Informal)",
+                        audioUrl: "/audio/hey_informal.mp3",
+                      },
+                    ],
+                  },
+
+                  // --- 2. MCQ: Text Prompt, Text Options (Standard) ---
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Which of these is a **formal** greeting?",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: { kind: "text", text: "Hey there!" },
+                      },
+                      {
+                        id: "opt2",
+                        content: { kind: "text", text: "Good afternoon" },
+                      },
+                      {
+                        id: "opt3",
+                        content: { kind: "text", text: "What's up?" },
+                      },
+                      { id: "opt4", content: { kind: "text", text: "Yo!" } },
+                    ],
+                    correctOptionId: "opt2",
+                    explanation:
+                      "Good afternoon is formal. The others are casual.",
+                  },
+
+                  // --- 3. MCQ: Image Prompt (Visual Question) ---
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-image-prompt",
+                    prompt: {
+                      kind: "image",
+                      url: "https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&w=600&q=80",
+                      alt: "A person waving hand",
+                      text: "What is this person doing?",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: { kind: "text", text: "Sleeping" },
+                      },
+                      {
+                        id: "opt2",
+                        content: { kind: "text", text: "Waving Hello" },
+                      },
+                      { id: "opt3", content: { kind: "text", text: "Eating" } },
+                      {
+                        id: "opt4",
+                        content: { kind: "text", text: "Running" },
+                      },
+                    ],
+                    correctOptionId: "opt2",
+                    explanation:
+                      "The person is waving their hand to say hello.",
+                  },
+
+                  // --- 4. MCQ: Audio Prompt (Listening Question) ---
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-audio-prompt",
+                    prompt: {
+                      kind: "audio",
+                      url: "/audio/good_morning.mp3", // Ensure this file exists or mock it
+                      text: "Listen and choose the correct meaning.",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: { kind: "text", text: "Selamat Malam" },
+                      },
+                      {
+                        id: "opt2",
+                        content: { kind: "text", text: "Selamat Pagi" },
+                      },
+                      {
+                        id: "opt3",
+                        content: { kind: "text", text: "Selamat Siang" },
+                      },
+                    ],
+                    correctOptionId: "opt2",
+                    explanation:
+                      "The audio says 'Good Morning', which means Selamat Pagi.",
+                  },
+
+                  // --- 5. MCQ: Text Prompt, Image Options (Visual Selection) ---
+                  {
+                    kind: "mcq",
+                    id: "n1-mcq-image-options",
+                    prompt: {
+                      kind: "text",
+                      text: "Which image shows a **Teacher**?",
+                    },
+                    options: [
+                      {
+                        id: "opt1",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=300&q=80",
+                          alt: "Teacher",
+                        },
+                      },
+                      {
+                        id: "opt2",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1581578731117-10d52143b1e8?auto=format&fit=crop&w=300&q=80",
+                          alt: "Engineer",
+                        },
+                      },
+                    ],
+                    correctOptionId: "opt1",
+                    explanation:
+                      "The first image shows a person teaching in a classroom.",
+                  },
+
+                  // --- 6. MATCH: Text to Text (Associations) ---
+                  {
+                    kind: "match",
+                    id: "n1-match-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Match the greeting to the situation",
+                    },
+                    leftItems: [
+                      {
+                        id: "l1",
+                        content: { kind: "text", text: "Good morning" },
+                      },
+                      {
+                        id: "l2",
+                        content: { kind: "text", text: "Good afternoon" },
+                      },
+                      {
+                        id: "l3",
+                        content: { kind: "text", text: "Good evening" },
+                      },
+                      {
+                        id: "l4",
+                        content: { kind: "text", text: "Good night" },
+                      },
+                    ],
+                    rightItems: [
+                      {
+                        id: "r1",
+                        content: { kind: "text", text: "Before 12 PM" },
+                      },
+                      {
+                        id: "r2",
+                        content: { kind: "text", text: "12 PM - 5 PM" },
+                      },
+                      {
+                        id: "r3",
+                        content: { kind: "text", text: "After 5 PM" },
+                      },
+                      {
+                        id: "r4",
+                        content: { kind: "text", text: "Before sleeping" },
+                      },
+                    ],
+                    correctPairs: [
+                      { leftId: "l1", rightId: "r1" },
+                      { leftId: "l2", rightId: "r2" },
+                      { leftId: "l3", rightId: "r3" },
+                      { leftId: "l4", rightId: "r4" },
+                    ],
+                    explanation: "Greetings change based on the time of day.",
+                  },
+
+                  // --- 7. MATCH: Text to Image (Visual Vocabulary) ---
+                  {
+                    kind: "match",
+                    id: "n1-match-images",
+                    prompt: {
+                      kind: "text",
+                      text: "Match the word to the picture",
+                    },
+                    leftItems: [
+                      { id: "l1", content: { kind: "text", text: "Cat" } },
+                      { id: "l2", content: { kind: "text", text: "Dog" } },
+                    ],
+                    rightItems: [
+                      {
+                        id: "r1",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=100&q=80",
+                          alt: "Cat",
+                        },
+                      },
+                      {
+                        id: "r2",
+                        content: {
+                          kind: "image",
+                          url: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=100&q=80",
+                          alt: "Dog",
+                        },
+                      },
+                    ],
+                    correctPairs: [
+                      { leftId: "l1", rightId: "r1" },
+                      { leftId: "l2", rightId: "r2" },
+                    ],
+                  },
+
+                  // --- 8. REORDER: Sentence Building ---
+                  {
+                    kind: "reorder",
+                    id: "n1-reorder-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Arrange the words to form a polite greeting",
+                    },
+                    tokens: ["Hello", "how", "are", "you", "today?"],
+                    correctOrder: ["Hello", "how", "are", "you", "today?"],
+                    explanation: "Standard order: Greeting + Question.",
+                  },
+
+                  // --- 9. CLOZE: Fill in the Blanks ---
+                  {
+                    kind: "cloze",
+                    id: "n1-cloze-1",
+                    prompt: { kind: "text", text: "Complete the dialogue" },
+                    segments: [
+                      { kind: "text", text: "A: Hello, my name " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b1", options: ["is", "am"] },
+                      },
+                      { kind: "text", text: " John.\nB: Hi John, I " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b2", options: ["is", "am"] },
+                      },
+                      { kind: "text", text: " Sarah. Nice to " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b3", options: ["meet", "see"] },
+                      },
+                      { kind: "text", text: " you." },
+                    ],
+                    correctAnswers: { b1: "is", b2: "am", b3: "meet" },
+                  },
+
+                  // --- 10. SHORT TEXT: Typing Answer ---
+                  {
+                    kind: "short_text",
+                    id: "n1-st-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Translate 'Selamat pagi' to English",
+                    },
+                    correctAnswers: ["Good morning", "Morning"],
+                    placeholder: "Type your answer...",
+                  },
+                ],
               },
               {
                 id: "n2",
@@ -78,6 +379,42 @@ const englishPaths: CurriculumPath[] = [
                 status: "in_progress",
                 xpReward: 10,
                 durationSec: 90,
+                quizQuestions: [
+                  {
+                    kind: "theory",
+                    id: "n2-theory-1",
+                    title: "The Alphabet",
+                    content:
+                      "<p>English has 26 letters. 5 vowels (A, E, I, O, U) and 21 consonants.</p>",
+                    buttonLabel: "Start Quiz",
+                  },
+                  {
+                    kind: "match",
+                    id: "n2-match-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Match uppercase and lowercase",
+                    },
+                    leftItems: [
+                      { id: "l1", content: { kind: "text", text: "A" } },
+                      { id: "l2", content: { kind: "text", text: "B" } },
+                      { id: "l3", content: { kind: "text", text: "D" } },
+                      { id: "l4", content: { kind: "text", text: "E" } },
+                    ],
+                    rightItems: [
+                      { id: "r1", content: { kind: "text", text: "a" } },
+                      { id: "r2", content: { kind: "text", text: "b" } },
+                      { id: "r3", content: { kind: "text", text: "d" } },
+                      { id: "r4", content: { kind: "text", text: "e" } },
+                    ],
+                    correctPairs: [
+                      { leftId: "l1", rightId: "r1" },
+                      { leftId: "l2", rightId: "r2" },
+                      { leftId: "l3", rightId: "r3" },
+                      { leftId: "l4", rightId: "r4" },
+                    ],
+                  },
+                ],
               },
               {
                 id: "ad-u1-1",
@@ -99,6 +436,28 @@ const englishPaths: CurriculumPath[] = [
                 status: "locked",
                 xpReward: 10,
                 durationSec: 85,
+                quizQuestions: [
+                  {
+                    kind: "short_text",
+                    id: "n3-st-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Write the number 12 in words",
+                    },
+                    correctAnswers: ["twelve"],
+                    placeholder: "e.g. one, two...",
+                  },
+                  {
+                    kind: "reorder",
+                    id: "n3-reorder-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Order from smallest to largest",
+                    },
+                    tokens: ["One", "Two", "Three", "Four", "Five"],
+                    correctOrder: ["One", "Two", "Three", "Four", "Five"],
+                  },
+                ],
               },
             ],
           },
@@ -117,6 +476,35 @@ const englishPaths: CurriculumPath[] = [
                 status: "locked",
                 xpReward: 10,
                 durationSec: 95,
+                quizQuestions: [
+                  {
+                    kind: "cloze",
+                    id: "n4-cloze-1",
+                    prompt: {
+                      kind: "text",
+                      text: "Fill in the morning routine",
+                    },
+                    segments: [
+                      { kind: "text", text: "I " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b1", options: ["wake", "stand"] },
+                      },
+                      { kind: "text", text: " up at 6 AM. Then I " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b2", options: ["brush", "wash"] },
+                      },
+                      { kind: "text", text: " my teeth and " },
+                      {
+                        kind: "blank",
+                        blank: { id: "b3", options: ["eat", "drink"] },
+                      },
+                      { kind: "text", text: " breakfast." },
+                    ],
+                    correctAnswers: { b1: "wake", b2: "brush", b3: "eat" },
+                  },
+                ],
               },
               {
                 id: "n5",

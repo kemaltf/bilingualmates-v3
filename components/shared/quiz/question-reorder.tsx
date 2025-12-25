@@ -2,6 +2,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { OptionButton } from "@/components/ui/option-button";
+import { useQuizSound } from "@/hooks/use-quiz-sound";
 
 export interface QuestionReorderProps {
   tokens: string[];
@@ -47,14 +48,17 @@ export default function QuestionReorder({
   incorrectFromIndex,
 }: QuestionReorderProps) {
   const bank = React.useMemo(() => computeBank(tokens, value), [tokens, value]);
+  const sounds = useQuizSound();
 
   const addToken = (t: string) => {
     if (disabled) return;
+    sounds.playTap();
     onChange([...value, t]);
   };
 
   const removeTokenAt = (i: number) => {
     if (disabled) return;
+    sounds.playTap();
     const next = value.slice(0, i).concat(value.slice(i + 1));
     onChange(next);
   };
