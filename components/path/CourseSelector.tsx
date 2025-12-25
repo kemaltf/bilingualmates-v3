@@ -40,7 +40,7 @@ export function CourseSelector({
           </Button>
         )}
       </ModalTrigger>
-      <ModalContent className="max-w-none w-full h-full rounded-none p-0 flex flex-col z-[100]">
+      <ModalContent className="max-w-none w-full h-full rounded-none p-0 flex flex-col z-[160]">
         <ModalHeader className="border-b px-6 py-4 bg-background z-10 flex-row items-center justify-between">
           <ModalTitle className="text-2xl">{t("modalTitle")}</ModalTitle>
           <ModalClose asChild>

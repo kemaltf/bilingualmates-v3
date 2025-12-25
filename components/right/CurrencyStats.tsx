@@ -15,7 +15,7 @@ interface CurrencyStatsProps {
 
 export function CurrencyStats({ stats }: CurrencyStatsProps) {
   return (
-    <>
+    <div className="flex items-center gap-3">
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex items-center gap-1.5 cursor-pointer">
@@ -39,6 +39,6 @@ export function CurrencyStats({ stats }: CurrencyStatsProps) {
           <p className="font-bold">Level</p>
         </TooltipContent>
       </Tooltip>
-    </>
+    </div>
   );
 }
